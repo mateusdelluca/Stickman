@@ -115,7 +115,7 @@ public class SplashScreen implements Screen{
     @Override
     public void resize(int width, int height) {
         player.resize(spriteBatch, width, height);
-        enemy.resize(spriteBatch, width, height);
+//        enemy.resize(spriteBatch, width, height);
     }
 
     @Override
