@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.game.entities.Background;
-import com.mygdx.game.entities.Crystal;
-import com.mygdx.game.entities.Player;
-import com.mygdx.game.entities.Grass;
+import com.mygdx.game.entities.*;
 import com.mygdx.game.images.Images;
 import com.mygdx.game.principal.Application;
 
@@ -34,6 +31,7 @@ public class SplashScreen implements Screen{
     Box2DDebugRenderer box2DDebugRenderer;
     private Music music;
     ShapeRenderer shapeRenderer;
+    private Enemy enemy;
 
     public SplashScreen(final Application app){
         this.app = app;
@@ -41,6 +39,7 @@ public class SplashScreen implements Screen{
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
+        enemy = new Enemy(world, new Vector2(500, 200));
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
@@ -62,10 +61,11 @@ public class SplashScreen implements Screen{
         }
         grass = new Grass(world);
         background = new Background();
-        box2DDebugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
+        box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Guitar solo.mp3"));
         music.play();
         shapeRenderer = new ShapeRenderer();
+
     }
 
     @Override
@@ -92,7 +92,8 @@ public class SplashScreen implements Screen{
         grass.render(spriteBatch);
         for (int i = 0; i < crystals.size(); i++)
             crystals.get(i).render(spriteBatch);
-        player.render(spriteBatch, camera);
+        enemy.render(spriteBatch);
+        player.render(spriteBatch);
         spriteBatch.end();
         camera.translate(player.getBody().getLinearVelocity().x/8, player.getBody().getLinearVelocity().y/16);
         for (int i = 0; i < 5; i++)
@@ -101,6 +102,7 @@ public class SplashScreen implements Screen{
 
     public void update(float delta){
         player.update(delta);
+        enemy.update(delta);
         world.step(delta, 7,7);
         camera.update();
         world.step(delta, 7,7);
@@ -113,6 +115,7 @@ public class SplashScreen implements Screen{
     @Override
     public void resize(int width, int height) {
         player.resize(spriteBatch, width, height);
+        enemy.resize(spriteBatch, width, height);
     }
 
     @Override
@@ -133,6 +136,7 @@ public class SplashScreen implements Screen{
     @Override
     public void dispose() {
         player.dispose();
+        enemy.dispose();
         spriteBatch.dispose();
         for (Crystal c : crystals)
             c.dispose();

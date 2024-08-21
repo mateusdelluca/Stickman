@@ -16,21 +16,21 @@ public class BoxBounds {
     }
 
     private Body createBody(World world){
-        Vector2 dimensions = new Vector2(WIDTH/2f, (HEIGHT/2f) - 40f);
+//        Vector2 dimensions = new Vector2(WIDTH/2f, (HEIGHT/2f) - 40f);
         Vector2 dimensions2 = new Vector2(WIDTH/2f, (HEIGHT/2f) + 15f);
         Vector2 dimensions3 = new Vector2(WIDTH/2f, (HEIGHT/2f) + 55f);
         dimensions4 = new Vector2(WIDTH/4f, (HEIGHT/4f));
         dimensions5 = new Vector2(WIDTH/2f, (HEIGHT/2f));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.active = true;
-        bodyDef.position.set(0,200);
+        bodyDef.position.set(0,0);
         bodyDef.fixedRotation = false;
         // Adicione formas (fixtures) ao corpo para representar sua geometria
 //        polygonShape.setAsBox(WIDTH/2f, HEIGHT/2f,dimensions,0);
 //        polygonShape.setRadius(50f);
-        CircleShape cs = new CircleShape();
-        cs.setRadius(30f);
-        cs.setPosition(dimensions);
+//        CircleShape cs = new CircleShape();
+//        cs.setRadius(30f);
+//        cs.setPosition(dimensions);
         CircleShape cs2 = new CircleShape();
         cs2.setRadius(30f);
         cs2.setPosition(dimensions2);
@@ -50,17 +50,16 @@ public class BoxBounds {
 //        world.createBody(bodyDef);
         body.setActive(true);
         MassData massData = new MassData();
-        massData.mass = 0.1f;
+        massData.mass = 2.0f;
         body.setMassData(massData);
         body.setAwake(true);
 
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = 10.0f;
 //        fixtureDef.friction = 0.1f;
 //        body.setGravityScale(0.1f);
         body.createFixture(fixtureDef);
         body.createFixture(fixtureDef2);
         body.createFixture(fixtureDef3);
-//                body.createFixture(fixtureDef).setUserData(this);
         return body;
     }
 

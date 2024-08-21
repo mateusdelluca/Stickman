@@ -5,8 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,7 +32,7 @@ public class Player extends Stickman implements InputProcessor {
         action = new Rectangle(0, 0, 0, 0);
     }
 
-    public void render(SpriteBatch spriteBatch, Camera camera){
+    public void render(SpriteBatch spriteBatch){
         Sprite s = new Sprite(animations.getAnimator().currentSpriteFrame(lastFrame, loopTrueOrFalse(animations.name()), flip));
         s.setOrigin(0,0);
         s.setCenter(WIDTH/2f, HEIGHT/2f);
@@ -44,10 +43,7 @@ public class Player extends Stickman implements InputProcessor {
         facingRight = !s.isFlipX();
     }
 
-    private boolean loopTrueOrFalse(String name){
-        return (name.equals("WALKING") && getBody().getLinearVelocity().x != 0) | (name.equals("WALKING") && getBody().getLinearVelocity().y != 0)
-                | (name.equals("IDLE") && getBody().getLinearVelocity().x == 0);
-    }
+
 
     public void update(float delta) {
         animation();
@@ -121,6 +117,10 @@ public class Player extends Stickman implements InputProcessor {
         if (keycode == Input.Keys.D){
             animations = Animations.PUNCH;
             JUMP.play();
+           PolygonShape ps = new PolygonShape();
+           ps.setAsBox(30,10, new Vector2(facingRight ? WIDTH/2f + 50 : WIDTH/2f - 50, HEIGHT/2f + 50), 0);
+           box.fixtureDef3.shape = ps;
+           getBody().createFixture(box.fixtureDef3);
         }
         if (keycode == Input.Keys.RIGHT){
             animations = Animations.WALKING;
@@ -145,6 +145,9 @@ public class Player extends Stickman implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.D){
+            getBody().destroyFixture(box.getBody().getFixtureList().get(3));
+        }
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT)
             getBody().setLinearVelocity(new Vector2(0,getBody().getLinearVelocity().y));
         return false;
@@ -158,13 +161,13 @@ public class Player extends Stickman implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        BodyDef bodyDef = new BodyDef();
-       int value = new Random().nextInt(2);
+       int value = new Random().nextInt(1);
        switch(value){
-           case 0:{
+           case 1:{
                bodyDef.type = BodyDef.BodyType.StaticBody;
                break;
            }
-           case 1:{
+           case 0:{
                bodyDef.type = BodyDef.BodyType.DynamicBody;
                break;
            }
@@ -172,7 +175,7 @@ public class Player extends Stickman implements InputProcessor {
        bodyDef.active = true;
        bodyDef.position.set(getBody().getPosition().x, new Random().nextFloat(768f)); // Posição inicial
        CircleShape shape = new CircleShape();
-       shape.setRadius(new Random().nextFloat(100f));
+       shape.setRadius(new Random().nextFloat(200f));
        FixtureDef fixtureDef = new FixtureDef();
        fixtureDef.shape = shape;
        fixtureDef.density = 1.0f;
@@ -216,7 +219,8 @@ public class Player extends Stickman implements InputProcessor {
 
     public void render(ShapeRenderer s) {
         if (animations.name().equals("PUNCH")) {
-            action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f : getBody().getPosition().x + WIDTH/2f -80, getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
+            action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f : getBody().getPosition().x + WIDTH/2f -80,
+                    getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
 //          s.rect(getBody().getPosition().x + WIDTH/2f, getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
 //          s.rect(getBody().getPosition().x + WIDTH / 2f - 80, getBody().getPosition().y + HEIGHT / 2f + 40, 80, 20);
         } else{

@@ -42,10 +42,11 @@ public class Crystal extends Objeto{
         fixtureDef.shape = ps;
         fixtureDef.isSensor = true;
         fixtureDef.friction = 0;
+        fixtureDef.density = 1.0f;
         Body body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
         body.setActive(true);
-        fixtureDef.density = 1.0f;
+
         return body;
     }
 
