@@ -56,8 +56,8 @@ public abstract class Stickman extends Objeto{
 
     protected boolean loopTrueOrFalse(String name){
         return (name.equals("WALKING") && getBody().getLinearVelocity().x != 0) | (name.equals("WALKING") && getBody().getLinearVelocity().y != 0)
-                | (name.equals("IDLE") && getBody().getLinearVelocity().x == 0) | (name.equals("E_WALKING") && getBody().getLinearVelocity().x != 0) |
-                (name.equals("E_WALKING") && getBody().getLinearVelocity().y != 0) | (name.equals("E_IDLE") && getBody().getLinearVelocity().x == 0);
+                | (name.equals("IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 1f) | (name.equals("E_WALKING") && getBody().getLinearVelocity().x != 0) |
+                (name.equals("E_WALKING") && getBody().getLinearVelocity().y != 0) | (name.equals("E_IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 0.5f);
     }
 
     public abstract void render(SpriteBatch s);
