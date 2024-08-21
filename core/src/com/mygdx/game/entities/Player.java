@@ -212,9 +212,7 @@ public class Player extends Stickman implements InputProcessor {
         return false;
     }
 
-    public Rectangle getBodyBounds(){
-        return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + HEIGHT/2f, 50, 100);
-    }
+
 
 
     public void render(ShapeRenderer s) {

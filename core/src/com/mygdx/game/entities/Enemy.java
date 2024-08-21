@@ -1,5 +1,6 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,6 +12,7 @@ import com.mygdx.game.images.Animations;
 public class Enemy extends Stickman{
 
     private Animations animations = Animations.E_IDLE;
+    private float timer;
 
     public Enemy(World world, Vector2 position) {
         super(world, position);
@@ -31,7 +33,24 @@ public class Enemy extends Stickman{
 
     @Override
     public void update(float delta) {
+        animation();
+    }
 
+    private void animation(){
+        if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")){
+            animations.animator.resetStateTime();
+            animations = Animations.E_IDLE;
+            getBody().setLinearVelocity(0,0);
+        } else{
+            if (animations.name().equals("E_IDLE")){
+                getBody().setLinearVelocity(0,0);
+                timer += Gdx.graphics.getDeltaTime();
+                if (timer > 30f){
+                    getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
+                    timer = 0f;
+                }
+            }
+        }
     }
 
     @Override
@@ -42,5 +61,11 @@ public class Enemy extends Stickman{
 //    public void resize(SpriteBatch spriteBatch, int width, int height){
 //        spriteBatch.getProjectionMatrix().setToOrtho2D(getBody().getPosition().x, getBody().getPosition().y, width, height);
 //    }
+
+
+    public void setAnimation(String name){
+        animations = Animations.valueOf(name);
+    }
+
 
 }

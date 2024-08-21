@@ -37,7 +37,7 @@ public class BoxBounds {
         CircleShape cs3 = new CircleShape();
         cs3.setRadius(30f);
         cs3.setPosition(dimensions3);
-        polygonShape.setAsBox(dimensions4.x - 70, dimensions4.y, new Vector2(dimensions5.x, dimensions5.y + 20), 0);
+        polygonShape.setAsBox(dimensions4.x - 75, dimensions4.y, new Vector2(dimensions5.x, dimensions5.y + 20), 0);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef2 = new FixtureDef();

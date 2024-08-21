@@ -2,6 +2,7 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -56,8 +57,8 @@ public abstract class Stickman extends Objeto{
 
     protected boolean loopTrueOrFalse(String name){
         return (name.equals("WALKING") && getBody().getLinearVelocity().x != 0) | (name.equals("WALKING") && getBody().getLinearVelocity().y != 0)
-                | (name.equals("IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 1f) | (name.equals("E_WALKING") && getBody().getLinearVelocity().x != 0) |
-                (name.equals("E_WALKING") && getBody().getLinearVelocity().y != 0) | (name.equals("E_IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 0.5f);
+                | (name.equals("IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 1.0f) | (name.equals("E_WALKING") && getBody().getLinearVelocity().x != 0) |
+                (name.equals("E_WALKING") && getBody().getLinearVelocity().y != 0) | (name.equals("E_IDLE") && Math.abs(getBody().getLinearVelocity().x) <= 1.0f);
     }
 
     public abstract void render(SpriteBatch s);
@@ -70,5 +71,9 @@ public abstract class Stickman extends Objeto{
 
     public Body getBody(){
         return box.getBody();
+    }
+
+    public Rectangle getBodyBounds(){
+        return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + HEIGHT/2f, 50, 100);
     }
 }
