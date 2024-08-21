@@ -1,25 +1,21 @@
 package com.mygdx.game.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.images.Images;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Crystal extends Objeto{
 
     public static final int WIDTH = 282/4, HEIGHT = 421/4;
     private Random r = new Random();
-    public static final int NUM_CRYSTALS = 10;
-    private boolean[] visible2 = new boolean[NUM_CRYSTALS];
-    private boolean[] fadeOut = new boolean[NUM_CRYSTALS];
-
+    private boolean visible2;
+    private Rectangle box1, box2;
 
     public Crystal(World world, Vector2 position) {
         super(world, WIDTH, HEIGHT);
@@ -27,8 +23,7 @@ public class Crystal extends Objeto{
         body = createBoxBody();
         body.setTransform(dimensions, 0);
         visible = true;
-        Arrays.fill(visible2, true);
-
+        visible2 = true;
     }
 
     protected Body createBoxBody(){
@@ -64,12 +59,12 @@ public class Crystal extends Objeto{
        if (visible) {
            sp.draw(Images.crystal, dimensions.x - 30, 330, WIDTH, HEIGHT);
        }
-       if (visible2[index]){
+       if (visible2){
            sp.draw(Images.crystal3, dimensions.x - 30, 530, WIDTH, HEIGHT);
        }
-       if (fadeOut[index]){
-           sp.draw(Images.crystals3fadeout[index].currentSpriteFrame(false, false, false),dimensions.x - 30, 530, WIDTH, HEIGHT);
-       }
+//       if (fadeOut){
+//           sp.draw(Images.crystals3fadeout[index].currentSpriteFrame(false, false, false),dimensions.x - 30, 530, WIDTH, HEIGHT);
+//       }
     }
 
     public void dispose(){
@@ -77,20 +72,29 @@ public class Crystal extends Objeto{
         Images.crystal3.dispose();
     }
 
-    public void taked(Rectangle playerRect){
-        if (super.intersectsRectangle(new Vector2(WIDTH, HEIGHT), playerRect)){
+    public void taked(Rectangle... playerRect){
+        if (Intersector.overlaps(getBox1(), playerRect[0]) || Intersector.overlaps(getBox1(), playerRect[1])){
             visible = false;
         }
-    }
-
-    public void taked2(Rectangle playerRect, int index){
-        if (Intersector.overlaps(getRectangle2(WIDTH, HEIGHT), playerRect)){
-            fadeOut[index] = true;
-            visible2[index] = false;
+        if (Intersector.overlaps(getBox2(), playerRect[0]) || Intersector.overlaps(getBox2(), playerRect[1])){
+            visible2 = false;
         }
     }
 
-    public Rectangle getRectangle2(float width, float height){
-        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y + 200, width, height);
+    public Rectangle getBox2(){
+        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y + 200, 100, 100);
     }
+
+    public Rectangle getBox1() {
+        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y, 100, 100);
+    }
+    @Override
+    public void render(ShapeRenderer s) {
+        box1 = getBox1();
+        box2 = getBox2();
+        s.rect(box1.x, box1.y, box1.width, box1.height);
+        s.rect(box2.x, box2.y, box2.width, box2.height);
+    }
+
+
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -115,8 +114,7 @@ public class SplashScreen implements Screen{
         world.step(delta, 7,7);
         camera.update();
         for (int index = 0; index < 10; index++){
-            crystals.get(index).taked(player.getRectangle(100, 100));
-            crystals.get(index).taked2(player.getRectangle(100, 100), index);
+            crystals.get(index).taked(player.getBodyBounds(), player.getAction());
         }
     }
 
@@ -145,7 +143,7 @@ public class SplashScreen implements Screen{
         player.dispose();
         spriteBatch.dispose();
         for (Crystal c : crystals)
-        c.dispose();
+            c.dispose();
         world.dispose();
         background.dispose();
     }

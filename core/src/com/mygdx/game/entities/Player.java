@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -31,6 +30,7 @@ public class Player extends Stickman implements InputProcessor {
         super(world);
         animations = Animations.IDLE;
         stateTime = 0f;
+        action = new Rectangle(0, 0, 0, 0);
     }
 
     public void render(SpriteBatch spriteBatch, Camera camera){
@@ -212,9 +212,8 @@ public class Player extends Stickman implements InputProcessor {
         return false;
     }
 
-    @Override
-    public Rectangle getRectangle(float width, float height){
-        return new Rectangle(getBody().getPosition().x + WIDTH/2f, getBody().getPosition().y + HEIGHT/2f, 50, 50);
+    public Rectangle getBodyBounds(){
+        return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + HEIGHT/2f, 50, 100);
     }
 
 
@@ -230,7 +229,11 @@ public class Player extends Stickman implements InputProcessor {
                 action = new Rectangle(0, 0, 0, 0);
             }
         }
+//        action = getBodyBounds();
         s.rect(action.x, action.y, action.width, action.height);
     }
 
+    public Rectangle getAction() {
+        return action;
+    }
 }

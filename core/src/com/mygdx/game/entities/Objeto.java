@@ -1,11 +1,12 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Objeto {
+public abstract class Objeto {
 
     protected Body body;
     protected PolygonShape polygonShape;
@@ -46,17 +47,12 @@ public class Objeto {
         return body;
     }
 
+    public abstract void render(ShapeRenderer s);
 
-    public boolean intersectsRectangle(Vector2 dimensionsOfRectangle, Rectangle another){
-        return Intersector.overlaps(getRectangle(dimensionsOfRectangle.x, dimensionsOfRectangle.y), another);
+
+    public boolean intersectsRectangle(Rectangle first, Rectangle another){
+        return Intersector.overlaps(first, another);
     }
-
-    public Rectangle getRectangle(float width, float height){
-        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y, width, height);
-    }
-
-
-
 
     public Body getBody() {
         return body;
