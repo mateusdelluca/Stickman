@@ -1,5 +1,6 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
@@ -16,12 +17,15 @@ public class Crystal extends Objeto{
     private Random r = new Random();
     private boolean visible2;
     private Rectangle box1, box2;
+    private Vector2 position;
 
     public Crystal(World world, Vector2 position) {
         super(world, WIDTH, HEIGHT);
-        dimensions = new Vector2(position.x,380f);
+
+        this.position = position;
         body = createBoxBody();
-        body.setTransform(dimensions, 0);
+        box1 = new Rectangle(position.x, position.y, 100, 100);
+        box2 = new Rectangle(position.x, position.y + 200, 100, 100);
         visible = true;
         visible2 = true;
     }
@@ -30,12 +34,12 @@ public class Crystal extends Objeto{
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.active = true;
-        bodyDef.position.set(0,0);
+        bodyDef.position.set(position);
         bodyDef.fixedRotation = false;
-        CircleShape cs = new CircleShape();
-        cs.setRadius(30f);
+        PolygonShape ps = new PolygonShape();
+        ps.setAsBox(30, 30, new Vector2(WIDTH/2f, HEIGHT/2f), 0);
         fixtureDef = new FixtureDef();
-        fixtureDef.shape = cs;
+        fixtureDef.shape = ps;
         fixtureDef.isSensor = true;
         fixtureDef.friction = 0;
         Body body = world.createBody(bodyDef);
@@ -45,26 +49,24 @@ public class Crystal extends Objeto{
         return body;
     }
 
-    public void render(SpriteBatch sp, int index){
-//        Sprite sprite = new Sprite(Images.crystals[i].currentSpriteFrame(false, true, true));
-//        sp.draw(sprite, dimensions.x, 350, WIDTH, HEIGHT);
-////        if (i == new Random().nextInt(10)) {
-////            Images.lights[i].stateTime = 0;
-////            Images.lights[i].setFrameDuration(1/new Random().nextFloat(6));
-////        }
-//        Sprite sprite2 = new Sprite(Images.lights[i].currentSpriteFrame(false, true, false));
-//        sp.draw(sprite2, dimensions.x, 330, WIDTH, HEIGHT);
-//        Sprite cr = new Sprite(Images.crystal);
-//        cr.flip(false, new Random().nextInt(4) == 1);
-       if (visible) {
-           sp.draw(Images.crystal, dimensions.x - 30, 330, WIDTH, HEIGHT);
-       }
-       if (visible2){
-           sp.draw(Images.crystal3, dimensions.x - 30, 530, WIDTH, HEIGHT);
-       }
-//       if (fadeOut){
-//           sp.draw(Images.crystals3fadeout[index].currentSpriteFrame(false, false, false),dimensions.x - 30, 530, WIDTH, HEIGHT);
-//       }
+    public void render(SpriteBatch s){
+        Sprite s1 = new Sprite(Images.crystal);
+        s1.setOrigin(0,0);
+        s1.setCenter(WIDTH/2f, HEIGHT/2f);
+        s1.setPosition(position.x, position.y);
+        s1.setSize(WIDTH, HEIGHT);
+        if (visible) {
+            s1.draw(s);
+        }
+
+        Sprite s2 = new Sprite(Images.crystal3);
+        s2.setOrigin(0,0);
+        s2.setCenter(WIDTH/2f, HEIGHT/2f);
+        s2.setPosition(position.x, 580);
+        s2.setSize(WIDTH, HEIGHT);
+        if (visible2) {
+            s2.draw(s);
+        }
     }
 
     public void dispose(){
@@ -73,25 +75,16 @@ public class Crystal extends Objeto{
     }
 
     public void taked(Rectangle... playerRect){
-        if (Intersector.overlaps(getBox1(), playerRect[0]) || Intersector.overlaps(getBox1(), playerRect[1])){
+        if (Intersector.overlaps(box1, playerRect[0]) || Intersector.overlaps(box1, playerRect[1])){
             visible = false;
         }
-        if (Intersector.overlaps(getBox2(), playerRect[0]) || Intersector.overlaps(getBox2(), playerRect[1])){
+        if (Intersector.overlaps(box2, playerRect[0]) || Intersector.overlaps(box2, playerRect[1])){
             visible2 = false;
         }
     }
 
-    public Rectangle getBox2(){
-        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y + 200, 100, 100);
-    }
-
-    public Rectangle getBox1() {
-        return new Rectangle(getBody().getPosition().x, getBody().getPosition().y, 100, 100);
-    }
     @Override
     public void render(ShapeRenderer s) {
-        box1 = getBox1();
-        box2 = getBox2();
         s.rect(box1.x, box1.y, box1.width, box1.height);
         s.rect(box2.x, box2.y, box2.width, box2.height);
     }

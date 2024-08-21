@@ -51,9 +51,6 @@ public class Player extends Stickman implements InputProcessor {
 
     public void update(float delta) {
         animation();
-
-//        System.out.println(getBody().getPosition().x);
-//        bDef.position.set(position);
     }
 
     private void animation(){

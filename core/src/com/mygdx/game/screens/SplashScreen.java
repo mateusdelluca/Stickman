@@ -58,7 +58,7 @@ public class SplashScreen implements Screen{
         Gdx.input.setInputProcessor(player);
         crystals = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 0)));
+            crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 380)));
         }
         grass = new Grass(world);
         background = new Background();
@@ -77,31 +77,23 @@ public class SplashScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-
-//        Vector3 worldCoords = new Vector3(player.getPosition().x, player.getPosition().y, 0);
-//        camera.project(worldCoords, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         update(delta);
-//        b.render(world, camera.combined.setToOrtho2D(-player.getPosition().x, -player.getPosition().y,
-//                400/2f, 300/2f));
-//        spriteBatch.disableBlending();
         background.render();
-//        scenario.orthogonalTiledMapRenderer.render();
         box2DDebugRenderer.render(world, camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
         player.render(shapeRenderer);
+        for (Crystal c : crystals)
+            c.render(shapeRenderer);
         shapeRenderer.end();
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-
         grass.render(spriteBatch);
-        for (int i =0; i < crystals.size(); i++)
-            crystals.get(i).render(spriteBatch, i);
+        for (int i = 0; i < crystals.size(); i++)
+            crystals.get(i).render(spriteBatch);
         player.render(spriteBatch, camera);
-//        player.getBody().setTransform(player.getPosition(), (float) Math.toRadians(180));
         spriteBatch.end();
-//        b.render(world, camera.combined);
         camera.translate(player.getBody().getLinearVelocity().x/8, player.getBody().getLinearVelocity().y/16);
         for (int i = 0; i < 5; i++)
             update(delta);
