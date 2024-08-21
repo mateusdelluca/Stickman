@@ -224,7 +224,11 @@ public class Player extends Stickman implements InputProcessor {
 //          s.rect(getBody().getPosition().x + WIDTH/2f, getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
 //          s.rect(getBody().getPosition().x + WIDTH / 2f - 80, getBody().getPosition().y + HEIGHT / 2f + 40, 80, 20);
         } else{
-            action = new Rectangle(0,0,0,0);
+            if (animations.name().equals("HIYAH")){
+                action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f + 50 : getBody().getPosition().x + WIDTH/2f - 100, getBody().getPosition().y + HEIGHT/2f - 40, 50, 50);
+            } else{
+                action = new Rectangle(0, 0, 0, 0);
+            }
         }
         s.rect(action.x, action.y, action.width, action.height);
     }
