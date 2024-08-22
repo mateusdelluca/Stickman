@@ -1,9 +1,11 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Images;
 
@@ -11,7 +13,7 @@ public class Bullet extends Objeto{
 
     public static final int WIDTH = 27, HEIGHT = 9;
     private boolean flip;
-    public static final float VELOCITY = 3_000f;
+    public static final float VELOCITY = 3_00f;
 
     public Bullet(World world, Vector2 position, boolean flip){
         super(world, WIDTH, HEIGHT);
@@ -26,14 +28,18 @@ public class Bullet extends Objeto{
     }
 
     public void update(){
-        if (Math.abs(getBody().getLinearVelocity().x) <= 10)
+        if (Math.abs(getBody().getLinearVelocity().x) <= 5) {
             visible = false;
+            for (Fixture f : getBody().getFixtureList())
+                getBody().destroyFixture(f);
+        }
     }
 
     public void render(SpriteBatch spriteBatch){
         Sprite sprite = new Sprite(Images.bullet);
         sprite.flip(flip, false);
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        sprite.setOrigin(0,0);
+        sprite.setPosition(body.getPosition().x + WIDTH/2f, body.getPosition().y + HEIGHT/2f);
         sprite.setSize(WIDTH, HEIGHT);
         if (visible)
             sprite.draw(spriteBatch);
@@ -42,6 +48,6 @@ public class Bullet extends Objeto{
 
     @Override
     public void render(ShapeRenderer s) {
-
+        s.rect(body.getPosition().x + WIDTH/2f, body.getPosition().y + HEIGHT/2f, WIDTH, HEIGHT);
     }
 }
