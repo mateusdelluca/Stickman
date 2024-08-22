@@ -50,13 +50,13 @@ public class BoxBounds {
 //        world.createBody(bodyDef);
         body.setActive(true);
         MassData massData = new MassData();
-        massData.mass = 2.0f;
+        massData.mass = 200.0f;
         body.setMassData(massData);
         body.setAwake(true);
 
         fixtureDef.density = 1.0f;
 //        fixtureDef.friction = 0.1f;
-//        body.setGravityScale(0.1f);
+        body.setGravityScale(1.5f);
         body.createFixture(fixtureDef);
         body.createFixture(fixtureDef2);
         body.createFixture(fixtureDef3);

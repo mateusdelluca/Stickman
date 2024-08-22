@@ -15,6 +15,7 @@ public class Enemy extends Stickman{
     private Animations animations = Animations.E_IDLE;
     private float timer;
     private Sound punch;
+    private float rotation;
 
     public Enemy(World world, Vector2 position) {
         super(world, position);
@@ -29,7 +30,7 @@ public class Enemy extends Stickman{
         s1.setCenter(getBody().localPoint2.x, getBody().localPoint2.y);
         s1.setPosition(getBody().getPosition().x, getBody().getPosition().y);
 //        s1.translate(getBody().getLinearVelocity().x, getBody().getLinearVelocity().y);
-        float rotation = (float) Math.toDegrees(getBody().getTransform().getRotation());
+        rotation = (float) Math.toDegrees(getBody().getTransform().getRotation());
         s1.setRotation(rotation);
         s1.draw(s);
     }
@@ -40,12 +41,16 @@ public class Enemy extends Stickman{
     }
 
     private void animation(){
-        if (Math.abs(Math.toDegrees(getBody().getTransform().getRotation())) >= 5f){
-            timer += Gdx.graphics.getDeltaTime();
-            if (timer > 30f) {
-                getBody().setTransform(getBody().getPosition().x - WIDTH/2f, 200f, 0);
+        if (Math.abs(rotation) >= 90f){
+            animations = Animations.E_HITED;
+        }
+        if (Math.abs(rotation) >= 5f) {
+            if (timer > 20f) {
+                getBody().setTransform(getBody().getPosition().x - WIDTH / 2f, 200f, 0);
                 timer = 0f;
+                animations = Animations.E_IDLE;
             }
+            timer += Gdx.graphics.getDeltaTime();
         }
         if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")) {
             animations.animator.resetStateTime();
@@ -57,6 +62,7 @@ public class Enemy extends Stickman{
                 getBody().setLinearVelocity(0, 0);
             }
         }
+
     }
 
     @Override
