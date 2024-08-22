@@ -15,6 +15,8 @@ import com.mygdx.game.screens.SplashScreen;
 
 public class Application extends Game {
 
+    public static boolean pause;
+
     @Override
     public void create() {
         this.setScreen(new SplashScreen(this));
@@ -27,7 +29,11 @@ public class Application extends Game {
 
     @Override
     public void render() {
-        super.render();
+        if (!pause) {
+            super.render();
+        } else{
+            pause();
+        }
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
 //        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
     }
@@ -35,6 +41,7 @@ public class Application extends Game {
 
     @Override
     public void pause() {
+        //TODO
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Bullet extends Objeto{
 
     public static final int WIDTH = 27, HEIGHT = 9;
     private boolean flip;
-    public static final float VELOCITY = 3_00f;
+    public static final float VELOCITY = 300f;
 
     public Bullet(World world, Vector2 position, boolean flip){
         super(world, WIDTH, HEIGHT);

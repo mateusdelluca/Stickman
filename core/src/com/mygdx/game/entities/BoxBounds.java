@@ -54,7 +54,7 @@ public class BoxBounds {
         body.setMassData(massData);
         body.setAwake(true);
 
-        fixtureDef.density = 10.0f;
+        fixtureDef.density = 1.0f;
 //        fixtureDef.friction = 0.1f;
 //        body.setGravityScale(0.1f);
         body.createFixture(fixtureDef);

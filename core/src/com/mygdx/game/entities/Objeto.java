@@ -38,7 +38,7 @@ public abstract class Objeto {
         polygonShape.setAsBox(width/2f, height/2f, position,0);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.density = 0.001f;
+        fixtureDef.density = 100f;
         Body body = world.createBody(bodyDef);
 //        body.createFixture(fixtureDef).setUserData(this);
         body.setActive(true);

@@ -40,19 +40,21 @@ public class Enemy extends Stickman{
     }
 
     private void animation(){
-        if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")){
+        if (Math.abs(Math.toDegrees(getBody().getTransform().getRotation())) >= 5f){
+            timer += Gdx.graphics.getDeltaTime();
+            if (timer > 30f) {
+                getBody().setTransform(getBody().getPosition().x - WIDTH/2f, 200f, 0);
+                timer = 0f;
+            }
+        }
+        if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")) {
             animations.animator.resetStateTime();
             animations = Animations.E_IDLE;
-            getBody().setLinearVelocity(0,0);
+            getBody().setLinearVelocity(0, 0);
             punch.play();
-        } else{
-            if (animations.name().equals("E_IDLE")){
-                getBody().setLinearVelocity(0,0);
-                timer += Gdx.graphics.getDeltaTime();
-                if (timer > 30f){
-                    getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
-                    timer = 0f;
-                }
+        } else {
+            if (animations.name().equals("E_IDLE")) {
+                getBody().setLinearVelocity(0, 0);
             }
         }
     }

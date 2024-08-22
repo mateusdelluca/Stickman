@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.principal.Application;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -159,6 +160,9 @@ public class Player extends Stickman implements InputProcessor {
             } else{
                 animations = Animations.JUMPING;
             }animations.getAnimator().resetStateTime();
+        }
+        if (keycode == Input.Keys.ESCAPE){
+            Application.pause = !Application.pause;
         }
         return false;
     }
