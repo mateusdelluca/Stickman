@@ -36,10 +36,8 @@ public class Images {
     public static Texture tiger_face;
     public static Sprite s1;
     public static Texture backGround;
-    public static Animator[] crystals = new Animator[10];
-    public static Animator[] lights = new Animator[10];
     public static Texture crystal, crystal3;
-    public static Animator[] crystals3fadeout = new Animator[10];
+    public static Texture bullet;
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -75,8 +73,7 @@ public class Images {
         s1 = new Sprite(saber);
         crystal = new Texture("objects/Crystal.png");
         crystal3 = new Texture("objects/Crystal3.png");
-        for (int i = 0; i < 10; i++)
-            crystals3fadeout[i] = new Animator(4,4,30,282,370,"objects/Crystal3FadeOut.png");
+        bullet = new Texture("objects/Bullet.png");
 //        for (int i = 0; i < 10; i++){
 //            crystals[i] = new Animator(3, 4, 12, 282, 421, "objects/Crystals.png");
 //            lights[i] = new Animator(7, 8, 15, 282, 421, "objects/Lights.png");

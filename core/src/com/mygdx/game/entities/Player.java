@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.images.Animations;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player extends Stickman implements InputProcessor {
@@ -22,8 +24,10 @@ public class Player extends Stickman implements InputProcessor {
 //    private Image image = new Image(new Texture(Gdx.files.internal("Saber.png")));
     private Sound JUMP = Gdx.audio.newSound(Gdx.files.internal("sounds/Jump.wav"));
     private Sound HIYAH = Gdx.audio.newSound(Gdx.files.internal("sounds/HoYah.wav"));
+    private Sound GUNSHOT = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
     private boolean facingRight;
     private Rectangle action;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
 
     public Player(World world){
         super(world);
@@ -41,6 +45,9 @@ public class Player extends Stickman implements InputProcessor {
         s.setPosition(getBody().getPosition().x, getBody().getPosition().y);
         s.draw(spriteBatch);
         facingRight = !s.isFlipX();
+
+        for (Bullet b : bullets)
+            b.render(spriteBatch);
     }
 
 
@@ -59,7 +66,6 @@ public class Player extends Stickman implements InputProcessor {
                 animations = Animations.IDLE;
         } else{
             if (name.equals("PUNCH")){
-
                 if (animations.animator.ani_finished()) {
                     animations.animator.resetStateTime();
                     animations = Animations.IDLE;
@@ -92,10 +98,20 @@ public class Player extends Stickman implements InputProcessor {
                             lastFrame = false;
                         }
                     } else{
-                        getBody().setFixedRotation(false);
-                        lastFrame = false;
-                        animations = Animations.IDLE;
-                        getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+                        if (name.equals("SHOT")){
+                            if (animations.animator.ani_finished()){
+                                bullets.add(new Bullet(world, new Vector2(facingRight ? getBody().getPosition().x +
+                                        WIDTH/2f + 70: getBody().getPosition().x + WIDTH/2f -90,
+                                        getBody().getPosition().y + HEIGHT/2f + 40), flip));
+                                animations.animator.resetStateTime();
+                                animations = Animations.IDLE;
+                            }
+                        } else {
+                            getBody().setFixedRotation(false);
+                            lastFrame = false;
+                            animations = Animations.IDLE;
+                            getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+                        }
                     }
                 }
             }
@@ -114,6 +130,10 @@ public class Player extends Stickman implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.S){
+            animations = Animations.SHOT;
+            GUNSHOT.play();
+        }
         if (keycode == Input.Keys.D){
             animations = Animations.PUNCH;
             JUMP.play();

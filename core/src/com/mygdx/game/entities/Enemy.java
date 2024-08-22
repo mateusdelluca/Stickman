@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,10 +14,12 @@ public class Enemy extends Stickman{
 
     private Animations animations = Animations.E_IDLE;
     private float timer;
+    private Sound punch;
 
     public Enemy(World world, Vector2 position) {
         super(world, position);
         flip = true;
+        punch = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
     }
 
     @Override
@@ -41,6 +44,7 @@ public class Enemy extends Stickman{
             animations.animator.resetStateTime();
             animations = Animations.E_IDLE;
             getBody().setLinearVelocity(0,0);
+            punch.play();
         } else{
             if (animations.name().equals("E_IDLE")){
                 getBody().setLinearVelocity(0,0);

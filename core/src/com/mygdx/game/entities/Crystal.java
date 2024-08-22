@@ -1,5 +1,7 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,6 +20,7 @@ public class Crystal extends Objeto{
     private boolean visible2;
     private Rectangle box1, box2;
     private Vector2 position;
+    private Sound clink, clink2;
 
     public Crystal(World world, Vector2 position) {
         super(world, WIDTH, HEIGHT);
@@ -28,6 +31,9 @@ public class Crystal extends Objeto{
         box2 = new Rectangle(position.x, position.y + 200, 100, 100);
         visible = true;
         visible2 = true;
+
+        clink = Gdx.audio.newSound(Gdx.files.internal("sounds/clink.mp3"));
+        clink2 = Gdx.audio.newSound(Gdx.files.internal("sounds/clink2.mp3"));
     }
 
     protected Body createBoxBody(){
@@ -76,11 +82,13 @@ public class Crystal extends Objeto{
     }
 
     public void taked(Rectangle... playerRect){
-        if (Intersector.overlaps(box1, playerRect[0]) || Intersector.overlaps(box1, playerRect[1])){
+        if ((Intersector.overlaps(box1, playerRect[0]) || Intersector.overlaps(box1, playerRect[1])) && visible){
             visible = false;
+            clink.play();
         }
-        if (Intersector.overlaps(box2, playerRect[0]) || Intersector.overlaps(box2, playerRect[1])){
+        if ((Intersector.overlaps(box2, playerRect[0]) || Intersector.overlaps(box2, playerRect[1])) && visible2){
             visible2 = false;
+            clink2.play();
         }
     }
 

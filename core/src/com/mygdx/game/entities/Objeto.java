@@ -27,23 +27,22 @@ public abstract class Objeto {
 
     }
 
-    protected Body createBoxBody(Vector2 dimensions){
+    protected Body createBoxBody(Vector2 position){
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.active = true;
         bodyDef.position.set(0,0);
         bodyDef.fixedRotation = true;
         polygonShape = new PolygonShape();
 //         Adicione formas (fixtures) ao corpo para representar sua geometria
-        polygonShape.setAsBox(width/2f, height/2f,dimensions,0);
+        polygonShape.setAsBox(width/2f, height/2f, position,0);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
-        fixtureDef.friction = 0;
+        fixtureDef.density = 0.001f;
         Body body = world.createBody(bodyDef);
 //        body.createFixture(fixtureDef).setUserData(this);
-        body.createFixture(fixtureDef);
         body.setActive(true);
-        fixtureDef.density = 1.0f;
+        body.createFixture(fixtureDef);
         return body;
     }
 
