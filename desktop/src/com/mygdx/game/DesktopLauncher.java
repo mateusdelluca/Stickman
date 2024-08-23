@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		config.setTitle("Stickman");
 		config.setWindowedMode(WIDTH, HEIGHT);
 		config.setResizable(false);
-//		config.setMaximized(true);
+		config.setMaximized(true);
 		new Lwjgl3Application(new Application(), config);
 	}
 }

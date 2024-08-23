@@ -17,7 +17,7 @@ import com.mygdx.game.principal.Application;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Player extends Stickman implements InputProcessor {
+public class Player extends Stickman {
 
     float stateTime; // A variable for tracking elapsed time for the animation
     public Animations animations;
@@ -129,7 +129,6 @@ public class Player extends Stickman implements InputProcessor {
         spriteBatch.getProjectionMatrix().setToOrtho2D(getBody().getPosition().x, getBody().getPosition().y, width, height);
     }
 
-    @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.S){
             animations = Animations.SHOT;
@@ -167,7 +166,7 @@ public class Player extends Stickman implements InputProcessor {
         return false;
     }
 
-    @Override
+
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.D){
             getBody().destroyFixture(box.getBody().getFixtureList().get(3));
@@ -177,12 +176,12 @@ public class Player extends Stickman implements InputProcessor {
         return false;
     }
 
-    @Override
+
     public boolean keyTyped(char character) {
         return false;
     }
 
-    @Override
+
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        BodyDef bodyDef = new BodyDef();
        int value = new Random().nextInt(1);
@@ -211,27 +210,26 @@ public class Player extends Stickman implements InputProcessor {
     }
 
 
-    @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
-    @Override
+
     public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
-    @Override
+
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
-    @Override
+
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
-    @Override
+
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
