@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
 
@@ -14,13 +13,13 @@ public class Enemy extends Stickman{
 
     private Animations animations = Animations.E_IDLE;
     private float timer;
-    private Sound punch;
+    private Sound punched;
     private float rotation;
 
     public Enemy(World world, Vector2 position) {
         super(world, position);
         flip = true;
-        punch = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
+        punched = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
     }
 
     @Override
@@ -41,22 +40,23 @@ public class Enemy extends Stickman{
     }
 
     private void animation(){
-        if (Math.abs(rotation) >= 90f){
+        if (Math.abs(rotation) >= 70f) {
             animations = Animations.E_HITED;
-        }
-        if (Math.abs(rotation) >= 5f) {
-            if (timer > 20f) {
-                getBody().setTransform(getBody().getPosition().x - WIDTH / 2f, 200f, 0);
-                timer = 0f;
-                animations = Animations.E_IDLE;
-            }
             timer += Gdx.graphics.getDeltaTime();
+            for (int i = 0; i < getBody().getFixtureList().size; i++)
+                getBody().getFixtureList().get(i).setFriction(1f);
+        }
+        if (timer >= 20f) {
+            getBody().setTransform(0,0,0);
+            rotation = 0;
+            timer = 0f;
+            animations = Animations.E_IDLE;
         }
         if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")) {
             animations.animator.resetStateTime();
             animations = Animations.E_IDLE;
             getBody().setLinearVelocity(0, 0);
-            punch.play();
+            punched.play();
         } else {
             if (animations.name().equals("E_IDLE")) {
                 getBody().setLinearVelocity(0, 0);

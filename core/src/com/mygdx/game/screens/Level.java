@@ -64,7 +64,7 @@ public class Level implements Screen, InputProcessor {
         grass = new Grass(world);
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Guitar solo.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Eletric Guitar.mp3"));
         music.play();
         shapeRenderer = new ShapeRenderer();
 
