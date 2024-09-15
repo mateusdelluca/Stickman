@@ -3,7 +3,7 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class BoxBounds {
+public class StickmanBoxBounds {
 
     public Body body;
     public FixtureDef fixtureDef, fixtureDef2, fixtureDef3;
@@ -11,7 +11,7 @@ public class BoxBounds {
     public static final int WIDTH = 400, HEIGHT = 300;
     public BodyDef bodyDef = new BodyDef();
     Vector2 dimensions4, dimensions5;
-    public BoxBounds(World world){
+    public StickmanBoxBounds(World world){
         body = createBody(world);
     }
 
@@ -47,10 +47,7 @@ public class BoxBounds {
         fixtureDef3 = new FixtureDef();
         fixtureDef3.shape = cs3;
         fixtureDef3.density = 1.0f;
-//        fixtureDef.friction = 0f;
         Body body = world.createBody(bodyDef);
-//        world.createBody(bodyDef);
-//        world.createBody(bodyDef);
         body.setActive(true);
         body.setAwake(true);
         fixtureDef.friction = 0f;

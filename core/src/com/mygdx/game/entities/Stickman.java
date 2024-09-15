@@ -1,9 +1,7 @@
 package com.mygdx.game.entities;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Stickman extends Objeto{
@@ -15,7 +13,7 @@ public abstract class Stickman extends Objeto{
 //    private Body body;
     protected boolean flip;
     public static final int WIDTH = 400, HEIGHT = 300;
-    public BoxBounds box;
+    public StickmanBoxBounds box;
     public float rotation;
 
     public Stickman(World world){
@@ -24,7 +22,7 @@ public abstract class Stickman extends Objeto{
     }
 
     public void createBody(){
-        box = new BoxBounds(world);
+        box = new StickmanBoxBounds(world);
     }
 
     protected boolean loopTrueOrFalse(String name){
