@@ -62,7 +62,7 @@ public class Player extends Stickman {
 //        animations.animator.updateFramePosition();
         String name = animations.name();
         if (name.equals("WALKING")){
-//            getBody().setFixedRotation(true);
+            getBody().setFixedRotation(true);
             getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
             if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
                 animations = Animations.IDLE;

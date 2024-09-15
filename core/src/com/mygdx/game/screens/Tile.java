@@ -43,7 +43,8 @@ public class Tile {
                bodyDef.type = BodyDef.BodyType.StaticBody;
                Body body = world.createBody(bodyDef);
                PolygonShape shape = createPolygonShape((RectangleMapObject) mapObject);
-               body.createFixture(shape, 1f);
+               Fixture f = body.createFixture(shape, 1f);
+               f.setFriction(0f);
            }
 
         }
