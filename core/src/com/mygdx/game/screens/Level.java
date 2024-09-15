@@ -108,7 +108,7 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.end();
 
         spriteBatch.setProjectionMatrix(camera.combined);
-        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y + HEIGHT)/2f, 0);
+        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f + HEIGHT)/2f, 0);
 
         spriteBatch.begin();
 //        grass.render(spriteBatch);

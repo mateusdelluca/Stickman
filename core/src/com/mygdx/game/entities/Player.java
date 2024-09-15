@@ -75,7 +75,7 @@ public class Player extends Stickman {
             } else{
                 if (name.equals("JUMPING")){
                     if (animations.animator.ani_finished() && Math.abs(getBody().getLinearVelocity().y) < 5){
-                        getBody().setLinearVelocity(getBody().getLinearVelocity().x, 80);
+                        getBody().setLinearVelocity(getBody().getLinearVelocity().x, 70);
                         JUMP.play();
                         animations.animator.resetStateTime();
                         if (getBody().getLinearVelocity().x == 0)
@@ -85,12 +85,13 @@ public class Player extends Stickman {
                     }
                 } else{
                     if (name.equals("HIYAH")) {
+                        getBody().setFixedRotation(true);
                         lastFrame = true;
                         if (getBody().getLinearVelocity().x == 0){
-                            getBody().setLinearVelocity(new Vector2((!flip ? 10 : -10), getBody().getLinearVelocity().y));
+                            getBody().setLinearVelocity(new Vector2((!flip ? 5 : -5), getBody().getLinearVelocity().y));
                         }
                         if (getBody().getLinearVelocity().x != 0){
-                            getBody().setLinearVelocity(new Vector2((!flip ? 30 : -30), getBody().getLinearVelocity().y));
+                            getBody().setLinearVelocity(new Vector2((!flip ? 60 : -60), getBody().getLinearVelocity().y));
                         }
                         if (getBody().getLinearVelocity().y == 0) {
                             if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT))
