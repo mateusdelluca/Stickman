@@ -34,6 +34,7 @@ public class Player extends Stickman {
         super(world);
         animations = Animations.IDLE;
         stateTime = 0f;
+        box.getBody().setTransform(0, 0, 0);
         action = new Rectangle(0, 0, 0, 0);
     }
 
@@ -61,9 +62,9 @@ public class Player extends Stickman {
 //        animations.animator.updateFramePosition();
         String name = animations.name();
         if (name.equals("WALKING")){
-            getBody().setFixedRotation(true);
+//            getBody().setFixedRotation(true);
             getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
-            if (getBody().getLinearVelocity().x == 0)
+            if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
                 animations = Animations.IDLE;
         } else{
             if (name.equals("PUNCH")){
@@ -74,7 +75,7 @@ public class Player extends Stickman {
             } else{
                 if (name.equals("JUMPING")){
                     if (animations.animator.ani_finished() && Math.abs(getBody().getLinearVelocity().y) < 5){
-                        getBody().setLinearVelocity(getBody().getLinearVelocity().x, 70);
+                        getBody().setLinearVelocity(getBody().getLinearVelocity().x, 80);
                         JUMP.play();
                         animations.animator.resetStateTime();
                         if (getBody().getLinearVelocity().x == 0)
@@ -102,7 +103,7 @@ public class Player extends Stickman {
                         if (name.equals("SHOT")){
                             if (animations.animator.ani_finished()){
                                 bullets.add(new Bullet(world, new Vector2(facingRight ? getBody().getPosition().x +
-                                        WIDTH/2f + 70: getBody().getPosition().x + WIDTH/2f -90,
+                                        WIDTH/2f + 60: getBody().getPosition().x + WIDTH/2f -80,
                                         getBody().getPosition().y + HEIGHT/2f + 40), flip));
                                 animations.animator.resetStateTime();
                                 animations = Animations.IDLE;
@@ -145,12 +146,12 @@ public class Player extends Stickman {
         if (keycode == Input.Keys.RIGHT){
             animations = Animations.WALKING;
             flip = false;
-            getBody().setLinearVelocity(15, getBody().getLinearVelocity().y);
+            getBody().setLinearVelocity(20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.LEFT){
             animations = Animations.WALKING;
             flip = true;
-            getBody().setLinearVelocity(-15, getBody().getLinearVelocity().y);
+            getBody().setLinearVelocity(-20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.SPACE){
             if (Math.abs(getBody().getLinearVelocity().y) > 5){
@@ -184,28 +185,22 @@ public class Player extends Stickman {
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
        BodyDef bodyDef = new BodyDef();
-       int value = new Random().nextInt(1);
-       switch(value){
-           case 1:{
-               bodyDef.type = BodyDef.BodyType.StaticBody;
-               break;
-           }
-           case 0:{
-               bodyDef.type = BodyDef.BodyType.DynamicBody;
-               break;
-           }
-       }
+       bodyDef.type = BodyDef.BodyType.DynamicBody;
        bodyDef.active = true;
-       bodyDef.position.set(getBody().getPosition().x, new Random().nextFloat(768f)); // Posição inicial
+       bodyDef.position.set(getBody().getPosition().x + 300, new Random().nextFloat(768f)); // Posição inicial
        CircleShape shape = new CircleShape();
        shape.setRadius(new Random().nextFloat(200f));
        FixtureDef fixtureDef = new FixtureDef();
        fixtureDef.shape = shape;
        fixtureDef.density = 1.0f;
        fixtureDef.friction = 0.1f;
+       MassData m = new MassData();
+
        Body body = world.createBody(bodyDef);
        body.createFixture(fixtureDef);
        body.setActive(true);
+       m.mass = 1_000_000f;
+       body.setMassData(m);
        return false;
     }
 

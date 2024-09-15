@@ -55,7 +55,9 @@ public class BoxBounds {
         body.setAwake(true);
 
         fixtureDef.density = 1.0f;
-//        fixtureDef.friction = 0.1f;
+        fixtureDef.friction = 0f;
+        fixtureDef3.friction = 0f;
+        fixtureDef2.friction = 0f;
         body.setGravityScale(1.5f);
         body.createFixture(fixtureDef);
         body.createFixture(fixtureDef2);
@@ -69,5 +71,10 @@ public class BoxBounds {
 
     public void setBodyAngle(float angle) {
         body.getPosition().setAngleDeg(angle);
+    }
+
+    public void setPosition(Vector2 position){
+        bodyDef.position.set(position);
+        body.setTransform(position, 0);
     }
 }

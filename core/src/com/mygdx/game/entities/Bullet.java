@@ -23,12 +23,12 @@ public class Bullet extends Objeto{
         body.setTransform(position, 0);
         body.setLinearVelocity(flip ? -VELOCITY : VELOCITY, 0f);
         getBody().setAwake(true);
-        getBody().setBullet(false);
+        getBody().setBullet(true);
         visible = true;
     }
 
     public void update(){
-        if (Math.abs(getBody().getLinearVelocity().x) <= 5) {
+        if (Math.abs(getBody().getLinearVelocity().x) <= 30) {
             visible = false;
             for (Fixture f : getBody().getFixtureList())
                 getBody().destroyFixture(f);

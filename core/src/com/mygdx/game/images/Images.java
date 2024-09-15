@@ -39,6 +39,7 @@ public class Images {
     public static Texture crystal, crystal3;
     public static Texture bullet;
     public static Texture splashScreen;
+    public static Texture tile480x320;
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -76,6 +77,7 @@ public class Images {
         crystal3 = new Texture("objects/Crystal3.png");
         bullet = new Texture("objects/Bullet.png");
         splashScreen = new Texture(Gdx.files.internal("background/SplashScreen.png"));
+        tile480x320 =  new Texture(Gdx.files.internal("TileMap/Grass480x320.png"));
 //        for (int i = 0; i < 10; i++){
 //            crystals[i] = new Animator(3, 4, 12, 282, 421, "objects/Crystals.png");
 //            lights[i] = new Animator(7, 8, 15, 282, 421, "objects/Lights.png");

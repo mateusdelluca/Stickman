@@ -17,9 +17,10 @@ public class Enemy extends Stickman{
     private float rotation;
 
     public Enemy(World world, Vector2 position) {
-        super(world, position);
+        super(world);
         flip = true;
         punched = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
+        box.setPosition(position);
     }
 
     @Override
@@ -43,11 +44,12 @@ public class Enemy extends Stickman{
         if (Math.abs(rotation) >= 70f) {
             animations = Animations.E_HITED;
             timer += Gdx.graphics.getDeltaTime();
-            for (int i = 0; i < getBody().getFixtureList().size; i++)
-                getBody().getFixtureList().get(i).setFriction(1f);
+//            for (int i = 0; i < getBody().getFixtureList().size; i++)
+//                getBody().getFixtureList().get(i).setFriction(10f);
+            box.getBody().setLinearVelocity(0f, box.getBody().getLinearVelocity().y);
         }
         if (timer >= 20f) {
-            getBody().setTransform(0,0,0);
+            box.getBody().setTransform(box.getBody().getPosition().x - 00,0,0);
             rotation = 0;
             timer = 0f;
             animations = Animations.E_IDLE;

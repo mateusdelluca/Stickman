@@ -7,7 +7,8 @@ import com.mygdx.game.images.Images;
 
 public class Grass {
 
-    public static final int WIDTH = 3000, HEIGHT = 300;
+    public static final int TILE_SIZE = 20;
+    public static final int WIDTH = 300 * TILE_SIZE, HEIGHT = 300;
     private Body body;
     private PolygonShape polygonShape;
     private FixtureDef fixtureDef;
@@ -39,7 +40,7 @@ public class Grass {
     }
 
     public void render(SpriteBatch spriteBatch){
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < TILE_SIZE; i++)
             spriteBatch.draw(Images.grass, i * 300,0);
     }
 

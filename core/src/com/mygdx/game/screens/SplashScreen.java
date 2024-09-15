@@ -21,6 +21,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.images.Images;
 import com.mygdx.game.principal.Application;
 
@@ -51,9 +53,11 @@ public class SplashScreen implements Screen, InputProcessor {
     private SpriteBatch spriteBatch = new SpriteBatch();
 
     private Camera camera = new OrthographicCamera(WIDTH, HEIGHT);
-
+    private Viewport viewport = new ScreenViewport(camera);
     private Music music;
     private Sound shot;
+
+    private Level level;
 
     public SplashScreen(Application app){
         this.app = app;
@@ -74,6 +78,7 @@ public class SplashScreen implements Screen, InputProcessor {
         font.getData().scale(1f);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         music.play();
+        level = new Level(app);
     }
 
     public void update() {
@@ -110,6 +115,7 @@ public class SplashScreen implements Screen, InputProcessor {
         sprite.draw(spriteBatch);
 
         for(int index = EXIT; index <= NEWGAME; ++index) {
+            font.setColor(Color.BLACK);
             font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
             font.setColor(Color.WHITE);
             font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
@@ -123,7 +129,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override
@@ -165,8 +171,9 @@ public class SplashScreen implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         switch (this.optionChoosed) {
             case NEWGAME: {
-                app.setScreen(new Level(app));
+                app.setScreen(level);
                 music.stop();
+                Gdx.input.setInputProcessor(level);
                 break;
             }
             case LOADGAME:{
@@ -200,9 +207,9 @@ public class SplashScreen implements Screen, InputProcessor {
     public boolean mouseMoved(int screenX, int screenY) {
         // Suponha que você tenha uma câmera (por exemplo, OrthographicCamera) configurada
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        camera.unproject(worldCoordinates);
+        viewport.unproject(worldCoordinates);
 
-// Agora 'worldCoordinates' contém as coordenadas do mundo
+        // Agora 'worldCoordinates' contém as coordenadas do mundo
         float worldX = worldCoordinates.x;
         float worldY = worldCoordinates.y;
 

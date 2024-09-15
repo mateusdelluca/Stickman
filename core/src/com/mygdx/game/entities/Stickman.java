@@ -17,42 +17,14 @@ public abstract class Stickman extends Objeto{
     public static final int WIDTH = 400, HEIGHT = 300;
     public BoxBounds box;
     public float rotation;
-    protected Vector2 position;
 
     public Stickman(World world){
         this.world = world;
         createBody();
     }
 
-    public Stickman(World world, Vector2 position){
-        this.world = world;
-        this.position = position;
-        createBody();
-    }
-
     public void createBody(){
         box = new BoxBounds(world);
-    }
-
-    public void createBody2(){
-        // Definição de corpo
-        BodyDef bDef = new BodyDef();
-        bDef.type = BodyDef.BodyType.DynamicBody; // Corpo dinâmico (afetado pela gravidade)
-        bDef.active = true;
-        bDef.position.set(1000, 0);
-
-        // Adicione formas (fixtures) ao corpo para representar sua geometria
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WIDTH/4f - 70, HEIGHT/4f, new Vector2(position),0);
-        fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-
-        // Criando o corpo
-        body = world.createBody(bDef);
-        body.setActive(true);
-        body.createFixture(fixtureDef);
-        body.getPosition().set(position);
-        body.setFixedRotation(false);
     }
 
     protected boolean loopTrueOrFalse(String name){

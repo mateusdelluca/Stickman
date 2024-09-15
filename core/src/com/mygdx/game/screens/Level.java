@@ -8,12 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
-import com.mygdx.game.images.Images;
 import com.mygdx.game.principal.Application;
+
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class Level implements Screen, InputProcessor {
     public SpriteBatch spriteBatch;
 //    public Images images;
     public Player player;
+    public Viewport viewport;
     public OrthographicCamera camera;
     public World world;
     public Grass grass;
@@ -34,6 +36,8 @@ public class Level implements Screen, InputProcessor {
     private Music music;
     ShapeRenderer shapeRenderer;
     private Enemy enemy;
+    private Tile level1;
+
 
     public Level(final Application app){
         this.app = app;
@@ -41,7 +45,7 @@ public class Level implements Screen, InputProcessor {
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
-        enemy = new Enemy(world, new Vector2(500, 200));
+        enemy = new Enemy(world, new Vector2(1500, 200));
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
@@ -50,56 +54,72 @@ public class Level implements Screen, InputProcessor {
 
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
-        camera = new OrthographicCamera(1920, 1080);
 
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera = new OrthographicCamera(WIDTH, HEIGHT);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        viewport = new ScreenViewport(camera);
         camera.update();
 
-        app.setScreen(this);
-        Gdx.input.setInputProcessor(this);
+
+        level1 = new Tile("Level1.tmx");
+        level1.createBodies(level1.loadMapObjects("Objects"), world);
+
         crystals = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 380)));
         }
-        grass = new Grass(world);
+//        grass = new Grass(world);
+//        tile480x320 = new Tile480x320(world, camera, new Vector2(0,0), new Vector2(205,0), new Vector2(479,135),
+//                new Vector2(479, 319), new Vector2(325, 329), new Vector2(0,0));
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Eletric Guitar.mp3"));
-        music.play();
+
         shapeRenderer = new ShapeRenderer();
 
     }
 
     @Override
     public void show() {
-
+        music.play();
     }
 
     @Override
     public void render(float delta) {
+        for (int i = 0; i < 5; i++)
+            update(delta);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         update(delta);
         background.render();
+
+
+
         box2DDebugRenderer.render(world, camera.combined);
+
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setAutoShapeType(true);
+
         shapeRenderer.begin();
         player.render(shapeRenderer);
         for (Crystal c : crystals)
             c.render(shapeRenderer);
         shapeRenderer.end();
+
         spriteBatch.setProjectionMatrix(camera.combined);
+        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y + HEIGHT)/2f, 0);
+
         spriteBatch.begin();
-        grass.render(spriteBatch);
-        for (int i = 0; i < crystals.size(); i++)
-            crystals.get(i).render(spriteBatch);
+//        grass.render(spriteBatch);
+        level1.render(camera);
+        for (Crystal crystal : crystals)
+            crystal.render(spriteBatch);
         enemy.render(spriteBatch);
         player.render(spriteBatch);
         spriteBatch.end();
-        camera.translate(player.getBody().getLinearVelocity().x/8, player.getBody().getLinearVelocity().y/16);
-        for (int i = 0; i < 5; i++)
-            update(delta);
+
+
     }
 
     public void update(float delta){
@@ -119,7 +139,8 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-        player.resize(spriteBatch, width, height);
+        viewport.update(width, height);
+//        player.resize(spriteBatch, width, height);
 //        enemy.resize(spriteBatch, width, height);
     }
 
