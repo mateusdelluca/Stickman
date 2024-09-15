@@ -51,8 +51,9 @@ public class Tile {
 
     private PolygonShape createPolygonShape(RectangleMapObject mapObject){
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(mapObject.getRectangle().getWidth(), mapObject.getRectangle().getHeight(),
-                new Vector2(mapObject.getRectangle().getX(),mapObject.getRectangle().getY()),0f);
+        polygonShape.setAsBox(mapObject.getRectangle().getWidth()/2f, mapObject.getRectangle().getHeight()/2f,
+                new Vector2(mapObject.getRectangle().getX() + mapObject.getRectangle().getWidth()/2f,
+                        mapObject.getRectangle().getY() + mapObject.getRectangle().getHeight()/2f),0f);
         return polygonShape;
     }
 
