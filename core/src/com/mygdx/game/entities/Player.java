@@ -48,19 +48,22 @@ public class Player extends Stickman {
         s.draw(spriteBatch);
         facingRight = !s.isFlipX();
 
+        resetPosition(spriteBatch);
+
         for (Bullet b : bullets)
             b.render(spriteBatch);
     }
 
-    private void resetPosition(){
+    private void resetPosition(SpriteBatch batch){
         if (getBody().getPosition().y < -300){
             getBody().setTransform(100,350, 0);
+            animations = Animations.IDLE_BLINK;
         }
     }
 
 
     public void update(float delta) {
-        resetPosition();
+
         animation();
     }
 
@@ -116,10 +119,19 @@ public class Player extends Stickman {
                                 animations = Animations.IDLE;
                             }
                         } else {
-                            getBody().setFixedRotation(false);
-                            lastFrame = false;
-                            animations = Animations.IDLE;
-                            getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+                            if (name.equals("IDLE_BLINK")){
+                                getBody().setFixedRotation(true);
+                                box.getBody().setTransform(100f, 300f, 0f);
+                                if (animations.animator.ani_finished()) {
+                                    animations.animator.resetStateTime();
+                                    animations = Animations.IDLE;
+                                }
+                            } else {
+                                getBody().setFixedRotation(false);
+                                lastFrame = false;
+                                animations = Animations.IDLE;
+                                getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+                            }
                         }
                     }
                 }

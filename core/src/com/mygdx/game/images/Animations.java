@@ -13,6 +13,9 @@ public enum Animations {
     PUNCHED(new Animator(5, 5, 10, 400, 300, "stickman/Stickman_punched.png")),
     SHOT(new Animator(6, 6, 5, 400, 300, "stickman/Shot.png")),
     HITED(new Animator(1, 1, 1, 400, 300, "stickman/Stickman_baseball_hited.png")),
+    IDLE_BLINK(new Animator( 26, 10, 3, 400, 300, "stickman/Idle3.png")),
+
+
     //for enemies
     E_WALKING(new Animator(Color.RED,30, 10, 40, 400, 300, "stickman/Stickman_walking.png")),
     E_IDLE(new Animator(Color.RED, 26, 10, 5, 400, 300, "stickman/Idle.png")),
