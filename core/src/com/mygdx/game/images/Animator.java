@@ -26,6 +26,7 @@ public class Animator {
     // left, going across first. The Animation constructor requires a 1D array.
     private boolean runningFirstTime = true;
     public float frameDuration;
+    private float alphaComponent = 0f;
 
     public Animator(int numFrames, int numColumns, int fps, int width, int height, String path) {
         this.numFrames = numFrames;
@@ -68,6 +69,31 @@ public class Animator {
         createAnimation();
     }
 
+
+    public Animator(float alphaComponent, int numFrames, int numColumns, int fps, int width, int height, String path) {
+        this.numFrames = numFrames;
+        this.numColumns = numColumns;
+        this.fps = fps;
+        this.path = path;
+        this.width = width;
+        this.height = height;
+        this.alphaComponent = alphaComponent;
+        //example path = "spriteAnimation.png";
+        //int numColumns = 6, numRows = 5;
+        int numRows = numFrames / numColumns;
+        if (numFrames % numColumns != 0)
+            numRows++;
+        this.numRows = numRows;
+        Pixmap pixmap = new Pixmap(Gdx.files.internal("" + this.path));
+        // Load the sprite sheet as a Texture
+        spriteSheet = new Texture(pixmap);
+        spriteSheet = paint(pixmap);
+        sprite = new Sprite[numFrames];
+        spriteInverse = new Sprite[numFrames];
+        createAnimation();
+    }
+
+
         private Texture paint(Pixmap pixmap, Color color){
             try {
                 for (int i = 0; i < pixmap.getWidth(); i++) {
@@ -75,7 +101,8 @@ public class Animator {
                         int pixel = pixmap.getPixel(i, j);
                         if ((pixel & 0x000000FF) != 0) {
                             pixmap.setColor(color);
-                        pixmap.drawPixel(i,j, Color.rgba8888(color.r, color.g, color.b, color.a));                        }
+                        pixmap.drawPixel(i,j, Color.rgba8888(color.r, color.g, color.b, color.a));
+                        }
                     }
                 }
                 return new Texture(pixmap);
@@ -84,6 +111,24 @@ public class Animator {
             }
             return null;
         }
+
+    private Texture paint(Pixmap pixmap){
+        try {
+            for (int i = 0; i < pixmap.getWidth(); i++) {
+                for (int j = 0; j < pixmap.getHeight(); j++) {
+                    int pixel = pixmap.getPixel(i, j);
+                    if ((pixel & 0x000000FF) != 0.00f) {
+                        pixmap.setColor(new Color(1f,1f,1f,0.1f));
+                        pixmap.drawPixel(i,j, Color.rgba8888(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, 0.5f));
+                    }
+                }
+            }
+            return new Texture(pixmap);
+        } catch(GdxRuntimeException e){
+
+        }
+        return null;
+    }
 
     private void createAnimation(){
         // Use the split utility method to create a 2D array of TextureRegions. This is

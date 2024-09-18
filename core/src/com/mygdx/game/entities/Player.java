@@ -155,8 +155,8 @@ public class Player extends Stickman {
             GUNSHOT.play();
         }
         if (keycode == Input.Keys.D){
-            animations = Animations.PUNCH;
-            JUMP.play();
+           animations = Animations.PUNCH;
+           JUMP.play();
            PolygonShape ps = new PolygonShape();
            ps.setAsBox(30,10, new Vector2(facingRight ? WIDTH/2f + 50 : WIDTH/2f - 50, HEIGHT/2f + 50), 0);
            box.fixtureDef3.shape = ps;
