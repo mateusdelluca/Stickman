@@ -53,8 +53,8 @@ public class Images {
 //        baseball_bat_equip = new Texture(Gdx.files.internal("src/main/res/objects/Baseball_bat_equip.png"));
 //        sabre = new Texture(Gdx.files.internal("src/main/res/objects/Sabre.png"));
 //        sabre_equip = new Texture(Gdx.files.internal("src/main/res/objects/Sabre_equip.png"));
-        grass = new Texture(Gdx.files.internal("objects/Grass.png"));
-        grass2 = new Texture(Gdx.files.internal("objects/Grass2.png"));
+//        grass = new Texture(Gdx.files.internal("objects/Grass.png"));
+//        grass2 = new Texture(Gdx.files.internal("objects/Grass2.png"));
         backGround = new Texture(Gdx.files.internal("background/Mountains4.png"));
 //        ny = new Texture(Gdx.files.internal("src/main/res/background/ny2.png"));
 //        cap = new Texture(Gdx.files.internal("src/main/res/objects/Cap.png"));

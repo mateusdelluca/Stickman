@@ -45,7 +45,7 @@ public class Level implements Screen, InputProcessor {
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
-        enemy = new Enemy(world, new Vector2(1500, 200));
+        enemy = new Enemy(world, new Vector2(3000, 350));
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
@@ -61,19 +61,19 @@ public class Level implements Screen, InputProcessor {
         camera.update();
 
 
-        level1 = new Tile("Level1.tmx");
-        level1.createBodies(level1.loadMapObjects("Objects"), world);
+        level1 = new Tile("TiledMap.tmx");
+        level1.createBodies(level1.loadMapObjects("StaticObjects"), world);
 
         crystals = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 380)));
+            crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 450)));
         }
 //        grass = new Grass(world);
 //        tile480x320 = new Tile480x320(world, camera, new Vector2(0,0), new Vector2(205,0), new Vector2(479,135),
 //                new Vector2(479, 319), new Vector2(325, 329), new Vector2(0,0));
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Eletric Guitar.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses.mp3"));
 
         shapeRenderer = new ShapeRenderer();
 

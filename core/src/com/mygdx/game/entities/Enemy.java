@@ -20,7 +20,7 @@ public class Enemy extends Stickman{
         super(world);
         flip = true;
         punched = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
-        box.setPosition(position);
+        box.getBody().setTransform(position, 0);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Enemy extends Stickman{
             box.getBody().setLinearVelocity(0f, box.getBody().getLinearVelocity().y);
         }
         if (timer >= 20f) {
-            box.getBody().setTransform(box.getBody().getPosition().x - 00,0,0);
+            box.getBody().setTransform(box.getBody().getPosition().x,box.getBody().getPosition().y,0);
             rotation = 0;
             timer = 0f;
             animations = Animations.E_IDLE;
@@ -61,7 +61,7 @@ public class Enemy extends Stickman{
             punched.play();
         } else {
             if (animations.name().equals("E_IDLE")) {
-                getBody().setLinearVelocity(0, 0);
+                getBody().setLinearVelocity(box.getBody().getLinearVelocity().x, box.getBody().getLinearVelocity().y);
             }
         }
 

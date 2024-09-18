@@ -39,7 +39,7 @@ public class Bullet extends Objeto{
         Sprite sprite = new Sprite(Images.bullet);
         sprite.flip(flip, false);
         sprite.setOrigin(0,0);
-        sprite.setPosition(body.getPosition().x + WIDTH/2f, body.getPosition().y + HEIGHT/2f);
+        sprite.setPosition(body.getPosition().x, body.getPosition().y);
         sprite.setSize(WIDTH, HEIGHT);
         if (visible)
             sprite.draw(spriteBatch);
@@ -48,6 +48,6 @@ public class Bullet extends Objeto{
 
     @Override
     public void render(ShapeRenderer s) {
-        s.rect(body.getPosition().x + WIDTH/2f, body.getPosition().y + HEIGHT/2f, WIDTH, HEIGHT);
+        s.rect(body.getPosition().x, body.getPosition().y, WIDTH, HEIGHT);
     }
 }

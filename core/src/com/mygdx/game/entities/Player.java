@@ -34,7 +34,7 @@ public class Player extends Stickman {
         super(world);
         animations = Animations.IDLE;
         stateTime = 0f;
-        box.getBody().setTransform(0, 0, 0);
+        box.getBody().setTransform(100, 350, 0);
         action = new Rectangle(0, 0, 0, 0);
     }
 
@@ -52,9 +52,15 @@ public class Player extends Stickman {
             b.render(spriteBatch);
     }
 
+    private void resetPosition(){
+        if (getBody().getPosition().y < -300){
+            getBody().setTransform(100,350, 0);
+        }
+    }
 
 
     public void update(float delta) {
+        resetPosition();
         animation();
     }
 
@@ -234,6 +240,8 @@ public class Player extends Stickman {
 
 
     public void render(ShapeRenderer s) {
+        for (Bullet b : bullets)
+            b.render(s);
         if (animations.name().equals("PUNCH")) {
             action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f : getBody().getPosition().x + WIDTH/2f -80,
                     getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);

@@ -66,7 +66,7 @@ public class SplashScreen implements Screen, InputProcessor {
             this.y[index] = 120 + 55 * index;
             this.options_rects[index] = new Rectangle(this.x[index], this.y[index] - 20, 360, 30);
         }
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Guitar solo.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses2.mp3"));
         shot = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
         this.options[NEWGAME] = "NEW GAME";
         this.options[LOADGAME] = "LOAD GAME";
@@ -77,8 +77,8 @@ public class SplashScreen implements Screen, InputProcessor {
         t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         font.getData().scale(1f);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        music.play();
-        level = new Level(app);
+
+        level = new Level(app);music.play();
     }
 
     public void update() {
