@@ -35,9 +35,9 @@ public class Level implements Screen, InputProcessor {
     Box2DDebugRenderer box2DDebugRenderer;
     private Music music;
     ShapeRenderer shapeRenderer;
-    private Enemy enemy;
+    private ArrayList<Enemy> enemies;
     private Tile level1;
-
+    private Portal portal;
 
     public Level(final Application app){
         this.app = app;
@@ -45,7 +45,10 @@ public class Level implements Screen, InputProcessor {
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
-        enemy = new Enemy(world, new Vector2(3000, 350));
+        enemies = new ArrayList<Enemy>();
+        for (int i = 1; i < 5; i++){
+            enemies.add(new Enemy(world, new Vector2(1000 * i, 350)));
+        }
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
@@ -65,6 +68,7 @@ public class Level implements Screen, InputProcessor {
         level1.createBodies(level1.loadMapObjects("StaticObjects"), world);
 
         crystals = new ArrayList<>();
+        portal = new Portal();
         for (int i = 0; i < 10; i++) {
             crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 450)));
         }
@@ -102,6 +106,9 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.setAutoShapeType(true);
 
         shapeRenderer.begin();
+        for (Enemy enemy : enemies)
+            enemy.render(shapeRenderer);
+
         player.render(shapeRenderer);
         for (Crystal c : crystals)
             c.render(shapeRenderer);
@@ -111,11 +118,12 @@ public class Level implements Screen, InputProcessor {
         camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f + HEIGHT)/2f, 0);
 
         spriteBatch.begin();
-//        grass.render(spriteBatch);
         level1.render(camera);
+        portal.render(spriteBatch);
         for (Crystal crystal : crystals)
             crystal.render(spriteBatch);
-        enemy.render(spriteBatch);
+        for (Enemy enemy : enemies)
+            enemy.render(spriteBatch);
         player.render(spriteBatch);
         spriteBatch.end();
 
@@ -124,13 +132,16 @@ public class Level implements Screen, InputProcessor {
 
     public void update(float delta){
         player.update(delta);
-        enemy.update(delta);
+//        for (Enemy enemy : enemies)
+//            enemy.update(delta);
         world.step(delta, 7,7);
         camera.update();
         world.step(delta, 7,7);
         camera.update();
-        if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")){
-            enemy.setAnimation("E_PUNCHED");
+        for (Enemy enemy : enemies) {
+            if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")) {
+                enemy.setAnimation("E_PUNCHED");
+            }
         }
         for (int index = 0; index < 10; index++){
             crystals.get(index).taked(player.getBodyBounds(), player.getAction());
@@ -162,7 +173,8 @@ public class Level implements Screen, InputProcessor {
     @Override
     public void dispose() {
         player.dispose();
-        enemy.dispose();
+        for (Enemy enemy : enemies)
+            enemy.dispose();
         spriteBatch.dispose();
         for (Crystal c : crystals)
             c.dispose();

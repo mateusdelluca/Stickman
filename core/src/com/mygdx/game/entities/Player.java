@@ -56,7 +56,7 @@ public class Player extends Stickman {
 
     private void resetPosition(SpriteBatch batch){
         if (getBody().getPosition().y < -300){
-            getBody().setTransform(100,350, 0);
+            getBody().setTransform(150,350, 0);
             animations = Animations.IDLE_BLINK;
         }
     }
@@ -121,7 +121,7 @@ public class Player extends Stickman {
                         } else {
                             if (name.equals("IDLE_BLINK")){
                                 getBody().setFixedRotation(true);
-                                box.getBody().setTransform(100f, 300f, 0f);
+                                box.getBody().setTransform(150f, 350f, 0f);
                                 if (animations.animator.ani_finished()) {
                                     animations.animator.resetStateTime();
                                     animations = Animations.IDLE;
