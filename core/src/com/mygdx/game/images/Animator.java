@@ -232,6 +232,8 @@ public class Animator {
         } if (lastFrame){
             s = new Sprite(lastFrame());
         }
+        if (looping && ani_finished())
+            stateTime = 0f;
 //        s.setColor(color);
 //        SpriteBatch s1 = new SpriteBatch();
 //        s1.begin();

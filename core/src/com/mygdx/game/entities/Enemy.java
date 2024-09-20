@@ -77,5 +77,9 @@ public class Enemy extends Stickman{
         animations = Animations.valueOf(name);
     }
 
+    public void dispose(){
+        super.dispose();
+        animations.getAnimator().dispose();
+    }
 
 }

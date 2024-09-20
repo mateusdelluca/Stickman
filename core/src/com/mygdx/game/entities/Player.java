@@ -2,15 +2,12 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.images.Animations;
 import com.mygdx.game.principal.Application;
 
@@ -33,7 +30,6 @@ public class Player extends Stickman {
     public Player(World world){
         super(world);
         animations = Animations.IDLE;
-        stateTime = 0f;
         box.getBody().setTransform(100, 350, 0);
         action = new Rectangle(0, 0, 0, 0);
     }
@@ -47,23 +43,20 @@ public class Player extends Stickman {
         s.setPosition(getBody().getPosition().x, getBody().getPosition().y);
         s.draw(spriteBatch);
         facingRight = !s.isFlipX();
-
-        resetPosition(spriteBatch);
-
         for (Bullet b : bullets)
             b.render(spriteBatch);
     }
 
-    private void resetPosition(SpriteBatch batch){
-        if (getBody().getPosition().y < -300){
-            getBody().setTransform(150,350, 0);
-            animations = Animations.IDLE_BLINK;
+    private void resetPosition(){
+        if (getBody().getPosition().y <= -300){
+            getBody().setTransform(150,300, 0);
+            animations = Animations.IDLE_FLASH;
+            animations.animator.stateTime = 0f;
         }
     }
 
-
     public void update(float delta) {
-
+        resetPosition();
         animation();
     }
 
@@ -119,11 +112,12 @@ public class Player extends Stickman {
                                 animations = Animations.IDLE;
                             }
                         } else {
-                            if (name.equals("IDLE_BLINK")){
+                            if (name.equals("IDLE_FLASH")){
+                                lastFrame = false;
                                 getBody().setFixedRotation(true);
-                                box.getBody().setTransform(150f, 350f, 0f);
+                                box.getBody().setTransform(150f, 300f, 0f);
                                 if (animations.animator.ani_finished()) {
-                                    animations.animator.resetStateTime();
+                                    animations.getAnimation("IDLE_FLASH").animator.resetStateTime();
                                     animations = Animations.IDLE;
                                 }
                             } else {
