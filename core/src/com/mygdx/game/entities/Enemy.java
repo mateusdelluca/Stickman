@@ -27,9 +27,9 @@ public class Enemy extends Stickman{
     public void render(SpriteBatch s) {
         Sprite s1 = new Sprite(animations.animator.currentSpriteFrame(false, loopTrueOrFalse(animations.name()), flip));
         s1.setOrigin(0,0);
-        s1.setCenter(getBody().localPoint2.x, getBody().localPoint2.y);
+//        s1.setCenter(getBody().localPoint2.x, getBody().localPoint2.y);
         s1.setPosition(getBody().getPosition().x, getBody().getPosition().y);
-        s1.translate(getBody().getLinearVelocity().x, getBody().getLinearVelocity().y);
+//        s1.translate(getBody().getLinearVelocity().x, getBody().getLinearVelocity().y);
         rotation = (float) Math.toDegrees(getBody().getTransform().getRotation());
         s1.setRotation(rotation);
         s1.draw(s);

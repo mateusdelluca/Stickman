@@ -106,8 +106,8 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.setAutoShapeType(true);
 
         shapeRenderer.begin();
-        for (Enemy enemy : enemies)
-            enemy.render(shapeRenderer);
+//        for (Enemy enemy : enemies)
+//            enemy.render(shapeRenderer);
 
         player.render(shapeRenderer);
         for (Crystal c : crystals)
@@ -132,8 +132,8 @@ public class Level implements Screen, InputProcessor {
 
     public void update(float delta){
         player.update(delta);
-//        for (Enemy enemy : enemies)
-//            enemy.update(delta);
+        for (Enemy enemy : enemies)
+            enemy.update(delta);
         world.step(delta, 7,7);
         camera.update();
         world.step(delta, 7,7);
