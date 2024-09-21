@@ -10,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+
 public class Tile {
 
     TmxMapLoader tmxMapLoader;
@@ -35,7 +37,7 @@ public class Tile {
         return tiledMap.getLayers().get(index).getObjects();
     }
 
-    public void createBodies(MapObjects mapObjects, World world){
+    public void createBodies(MapObjects mapObjects, World world, boolean isSensor){
         for (MapObject mapObject : mapObjects){
            if (mapObject instanceof RectangleMapObject){
                BodyDef bodyDef = new BodyDef();
@@ -45,6 +47,7 @@ public class Tile {
                PolygonShape shape = createPolygonShape((RectangleMapObject) mapObject);
                Fixture f = body.createFixture(shape, 1f);
                f.setFriction(0f);
+               f.setSensor(isSensor);
            }
 
         }
@@ -56,6 +59,13 @@ public class Tile {
                 new Vector2(mapObject.getRectangle().getX() + mapObject.getRectangle().getWidth()/2f,
                         mapObject.getRectangle().getY() + mapObject.getRectangle().getHeight()/2f),0f);
         return polygonShape;
+    }
+
+    public ArrayList<RectangleMapObject> getRectanglesMapObjects(MapObjects mapObjects){
+        ArrayList<RectangleMapObject> a = new ArrayList<>();
+        for (MapObject m : mapObjects)
+            a.add((RectangleMapObject) m);
+        return a;
     }
 
 }

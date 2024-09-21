@@ -61,9 +61,9 @@ public class Player extends Stickman {
     }
 
     private void animation(){
-//        animations.animator.updateFramePosition();
         String name = animations.name();
         if (name.equals("WALKING")){
+            lastFrame = false;
             getBody().setFixedRotation(true);
             getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
             if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
@@ -159,12 +159,12 @@ public class Player extends Stickman {
         if (keycode == Input.Keys.RIGHT){
             animations = Animations.WALKING;
             flip = false;
-            getBody().setLinearVelocity(20, getBody().getLinearVelocity().y);
+            getBody().setLinearVelocity(getBody().getLinearVelocity().x + 20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.LEFT){
             animations = Animations.WALKING;
             flip = true;
-            getBody().setLinearVelocity(-20, getBody().getLinearVelocity().y);
+            getBody().setLinearVelocity(getBody().getLinearVelocity().x + -20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.SPACE){
             if (Math.abs(getBody().getLinearVelocity().y) > 5){

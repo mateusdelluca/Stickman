@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -38,6 +41,11 @@ public class Level implements Screen, InputProcessor {
     private ArrayList<Enemy> enemies;
     private Tile level1;
     private Portal portal;
+    private ArrayList<Rectangle> thorns_rects;
+    public MapObjects thorns, staticObjects;
+    public ArrayList<RectangleMapObject> thornsRectangleMapObjects;
+    public ArrayList<Rectangle> horizontalRectsThorns;
+    public ArrayList<Rectangle> verticalRectsThorns;
 
     public Level(final Application app){
         this.app = app;
@@ -62,10 +70,29 @@ public class Level implements Screen, InputProcessor {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         viewport = new ScreenViewport(camera);
         camera.update();
-
+        thorns_rects = new ArrayList<>();
 
         level1 = new Tile("TiledMap.tmx");
-        level1.createBodies(level1.loadMapObjects("StaticObjects"), world);
+        staticObjects = level1.loadMapObjects("StaticObjects");
+        level1.createBodies(staticObjects, world, false);
+
+        thorns = level1.loadMapObjects("Thorns");
+        level1.createBodies(thorns, world, true);
+
+
+        thornsRectangleMapObjects = new ArrayList<>();
+        horizontalRectsThorns = new ArrayList<>();
+        verticalRectsThorns = new ArrayList<>();
+
+        for (MapObject m : thorns){
+            RectangleMapObject t = (RectangleMapObject) m;
+            thornsRectangleMapObjects.add(t);
+            if (t.getName().equals("Thorns1") || t.getName().equals("Thorns5")){
+                horizontalRectsThorns.add(t.getRectangle());
+            } else{
+                verticalRectsThorns.add(t.getRectangle());
+            }
+        }
 
         crystals = new ArrayList<>();
         portal = new Portal();
@@ -131,6 +158,16 @@ public class Level implements Screen, InputProcessor {
     }
 
     public void update(float delta){
+        for (Rectangle rect : verticalRectsThorns) {
+            if (rect.overlaps(player.getBodyBounds())){
+                System.out.println("verticalRectsThorns");
+            }
+        }
+        for (Rectangle rect : horizontalRectsThorns) {
+            if (rect.overlaps(player.getBodyBounds())){
+                System.out.println("horizontalRectsThorns");
+            }
+        }
         player.update(delta);
         for (Enemy enemy : enemies)
             enemy.update(delta);
