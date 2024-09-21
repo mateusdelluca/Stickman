@@ -87,13 +87,20 @@ public class Level implements Screen, InputProcessor {
         for (MapObject m : thorns){
             RectangleMapObject t = (RectangleMapObject) m;
             thornsRectangleMapObjects.add(t);
-            if (t.getName().equals("Thorns1") || t.getName().equals("Thorns5")){
+            if (t.getName().equals("Thorns1")){
                 t.getRectangle().width += 7f;
                 horizontalRectsThorns.add(t.getRectangle());
-            } else{
-                verticalRectsThorns.add(t.getRectangle());
-                t.getRectangle().height += 7f;
-                t.getRectangle().y -= 7f;
+
+            } else {
+                if (t.getName().equals("Thorns5")) {
+                    t.getRectangle().x -= 7f;
+                    t.getRectangle().width += 7f;
+                    horizontalRectsThorns.add(t.getRectangle());
+                } else {
+                    verticalRectsThorns.add(t.getRectangle());
+                    t.getRectangle().height += 7f;
+                    t.getRectangle().y -= 7f;
+                }
             }
         }
 
