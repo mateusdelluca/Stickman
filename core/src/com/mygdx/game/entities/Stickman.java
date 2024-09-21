@@ -45,6 +45,6 @@ public abstract class Stickman extends Objeto{
     }
 
     public Rectangle getBodyBounds(){
-        return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + HEIGHT/2f, 50, 100);
+        return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + 90, 50, 150);
     }
 }

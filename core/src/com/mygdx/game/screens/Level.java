@@ -77,7 +77,7 @@ public class Level implements Screen, InputProcessor {
         level1.createBodies(staticObjects, world, false);
 
         thorns = level1.loadMapObjects("Thorns");
-        level1.createBodies(thorns, world, true);
+        level1.createBodies(thorns, world, false);
 
 
         thornsRectangleMapObjects = new ArrayList<>();
@@ -88,9 +88,12 @@ public class Level implements Screen, InputProcessor {
             RectangleMapObject t = (RectangleMapObject) m;
             thornsRectangleMapObjects.add(t);
             if (t.getName().equals("Thorns1") || t.getName().equals("Thorns5")){
+                t.getRectangle().width += 7f;
                 horizontalRectsThorns.add(t.getRectangle());
             } else{
                 verticalRectsThorns.add(t.getRectangle());
+                t.getRectangle().height += 7f;
+                t.getRectangle().y -= 7f;
             }
         }
 
@@ -158,16 +161,19 @@ public class Level implements Screen, InputProcessor {
     }
 
     public void update(float delta){
-        for (Rectangle rect : verticalRectsThorns) {
-            if (rect.overlaps(player.getBodyBounds())){
-                System.out.println("verticalRectsThorns");
-            }
-        }
         for (Rectangle rect : horizontalRectsThorns) {
             if (rect.overlaps(player.getBodyBounds())){
+                player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
                 System.out.println("horizontalRectsThorns");
             }
         }
+        for (Rectangle rect : verticalRectsThorns) {
+            if (rect.overlaps(player.getBodyBounds())){
+                System.out.println("verticalRectsThorns");
+                player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
+            }
+        }
+
         player.update(delta);
         for (Enemy enemy : enemies)
             enemy.update(delta);

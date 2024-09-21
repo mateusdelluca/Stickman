@@ -214,7 +214,7 @@ public class SplashScreen implements Screen, InputProcessor {
         float worldY = worldCoordinates.y;
 
         this.mouseRectangle.setPosition(worldX, worldY);
-        System.out.println(worldX + " " + worldY);
+//        System.out.println(worldX + " " + worldY);
         return false;
     }
 

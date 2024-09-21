@@ -30,7 +30,7 @@ public class Player extends Stickman {
     public Player(World world){
         super(world);
         animations = Animations.IDLE;
-        box.getBody().setTransform(100, 350, 0);
+        box.getBody().setTransform(130, 350, 0);
         action = new Rectangle(0, 0, 0, 0);
     }
 
@@ -262,6 +262,7 @@ public class Player extends Stickman {
         }
 //        action = getBodyBounds();
         s.rect(action.x, action.y, action.width, action.height);
+        s.rect(getBodyBounds().x, getBodyBounds().y, getBodyBounds().width, getBodyBounds().height);
     }
 
     public Rectangle getAction() {
