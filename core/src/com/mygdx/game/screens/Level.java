@@ -174,7 +174,7 @@ public class Level implements Screen, InputProcessor {
                 player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
                 System.out.println("horizontalRectsThorns");
                 player.animations = Animations.IDLE_FLASH;
-                PowerBar.hp -= 10;
+                PowerBar.hp -= 20;
             }
         }
         for (Rectangle rect : verticalRectsThorns) {
@@ -182,7 +182,7 @@ public class Level implements Screen, InputProcessor {
                 System.out.println("verticalRectsThorns");
                 player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
                 player.animations = Animations.IDLE_FLASH;
-                PowerBar.hp -= 10;
+                PowerBar.hp -= 20;
             }
         }
 
