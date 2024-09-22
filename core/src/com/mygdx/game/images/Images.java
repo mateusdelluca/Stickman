@@ -41,6 +41,7 @@ public class Images {
     public static Texture splashScreen;
     public static Animator portal;
     public static Texture hp, hp2;
+    public static Texture sp, sp2;
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -81,6 +82,8 @@ public class Images {
         portal = new Animator(23, 10, 25, 857, 873, "objects/Portal_Spritesheet.png");
         hp = new Texture(Gdx.files.internal("HP_Bar.png"));
         hp2 = new Texture(Gdx.files.internal("HP_Bar2.png"));
+        sp = new Texture(Gdx.files.internal("SP_Bar.png"));
+        sp2 = new Texture(Gdx.files.internal("SP_Bar2.png"));
     }
 
     public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {

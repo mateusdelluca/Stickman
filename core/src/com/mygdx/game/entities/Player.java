@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.images.Animations;
-import com.mygdx.game.images.HP_Bar;
 import com.mygdx.game.principal.Application;
 
 import java.util.ArrayList;
