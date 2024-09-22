@@ -92,6 +92,7 @@ public class Level implements Screen, InputProcessor {
             thornsRectangleMapObjects.add(t);
             if (t.getName().equals("Thorns1")){
                 t.getRectangle().width += 7f;
+                t.getRectangle().height -= 10f;
                 horizontalRectsThorns.add(t.getRectangle());
 
             } else {
