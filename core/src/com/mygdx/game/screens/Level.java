@@ -173,16 +173,20 @@ public class Level implements Screen, InputProcessor {
             if (rect.overlaps(player.getBodyBounds())){
                 player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
                 System.out.println("horizontalRectsThorns");
-                player.animations = Animations.IDLE_FLASH;
-                PowerBar.hp -= 20;
+                if (!player.animations.name().equals("IDLE_FLASH")) {
+                    PowerBar.hp -= 20;
+                    player.animations = Animations.IDLE_FLASH;
+                }
             }
         }
         for (Rectangle rect : verticalRectsThorns) {
             if (rect.overlaps(player.getBodyBounds())){
                 System.out.println("verticalRectsThorns");
                 player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
-                player.animations = Animations.IDLE_FLASH;
-                PowerBar.hp -= 20;
+                if (!player.animations.name().equals("IDLE_FLASH")) {
+                    PowerBar.hp -= 20;
+                    player.animations = Animations.IDLE_FLASH;
+                }
             }
         }
 

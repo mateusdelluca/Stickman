@@ -2,11 +2,13 @@ package com.mygdx.game.images;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -75,8 +77,8 @@ public class Images {
 //        deleteTab();
         saber = new Texture(Gdx.files.internal("Saber.png"));
         s1 = new Sprite(saber);
-        crystal = new Texture("objects/Crystal.png");
-        crystal3 = new Texture("objects/Crystal3.png");
+        crystal = new Texture(Gdx.files.internal("objects/Crystal.png"));
+        crystal3 = new Texture("objects/Crystal3_red.png");
         bullet = new Texture("objects/Bullet.png");
         splashScreen = new Texture(Gdx.files.internal("background/SplashScreen.png"));
         portal = new Animator(23, 10, 25, 857, 873, "objects/Portal_Spritesheet.png");
@@ -104,6 +106,24 @@ public class Images {
         g2D.drawImage(originalImage, null, null);
 //            g2D.dispose();
         return b;
+    }
+
+    private Texture paint(Pixmap pixmap, Color color){
+        try {
+            for (int i = 0; i < pixmap.getWidth(); i++) {
+                for (int j = 0; j < pixmap.getHeight(); j++) {
+                    int pixel = pixmap.getPixel(i, j);
+                    if ((pixel & 0x000000FF) != 0) {
+                        pixmap.setColor(color);
+                        pixmap.drawPixel(i,j, Color.rgba8888(color.r, color.g, color.b, color.a));
+                    }
+                }
+            }
+            return new Texture(pixmap);
+        } catch(GdxRuntimeException e){
+
+        }
+        return null;
     }
 
 //    public static void deleteTab(){

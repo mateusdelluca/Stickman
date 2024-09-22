@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.images.Images;
+import com.mygdx.game.images.PowerBar;
 
 import java.util.Random;
 
@@ -85,10 +86,12 @@ public class Crystal extends Objeto{
         if ((Intersector.overlaps(box1, playerRect[0]) || Intersector.overlaps(box1, playerRect[1])) && visible){
             visible = false;
             clink.play();
+            PowerBar.sp += 20;
         }
         if ((Intersector.overlaps(box2, playerRect[0]) || Intersector.overlaps(box2, playerRect[1])) && visible2){
             visible2 = false;
             clink2.play();
+            PowerBar.hp += 20;
         }
     }
 

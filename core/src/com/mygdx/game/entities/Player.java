@@ -119,7 +119,7 @@ public class Player extends Stickman {
                             if (name.equals("IDLE_FLASH")){
                                 lastFrame = false;
                                 getBody().setFixedRotation(true);
-                                box.getBody().setTransform(150f, 300f, 0f);
+//                                box.getBody().setTransform(150f, 300f, 0f);
                                 if (animations.animator.ani_finished()) {
                                     animations.getAnimation("IDLE_FLASH").animator.resetStateTime();
                                     animations = Animations.IDLE;
