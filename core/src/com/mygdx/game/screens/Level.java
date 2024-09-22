@@ -171,7 +171,11 @@ public class Level implements Screen, InputProcessor {
     public void update(float delta){
         for (Rectangle rect : horizontalRectsThorns) {
             if (rect.overlaps(player.getBodyBounds())){
-                player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
+                if (rect.equals(horizontalRectsThorns.get(1))){
+                    player.getBody().setTransform(player.getBody().getPosition().x - 7f, player.getBody().getPosition().y, 0);
+                } if(rect.equals(horizontalRectsThorns.get(0))){
+                    player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
+                }
                 System.out.println("horizontalRectsThorns");
                 if (!player.animations.name().equals("IDLE_FLASH")) {
                     PowerBar.hp -= 20;
@@ -186,6 +190,7 @@ public class Level implements Screen, InputProcessor {
                 if (!player.animations.name().equals("IDLE_FLASH")) {
                     PowerBar.hp -= 20;
                     player.animations = Animations.IDLE_FLASH;
+                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 30f);
                 }
             }
         }

@@ -172,7 +172,7 @@ public class Player extends Stickman {
             getBody().setLinearVelocity(getBody().getLinearVelocity().x + -20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.SPACE){
-            if (Math.abs(getBody().getLinearVelocity().y) > 5){
+            if (Math.abs(getBody().getLinearVelocity().y) > 1f && !animations.name().equals("IDLE_FLASH")){
                 animations = Animations.HIYAH;
                 HIYAH.play();
             } else{

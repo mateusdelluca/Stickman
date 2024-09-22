@@ -8,7 +8,7 @@ public enum Animations {
     WALKING(new Animator(30, 10, 20, 400, 300, "stickman/Stickman_walking.png")),
     IDLE(new Animator( 26, 10, 10, 400, 300, "stickman/Idle.png")),
     PUNCH(new Animator(6, 6, 10, 400, 300, "stickman/Stickman_punching.png")),
-    JUMPING(new Animator(10, 10, 5, 400, 300, "stickman/Stickman_Jumping.png")),
+    JUMPING(new Animator(10, 10, 20, 400, 300, "stickman/Stickman_Jumping.png")),
     HIYAH(new Animator(14, 10, 30, 400, 300, "stickman/Stickman_Jumping.png")),
     PUNCHED(new Animator(5, 5, 10, 400, 300, "stickman/Stickman_punched.png")),
     SHOT(new Animator(6, 6, 5, 400, 300, "stickman/Shot.png")),
