@@ -12,7 +12,6 @@ public class Background {
 
     public Background(){
         camera = new OrthographicCamera(WIDTH, HEIGHT);
-
         camera.position.set(camera.viewportWidth/2f, camera.viewportHeight/2f, 0);
     }
 

@@ -40,6 +40,7 @@ public class Images {
     public static Texture bullet;
     public static Texture splashScreen;
     public static Animator portal;
+    public static Texture hp, hp2;
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -78,10 +79,8 @@ public class Images {
         bullet = new Texture("objects/Bullet.png");
         splashScreen = new Texture(Gdx.files.internal("background/SplashScreen.png"));
         portal = new Animator(23, 10, 25, 857, 873, "objects/Portal_Spritesheet.png");
-//        for (int i = 0; i < 10; i++){
-//            crystals[i] = new Animator(3, 4, 12, 282, 421, "objects/Crystals.png");
-//            lights[i] = new Animator(7, 8, 15, 282, 421, "objects/Lights.png");
-//        }
+        hp = new Texture(Gdx.files.internal("HP_Bar.png"));
+        hp2 = new Texture(Gdx.files.internal("HP_Bar2.png"));
     }
 
     public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {

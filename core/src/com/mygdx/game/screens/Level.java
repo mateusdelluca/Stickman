@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
+import com.mygdx.game.images.HP_Bar;
 import com.mygdx.game.principal.Application;
 
 
@@ -46,6 +47,7 @@ public class Level implements Screen, InputProcessor {
     public ArrayList<RectangleMapObject> thornsRectangleMapObjects;
     public ArrayList<Rectangle> horizontalRectsThorns;
     public ArrayList<Rectangle> verticalRectsThorns;
+    private HP_Bar hpBar;
 
     public Level(final Application app){
         this.app = app;
@@ -117,7 +119,7 @@ public class Level implements Screen, InputProcessor {
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses.mp3"));
 
         shapeRenderer = new ShapeRenderer();
-
+        hpBar = new HP_Bar();
     }
 
     @Override
@@ -134,9 +136,7 @@ public class Level implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         update(delta);
         background.render();
-
-
-
+        hpBar.render();
         box2DDebugRenderer.render(world, camera.combined);
 
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -230,6 +230,7 @@ public class Level implements Screen, InputProcessor {
             c.dispose();
         world.dispose();
         background.dispose();
+        hpBar.dispose();
     }
 
     @Override

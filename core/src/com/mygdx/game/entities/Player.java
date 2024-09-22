@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.images.HP_Bar;
 import com.mygdx.game.principal.Application;
 
 import java.util.ArrayList;
@@ -27,14 +28,18 @@ public class Player extends Stickman {
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
+
+
     public Player(World world){
         super(world);
         animations = Animations.IDLE;
         box.getBody().setTransform(130, 350, 0);
         action = new Rectangle(0, 0, 0, 0);
+
     }
 
     public void render(SpriteBatch spriteBatch){
+
         Sprite s = new Sprite(animations.getAnimator().currentSpriteFrame(lastFrame, loopTrueOrFalse(animations.name()), flip));
         s.setOrigin(0,0);
         s.setCenter(WIDTH/2f, HEIGHT/2f);
@@ -135,6 +140,7 @@ public class Player extends Stickman {
 
     public void dispose(){
         super.dispose();
+
         animations.getAnimator().dispose();
         world.dispose();
     }
