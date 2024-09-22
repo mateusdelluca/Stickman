@@ -20,10 +20,10 @@ public class PowerBar {
         camera.update();
         s.setProjectionMatrix(camera.combined);
         s.begin();
-        s.draw(Images.hp, 70, 900, WIDTH, HEIGHT);
-        s.draw(Images.hp2, 70 + 40, 900, WIDTH + hp, HEIGHT);
-        s.draw(Images.sp, 70, 850, WIDTH, HEIGHT);
-        s.draw(Images.sp2, 70 + 40, 850, WIDTH + sp, HEIGHT);
+        s.draw(Images.hp, 70, 1000, WIDTH, HEIGHT);
+        s.draw(Images.hp2, 70 + 40, 1000, WIDTH + hp, HEIGHT);
+        s.draw(Images.sp, 70, 950, WIDTH, HEIGHT);
+        s.draw(Images.sp2, 70 + 40, 950, WIDTH + sp, HEIGHT);
         s.end();
 
     }

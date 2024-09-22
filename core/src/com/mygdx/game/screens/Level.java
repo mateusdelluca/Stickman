@@ -99,6 +99,7 @@ public class Level implements Screen, InputProcessor {
                 if (t.getName().equals("Thorns5")) {
                     t.getRectangle().x -= 7f;
                     t.getRectangle().width += 7f;
+                    t.getRectangle().height -= 10f;
                     horizontalRectsThorns.add(t.getRectangle());
                 } else {
                     verticalRectsThorns.add(t.getRectangle());
@@ -111,7 +112,7 @@ public class Level implements Screen, InputProcessor {
         crystals = new ArrayList<>();
         portal = new Portal();
         for (int i = 0; i < 10; i++) {
-            crystals.add(new Crystal(world, new Vector2(300 + (i * 100), 450)));
+            crystals.add(new Crystal(world, new Vector2(500 + (i * 700), 450)));
         }
 //        grass = new Grass(world);
 //        tile480x320 = new Tile480x320(world, camera, new Vector2(0,0), new Vector2(205,0), new Vector2(479,135),
