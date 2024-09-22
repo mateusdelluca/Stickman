@@ -12,9 +12,9 @@ public class PowerBar {
     public void render(){
         s.begin();
         s.draw(Images.hp, 70, 900, WIDTH, HEIGHT);
-        s.draw(Images.hp2, 70, 900, WIDTH - hp, HEIGHT);
+        s.draw(Images.hp2, 70, 900, WIDTH + hp, HEIGHT);
         s.draw(Images.sp, 70, 850, WIDTH, HEIGHT);
-        s.draw(Images.sp2, 70, 850, WIDTH - sp, HEIGHT);
+        s.draw(Images.sp2, 70, 850, WIDTH + sp, HEIGHT);
         s.end();
 
     }
