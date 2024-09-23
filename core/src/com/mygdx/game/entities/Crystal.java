@@ -22,11 +22,15 @@ public class Crystal extends Objeto{
     private Rectangle box1, box2;
     private Vector2 position;
     private Sound clink, clink2;
+    public static final float[] X_POSITIONS = {300, 600, 1000, 1600, 2000, 2300, 2800, 3100, 3700, 3950, 4200, 4500, 4750, 5100, 5250, 5400};
+    public static final float[] Y_POSITIONS = {450, 450,  450,  650,  450,  450,  550,  250,  250,  250,  450,  450,  450,  450,  450,  450};
+    public static int index;
 
-    public Crystal(World world, Vector2 position) {
+    public Crystal(World world) {
         super(world, WIDTH, HEIGHT);
-
-        this.position = position;
+        if (index >= X_POSITIONS.length)
+            index = 0;
+        this.position = new Vector2(X_POSITIONS[index], Y_POSITIONS[index++]);
 //        body = createBoxBody(position, BodyDef.BodyType.StaticBody, true);
         box1 = new Rectangle(position.x, position.y, 100, 100);
         box2 = new Rectangle(position.x, position.y + 150, 100, 100);
@@ -61,7 +65,7 @@ public class Crystal extends Objeto{
         Sprite s1 = new Sprite(Images.crystal);
         s1.setOrigin(0,0);
 //        s1.setCenter(WIDTH/2f, HEIGHT/2f);
-        s1.setPosition(position.x, position.y);
+        s1.setPosition(box1.x, box1.y);
         s1.setSize(WIDTH, HEIGHT);
         if (visible) {
             s1.draw(s);
@@ -70,7 +74,7 @@ public class Crystal extends Objeto{
         Sprite s2 = new Sprite(Images.crystal3);
         s2.setOrigin(0,0);
 //        s2.setCenter(WIDTH/2f, HEIGHT/2f);
-        s2.setPosition(position.x, 580);
+        s2.setPosition(box2.x, box2.y);
         s2.setSize(WIDTH, HEIGHT);
         if (visible2) {
             s2.draw(s);

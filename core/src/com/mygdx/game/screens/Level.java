@@ -111,14 +111,14 @@ public class Level implements Screen, InputProcessor {
 
         crystals = new ArrayList<>();
         portal = new Portal();
-        for (int i = 0; i < 10; i++) {
-            crystals.add(new Crystal(world, new Vector2(500 + (i * 700), 450)));
+        for (int i = 0; i < Crystal.X_POSITIONS.length; i++) {
+            crystals.add(new Crystal(world));
         }
 //        grass = new Grass(world);
 //        tile480x320 = new Tile480x320(world, camera, new Vector2(0,0), new Vector2(205,0), new Vector2(479,135),
 //                new Vector2(479, 319), new Vector2(325, 329), new Vector2(0,0));
         background = new Background();
-        box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
+        box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, true);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses.mp3"));
 
         shapeRenderer = new ShapeRenderer();
@@ -215,7 +215,7 @@ public class Level implements Screen, InputProcessor {
                 enemy.setAnimation("E_PUNCHED");
             }
         }
-        for (int index = 0; index < 10; index++){
+        for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
             crystals.get(index).taked(player.getBodyBounds(), player.getAction());
         }
     }

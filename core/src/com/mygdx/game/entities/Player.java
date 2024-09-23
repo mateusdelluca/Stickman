@@ -62,6 +62,8 @@ public class Player extends Stickman {
     public void update(float delta) {
         resetPosition();
         animation();
+
+
     }
 
     private void animation(){
@@ -269,6 +271,8 @@ public class Player extends Stickman {
 //        action = getBodyBounds();
         s.rect(action.x, action.y, action.width, action.height);
         s.rect(getBodyBounds().x, getBodyBounds().y, getBodyBounds().width, getBodyBounds().height);
+
+        System.out.println(getBodyBounds().x + " " + getBodyBounds().y);
     }
 
     public Rectangle getAction() {

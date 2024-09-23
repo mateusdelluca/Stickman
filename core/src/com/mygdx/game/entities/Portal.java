@@ -10,7 +10,7 @@ public class Portal extends Objeto{
 
 
     public void render(SpriteBatch s){
-        s.draw(Images.portal.currentSpriteFrame(false, true, false), 5500,420, WIDTH, HEIGHT);
+        s.draw(Images.portal.currentSpriteFrame(false, true, false), 5700,420, WIDTH, HEIGHT);
     }
 
 

@@ -10,7 +10,7 @@ public class StickmanBoxBounds {
     public PolygonShape polygonShape = new PolygonShape();
     public static final int WIDTH = 400, HEIGHT = 300;
     public BodyDef bodyDef = new BodyDef();
-    Vector2 dimensions4, dimensions5;
+    Vector2 dimensions4, positionStickman;
     public StickmanBoxBounds(World world){
         body = createBody(world);
     }
@@ -20,7 +20,7 @@ public class StickmanBoxBounds {
         Vector2 dimensions2 = new Vector2(WIDTH/2f, (HEIGHT/2f) + 15f);
         Vector2 dimensions3 = new Vector2(WIDTH/2f, (HEIGHT/2f) + 55f);
         dimensions4 = new Vector2(WIDTH/4f, (HEIGHT/4f));
-        dimensions5 = new Vector2(WIDTH/2f, (HEIGHT/2f));
+        positionStickman = new Vector2(WIDTH/2f, (HEIGHT/2f));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.active = true;
         bodyDef.position.set(0,0);
@@ -37,7 +37,7 @@ public class StickmanBoxBounds {
         CircleShape cs3 = new CircleShape();
         cs3.setRadius(30f);
         cs3.setPosition(dimensions3);
-        polygonShape.setAsBox(dimensions4.x - 75, dimensions4.y, new Vector2(dimensions5.x, dimensions5.y + 20), 0);
+        polygonShape.setAsBox(dimensions4.x - 75, dimensions4.y, new Vector2(positionStickman.x, positionStickman.y + 20), 0);
         fixtureDef = new FixtureDef();
         fixtureDef.density = 1.0f;
         fixtureDef.shape = polygonShape;
@@ -67,8 +67,8 @@ public class StickmanBoxBounds {
         body.getPosition().setAngleDeg(angle);
     }
 
-    public void setPosition(Vector2 position){
-        bodyDef.position.set(position);
-        body.setTransform(position, 0);
+    public void setPositionStickman(Vector2 positionStickman){
+        bodyDef.position.set(positionStickman);
+        body.setTransform(positionStickman, 0);
     }
 }
