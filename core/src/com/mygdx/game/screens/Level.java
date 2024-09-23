@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
@@ -34,7 +35,6 @@ public class Level implements Screen, InputProcessor {
     public Viewport viewport;
     public OrthographicCamera camera;
     public World world;
-    public Grass grass;
     public Background background;
     public ArrayList<Crystal> crystals;
     Box2DDebugRenderer box2DDebugRenderer;
@@ -190,9 +190,15 @@ public class Level implements Screen, InputProcessor {
                 System.out.println("verticalRectsThorns");
                 player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
                 if (!player.animations.name().equals("IDLE_FLASH")) {
-                    PowerBar.hp -= 20;
+                    Timer timer = new Timer();
+                    timer.scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            PowerBar.hp -= 20;
+                        }
+                    }, 0f, 1000);
                     player.animations = Animations.IDLE_FLASH;
-                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 30f);
+                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 40f);
                 }
             }
         }

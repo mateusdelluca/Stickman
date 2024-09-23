@@ -99,7 +99,7 @@ public class Player extends Stickman {
                         if (getBody().getLinearVelocity().x != 0){
                             getBody().setLinearVelocity(new Vector2((!flip ? 60 : -60), getBody().getLinearVelocity().y));
                         }
-                        if (getBody().getLinearVelocity().y == 0) {
+                        if (getBody().getLinearVelocity().y == 0 || getBody().getPosition().y < 0f) {
                             if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT))
                                 animations = Animations.IDLE;
                             else
@@ -177,7 +177,8 @@ public class Player extends Stickman {
                 HIYAH.play();
             } else{
                 animations = Animations.JUMPING;
-            }animations.getAnimator().resetStateTime();
+                animations.getAnimator().stateTime = 0f;
+            }
         }
         if (keycode == Input.Keys.ESCAPE){
             Application.pause = !Application.pause;
