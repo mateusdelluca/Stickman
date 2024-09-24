@@ -168,6 +168,20 @@ public class Animator {
 
     }
 
+    public float timeOfAnimation(){
+        return (1f/fps) * numFrames;
+    }
+
+    public float timeOfNumberOfFrame(int frame){
+        return frame * 1f/fps;
+    }
+
+    public int framePosition(){
+        return (int) (stateTime * 1/fps);
+    }
+
+    //6 quadros -> [0,5]
+
     public Sprite sprite(boolean looping){
         updateFramePosition();
         return sprite[framePosition];

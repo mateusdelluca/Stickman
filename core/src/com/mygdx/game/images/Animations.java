@@ -14,7 +14,7 @@ public enum Animations {
     SHOT(new Animator(6, 6, 5, 400, 300, "stickman/Shot.png")),
     HITED(new Animator(1, 1, 1, 400, 300, "stickman/Stickman_baseball_hited.png")),
     IDLE_FLASH(new Animator(0.1f, 26, 10, 5, 400, 300, "stickman/Idle3.png")),
-
+    SABER(new Animator(6,6,12,400,300, "stickman/SabreHit.png")),
 
     //for enemies
     E_WALKING(new Animator(Color.RED,30, 10, 40, 400, 300, "stickman/Stickman_walking.png")),
