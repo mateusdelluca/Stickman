@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,6 +24,7 @@ import com.mygdx.game.principal.Application;
 
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class Level implements Screen, InputProcessor {
 
@@ -214,6 +216,20 @@ public class Level implements Screen, InputProcessor {
             if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")) {
                 enemy.setAnimation("E_PUNCHED");
             }
+            if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("SABER")) {
+                for (Fixture f : enemy.getBody().getFixtureList()){
+                    f.setSensor(true);
+                }
+                enemy.setAnimation("E_SPLIT");
+                enemy.getBody().setGravityScale(0f);
+                Timer timer = new Timer();
+                timer.scheduleTask(new Timer.Task(){
+                    @Override
+                    public void run() {
+                        enemy.setVisible(false);
+                    }
+                }, 3);
+            }
         }
         for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
             crystals.get(index).taked(player.getBodyBounds(), player.getAction());
@@ -303,4 +319,19 @@ public class Level implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
+//    public static TimerTask timerTask(Runnable... r){
+//        return new TimerTask() {
+//            @Override
+//            public void run() {
+//                for (Runnable rr : r)
+//                    rr.run();
+//            }
+//        };
+//    }
+//
+//    private void timer(long timer1, Runnable... r){
+//        java.util.Timer timer = new java.util.Timer();
+//        timer.schedule(timerTask(r), timer1);
+//    }
 }

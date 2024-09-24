@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class Player extends Stickman {
 
-    float stateTime; // A variable for tracking elapsed time for the animation
+    private float stateTime; // A variable for tracking elapsed time for the animation
     public Animations animations;
     private boolean lastFrame;
 //    private Image image = new Image(new Texture(Gdx.files.internal("Saber.png")));
@@ -28,8 +28,6 @@ public class Player extends Stickman {
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
-
-
     public Player(World world){
         super(world);
         animations = Animations.IDLE;
@@ -39,7 +37,6 @@ public class Player extends Stickman {
     }
 
     public void render(SpriteBatch spriteBatch){
-
         Sprite s = new Sprite(animations.getAnimator().currentSpriteFrame(lastFrame, loopTrueOrFalse(animations.name()), flip));
         s.setOrigin(0,0);
         s.setCenter(WIDTH/2f, HEIGHT/2f);
@@ -135,7 +132,7 @@ public class Player extends Stickman {
                                         if (stateTime > 2f && getBody().getLinearVelocity().y == 0)
                                             getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
                                         if (stateTime > 3f && getBody().getLinearVelocity().y != 0){
-                                            float velocity = 1;
+                                            float velocity = 0.1f;
                                             if (Math.abs(getBody().getLinearVelocity().x) <= velocity)
                                                 velocity = 0;
                                             getBody().setLinearVelocity(getBody().getLinearVelocity().x + (!flip ? -velocity : velocity), getBody().getLinearVelocity().y);
@@ -295,7 +292,14 @@ public class Player extends Stickman {
             if (animations.name().equals("HIYAH")){
                 action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f + 50 : getBody().getPosition().x + WIDTH/2f - 100, getBody().getPosition().y + HEIGHT/2f - 40, 50, 50);
             } else{
-                action = new Rectangle(0, 0, 0, 0);
+                if (animations.name().equals("SABER")){
+//                    if (frameCounter() <= 5f)
+                        action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f + 30 : getBody().getPosition().x + WIDTH/2f - 110, getBody().getPosition().y + HEIGHT/2f - 50, 80, 130);
+//                    else
+//                        action = new Rectangle(0, 0, 0, 0);
+                } else {
+                    action = new Rectangle(0, 0, 0, 0);
+                }
             }
         }
 //        action = getBodyBounds();

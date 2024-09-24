@@ -15,6 +15,7 @@ public abstract class Stickman extends Objeto{
     public static final int WIDTH = 400, HEIGHT = 300;
     public StickmanBoxBounds box;
     public float rotation;
+    protected boolean visible = true;
 
     public Stickman(World world){
         this.world = world;
@@ -46,5 +47,13 @@ public abstract class Stickman extends Objeto{
 
     public Rectangle getBodyBounds(){
         return new Rectangle(getBody().getPosition().x + WIDTH/2f - 25, getBody().getPosition().y + 90, 50, 150);
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

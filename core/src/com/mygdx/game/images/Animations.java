@@ -19,6 +19,7 @@ public enum Animations {
     //for enemies
     E_WALKING(new Animator(Color.RED,30, 10, 40, 400, 300, "stickman/Stickman_walking.png")),
     E_IDLE(new Animator(Color.RED, 26, 10, 1, 400, 300, "stickman/Idle.png")),
+    E_SPLIT(new Animator(Color.RED, 4, 4, 3, 400, 300, "stickman/Split.png")),
     E_PUNCH(new Animator(Color.RED,6, 6, 10, 400, 300, "stickman/Stickman_punching.png")),
     E_JUMPING(new Animator(Color.RED,10, 10, 5, 400, 300, "stickman/Stickman_Jumping.png")),
     E_HIYAH(new Animator(Color.RED,14, 10, 30, 400, 300, "stickman/Stickman_Jumping.png")),
