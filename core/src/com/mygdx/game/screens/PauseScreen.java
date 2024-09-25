@@ -188,9 +188,13 @@ public class PauseScreen implements Screen, InputProcessor {
                 break;
             }
             case SAVEGAME:{
+                app.setScreen(app.saveScreen);
+                Gdx.input.setInputProcessor(app.saveScreen);
                 break;
             }
             case LOADGAME:{
+                app.setScreen(app.loadScreen);
+                Gdx.input.setInputProcessor(app.loadScreen);
                 break;
             }
             case EXIT: {

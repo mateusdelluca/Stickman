@@ -11,6 +11,8 @@ public class Application extends Game implements InputProcessor {
     public Images images;
     public SplashScreen splashScreen;
     public Level level;
+    public LoadScreen loadScreen;
+    public SaveScreen saveScreen;
 
     @Override
     public void create() {
@@ -18,6 +20,8 @@ public class Application extends Game implements InputProcessor {
         splashScreen = new SplashScreen(this);
         this.setScreen(splashScreen);
         Gdx.input.setInputProcessor(splashScreen);
+        loadScreen = new LoadScreen(this);
+        saveScreen = new SaveScreen(this);
     }
 
     @Override

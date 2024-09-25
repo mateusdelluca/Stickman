@@ -180,6 +180,8 @@ public class SplashScreen implements Screen, InputProcessor {
                 break;
             }
             case LOADGAME:{
+                app.setScreen(app.loadScreen);
+                Gdx.input.setInputProcessor(app.loadScreen);
                 break;
             }
             case EXIT: {

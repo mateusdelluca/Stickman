@@ -50,8 +50,8 @@ public class Images {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
 //        game_over = new Texture(Gdx.files.internal("src/main/res/Game Over.png"));
 //        level1 = new Texture(Gdx.files.internal("src/main/res/Level1.png"));
-//        load_page = new Texture(Gdx.files.internal("src/main/res/Load_Page.png"));
-//        save_page = new Texture(Gdx.files.internal("src/main/res/Save_Page.png"));
+        load_page = new Texture(Gdx.files.internal("Load_Page.png"));
+        save_page = new Texture(Gdx.files.internal("Save_Page.png"));
 //        block = new Texture(Gdx.files.internal("src/main/res/objects/Crate.png"));
 //        equipped = new Texture(Gdx.files.internal("src/main/res/Equiped.png"));
 //        baseball_bat = new Texture(Gdx.files.internal("src/main/res/objects/Baseball_bat.png"));
