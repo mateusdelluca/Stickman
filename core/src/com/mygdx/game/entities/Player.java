@@ -214,9 +214,6 @@ public class Player extends Stickman {
                 setStateTime(0);
             }
         }
-        if (keycode == Input.Keys.ESCAPE){
-
-        }
         return false;
     }
 

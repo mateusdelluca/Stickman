@@ -12,7 +12,7 @@ public class Application extends Game implements InputProcessor {
 
     public static boolean pause, pause2;
     public Images images;
-    private SplashScreen splashScreen;
+    public SplashScreen splashScreen;
     public Level level;
 
     @Override

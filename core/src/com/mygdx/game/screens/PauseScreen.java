@@ -5,14 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.images.Images;
@@ -22,11 +20,14 @@ public class PauseScreen implements Screen, InputProcessor {
 
     public static final int WIDTH = 1920, HEIGHT = 1080;
 
-    public static final int RETURN = 2;
+    public static final int BOX_WIDTH = 400, BOX_HEIGHT = 500;
+
+    public static final int RETURN = 3;
+    public static final int SAVEGAME = 2;
     public static final int LOADGAME = 1;
     public static final int EXIT = 0;
 
-    public static final int NUM_OPTIONS = 3;
+    public static final int NUM_OPTIONS = 4;
 
     private boolean[] isTouched = new boolean[NUM_OPTIONS];
 
@@ -44,25 +45,33 @@ public class PauseScreen implements Screen, InputProcessor {
 
     private Camera camera = new OrthographicCamera(WIDTH, HEIGHT);
     private Viewport viewport;
-    public static Music music;
+    public Music song;
 
     private Application app;
     private Level level;
 
-    public PauseScreen(Application app){
+    public static float pause_musicPosition;
+
+    public PauseScreen(Application app, Level level){
         this.app = app;
-        level = app.level;
+        this.level = level;
         for(int index = EXIT; index <= RETURN; ++index) {
             this.x[index] = 850;
-            this.y[index] = 720 + 55 * index;
+            this.y[index] = 370 + 100 * index;
             this.options_rects[index] = new Rectangle(this.x[index], this.y[index] - 20, 360, 30);
         }
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses2.mp3"));
+
+        options[RETURN] = "  RETURN";
+        options[SAVEGAME] = "SAVE GAME";
+        options[LOADGAME] = "LOAD GAME";
+        options[EXIT] = "     EXIT";
+
+        song = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses2.mp3"));
 
         Texture t = new Texture(Gdx.files.internal("Font2.png"));
         font = new BitmapFont(Gdx.files.internal("Font2.fnt"), new TextureRegion(t));
         t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        font.getData().scale(1f);
+        font.getData().scale(0.2f);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 
         viewport = new ScreenViewport(camera);
@@ -74,27 +83,47 @@ public class PauseScreen implements Screen, InputProcessor {
     }
 
     public void update(){
+        camera.update();
 
+        int counter = 0;
+        for(int index = EXIT; index <= RETURN; ++index) {
+            if (this.mouseRectangle.overlaps(this.options_rects[index])) {
+                this.isTouched[index] = true;
+                this.optionChoosed = index;
+            } else {
+                this.isTouched[index] = false;
+                ++counter;
+            }
+        }
+        if (counter == NUM_OPTIONS) {
+            counter = 0;
+            this.optionChoosed = -1;
+        }
     }
 
     @Override
     public void render(float delta) {
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
+//        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
+
         update();
 
         spriteBatch.setProjectionMatrix(camera.combined);
+        level.renderObjects();
         spriteBatch.begin();
-        spriteBatch.draw(Images.pauseBox, 740, 250);
-
-//        for(int index = EXIT; index <= RETURN; ++index) {
-//            font.setColor(Color.BLACK);
-//            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
-//            font.setColor(Color.YELLOW);
-//            font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
-//            if (this.isTouched[index]) {
-//                font.setColor(Color.WHITE);
-//                font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
-//            }
-//        }
+        spriteBatch.setColor(1f, 1f, 1f, 0.5f);
+        spriteBatch.draw(Images.pauseBox, 765, 250, BOX_WIDTH, BOX_HEIGHT);
+        spriteBatch.setColor(1f, 1f, 1f, 1f);
+        for(int index = EXIT; index <= RETURN; ++index) {
+            font.setColor(Color.BLACK);
+            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
+            font.setColor(Color.WHITE);
+            font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
+            if (this.isTouched[index]) {
+                font.setColor(Color.YELLOW);
+                font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
+            }
+        }
         spriteBatch.end();
 
     }
@@ -128,6 +157,11 @@ public class PauseScreen implements Screen, InputProcessor {
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE){
             app.setScreen(level);
+            pause_musicPosition = song.getPosition();
+            song.stop();
+            level.music.setPosition(Level.level_musicPosition);
+            level.music.play();
+            Gdx.input.setInputProcessor(level);
         }
         return false;
     }
@@ -147,15 +181,22 @@ public class PauseScreen implements Screen, InputProcessor {
         switch (this.optionChoosed) {
             case RETURN: {
                 app.setScreen(level);
-                music.stop();
+                pause_musicPosition = song.getPosition();
+                song.stop();
+                level.music.setPosition(Level.level_musicPosition);
+                level.music.play();
                 Gdx.input.setInputProcessor(level);
+                break;
+            }
+            case SAVEGAME:{
                 break;
             }
             case LOADGAME:{
                 break;
             }
             case EXIT: {
-                System.exit(0);
+                app.setScreen(app.splashScreen);
+                Gdx.input.setInputProcessor(app.splashScreen);
                 break;
             }
         }
@@ -179,6 +220,16 @@ public class PauseScreen implements Screen, InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        // Suponha que você tenha uma câmera (por exemplo, OrthographicCamera) configurada
+        Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
+        viewport.unproject(worldCoordinates);
+
+        // Agora 'worldCoordinates' contém as coordenadas do mundo
+        float worldX = worldCoordinates.x;
+        float worldY = worldCoordinates.y;
+
+        this.mouseRectangle.setPosition(worldX, worldY);
+//        System.out.println(worldX + " " + worldY);
         return false;
     }
 

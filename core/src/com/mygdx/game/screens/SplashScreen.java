@@ -81,6 +81,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
         level = new Level(app);
         app.level = level;
+        music.setLooping(true);
         music.play();
     }
 

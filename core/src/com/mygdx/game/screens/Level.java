@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +24,6 @@ import com.mygdx.game.principal.Application;
 
 
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 public class Level implements Screen, InputProcessor {
 
@@ -41,7 +39,7 @@ public class Level implements Screen, InputProcessor {
     public Background background;
     public ArrayList<Crystal> crystals;
     Box2DDebugRenderer box2DDebugRenderer;
-    public static Music music;
+    public Music music;
     ShapeRenderer shapeRenderer;
     private ArrayList<Enemy> enemies;
     private Tile level1;
@@ -53,9 +51,11 @@ public class Level implements Screen, InputProcessor {
     public ArrayList<Rectangle> verticalRectsThorns;
     private PowerBar powerBar;
 
+    public static float level_musicPosition;
+
     public Level(final Application app){
         this.app = app;
-        pauseScreen = new PauseScreen(app);
+        pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
@@ -160,6 +160,10 @@ public class Level implements Screen, InputProcessor {
         spriteBatch.setProjectionMatrix(camera.combined);
         camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f + HEIGHT)/2f, 0);
 
+        renderObjects();
+    }
+
+    public void renderObjects(){
         spriteBatch.begin();
         level1.render(camera);
         portal.render(spriteBatch);
@@ -169,8 +173,6 @@ public class Level implements Screen, InputProcessor {
             enemy.render(spriteBatch);
         player.render(spriteBatch);
         spriteBatch.end();
-
-
     }
 
     public void update(float delta){
@@ -277,7 +279,12 @@ public class Level implements Screen, InputProcessor {
         player.keyDown(keycode);
 
         if (keycode == Input.Keys.ESCAPE){
+            Gdx.input.setInputProcessor(pauseScreen);
             app.setScreen(pauseScreen);
+            level_musicPosition = music.getPosition();
+            music.stop();
+            pauseScreen.song.play();
+            pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
         }
 
         return false;
