@@ -30,8 +30,8 @@ public class Player extends Stickman {
 
     public Player(World world){
         super(world);
-        animations = Animations.IDLE;
-        box.getBody().setTransform(130, 350, 0);
+        animations = Animations.FIRST;
+        box.getBody().setTransform(130, 1050, 0);
         action = new Rectangle(0, 0, 0, 0);
 
     }
@@ -65,92 +65,100 @@ public class Player extends Stickman {
 
     private void animation(){
         String name = animations.name();
-        if (name.equals("WALKING")){
-            lastFrame = false;
-            getBody().setFixedRotation(true);
-            getBody().setTransform(getBody().getPosition().x,getBody().getPosition().y,0);
-            if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
-                animations = Animations.IDLE;
-        } else{
-            if (name.equals("PUNCH")){
-                if (animations.animator.ani_finished()) {
-                    animations.animator.resetStateTime();
+        if (name.equals("FIRST")){
+            if (getBodyBounds().y > 400)
+                setStateTime(0);
+            else
+                if (frameCounter() >= 10)
                     animations = Animations.IDLE;
-                }
-            } else{
-                if (name.equals("JUMPING")){
-                    if (animations.animator.ani_finished() && Math.abs(getBody().getLinearVelocity().y) < 5){
-                        getBody().setLinearVelocity(getBody().getLinearVelocity().x, 70);
-                        JUMP.play();
+        } else {
+            if (name.equals("WALKING")) {
+                lastFrame = false;
+                getBody().setFixedRotation(true);
+                getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, 0);
+                if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
+                    animations = Animations.IDLE;
+            } else {
+                if (name.equals("PUNCH")) {
+                    if (animations.animator.ani_finished()) {
                         animations.animator.resetStateTime();
-                        if (getBody().getLinearVelocity().x == 0)
-                            animations = Animations.IDLE;
-                        else
-                            animations = Animations.WALKING;
+                        animations = Animations.IDLE;
                     }
-                } else{
-                    if (name.equals("HIYAH")) {
-                        getBody().setFixedRotation(true);
-                        lastFrame = true;
-                        if (getBody().getLinearVelocity().x == 0){
-                            getBody().setLinearVelocity(new Vector2((!flip ? 5 : -5), getBody().getLinearVelocity().y));
-                        }
-                        if (getBody().getLinearVelocity().x != 0){
-                            getBody().setLinearVelocity(new Vector2((!flip ? 60 : -60), getBody().getLinearVelocity().y));
-                        }
-
-                        if (getBody().getLinearVelocity().y == 0 || getBody().getPosition().y < 0f) {
-                            getBody().getFixtureList().get(0).setFriction(0f);
-                            if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT))
+                } else {
+                    if (name.equals("JUMPING")) {
+                        if (animations.animator.ani_finished() && Math.abs(getBody().getLinearVelocity().y) < 5) {
+                            getBody().setLinearVelocity(getBody().getLinearVelocity().x, 70);
+                            JUMP.play();
+                            animations.animator.resetStateTime();
+                            if (getBody().getLinearVelocity().x == 0)
                                 animations = Animations.IDLE;
                             else
                                 animations = Animations.WALKING;
                         }
-                    } else{
-                        if (name.equals("SHOT")){
-                            if (animations.animator.ani_finished()){
-                                bullets.add(new Bullet(world, new Vector2(facingRight ? getBody().getPosition().x +
-                                        WIDTH/2f + 60: getBody().getPosition().x + WIDTH/2f -80,
-                                        getBody().getPosition().y + HEIGHT/2f + 40), flip));
-                                animations.animator.resetStateTime();
-                                animations = Animations.IDLE;
+                    } else {
+                        if (name.equals("HIYAH")) {
+                            getBody().setFixedRotation(true);
+                            lastFrame = true;
+                            if (getBody().getLinearVelocity().x == 0) {
+                                getBody().setLinearVelocity(new Vector2((!flip ? 5 : -5), getBody().getLinearVelocity().y));
+                            }
+                            if (getBody().getLinearVelocity().x != 0) {
+                                getBody().setLinearVelocity(new Vector2((!flip ? 60 : -60), getBody().getLinearVelocity().y));
+                            }
+
+                            if (getBody().getLinearVelocity().y == 0 || getBody().getPosition().y < 0f) {
+                                getBody().getFixtureList().get(0).setFriction(0f);
+                                if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT))
+                                    animations = Animations.IDLE;
+                                else
+                                    animations = Animations.WALKING;
                             }
                         } else {
-                            if (name.equals("IDLE_FLASH")){
-                                lastFrame = false;
-                                getBody().setFixedRotation(true);
-//                                box.getBody().setTransform(150f, 300f, 0f);
+                            if (name.equals("SHOT")) {
                                 if (animations.animator.ani_finished()) {
-                                    animations.getAnimation("IDLE_FLASH").animator.resetStateTime();
+                                    bullets.add(new Bullet(world, new Vector2(facingRight ? getBody().getPosition().x +
+                                            WIDTH / 2f + 60 : getBody().getPosition().x + WIDTH / 2f - 80,
+                                            getBody().getPosition().y + HEIGHT / 2f + 40), flip));
+                                    animations.animator.resetStateTime();
                                     animations = Animations.IDLE;
                                 }
                             } else {
-                                if (name.equals("SABER")){
-                                    if (frameCounter() <= 4f)
-                                        getBody().setLinearVelocity(!flip ? 100f : -100f, getBody().getLinearVelocity().y);
+                                if (name.equals("IDLE_FLASH")) {
+                                    lastFrame = false;
+                                    getBody().setFixedRotation(true);
+//                                box.getBody().setTransform(150f, 300f, 0f);
                                     if (animations.animator.ani_finished()) {
-                                        lastFrame = true;
-                                        if (stateTime > 2f && getBody().getLinearVelocity().y == 0)
-                                            getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
-                                        if (stateTime > 3f && Math.abs(getBody().getLinearVelocity().y) > 0){
-                                            float velocity = 0.1f;
-                                            if (Math.abs(getBody().getLinearVelocity().x) <= velocity)
-                                                velocity = 0;
-                                            getBody().setLinearVelocity(getBody().getLinearVelocity().x + (!flip ? -velocity : velocity), getBody().getLinearVelocity().y);
-                                        }
+                                        animations.getAnimation("IDLE_FLASH").animator.resetStateTime();
+                                        animations = Animations.IDLE;
+                                    }
+                                } else {
+                                    if (name.equals("SABER")) {
+                                        if (frameCounter() <= 4f)
+                                            getBody().setLinearVelocity(!flip ? 100f : -100f, getBody().getLinearVelocity().y);
+                                        if (animations.animator.ani_finished()) {
+                                            lastFrame = true;
+                                            if (stateTime > 2f && getBody().getLinearVelocity().y == 0)
+                                                getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
+                                            if (stateTime > 3f && Math.abs(getBody().getLinearVelocity().y) > 0) {
+                                                float velocity = 0.1f;
+                                                if (Math.abs(getBody().getLinearVelocity().x) <= velocity)
+                                                    velocity = 0;
+                                                getBody().setLinearVelocity(getBody().getLinearVelocity().x + (!flip ? -velocity : velocity), getBody().getLinearVelocity().y);
+                                            }
 //                                        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 //                                            animations = Animations.WALKING;
 //                                        } else {
 //                                            animations = Animations.IDLE;
 //                                        }
+                                        }
+                                    } else {
+                                        getBody().setFixedRotation(false);
+                                        lastFrame = false;
+                                        animations = Animations.IDLE;
+                                        getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
                                     }
-                                } else{
-                                    getBody().setFixedRotation(false);
-                                    lastFrame = false;
-                                    animations = Animations.IDLE;
-                                    getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
-                                }
 
+                                }
                             }
                         }
                     }
@@ -320,6 +328,10 @@ public class Player extends Stickman {
 
     public Rectangle getAction() {
         return action;
+    }
+
+    public void setFrameCounter(int frame){
+        setStateTime(animations.animator.timeToFrame(frame));
     }
 
     public void setStateTime(float time){

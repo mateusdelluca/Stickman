@@ -121,7 +121,7 @@ public class Level implements Screen, InputProcessor {
         }
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, true);
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunrise.mp3"));
 
         shapeRenderer = new ShapeRenderer();
         powerBar = new PowerBar();

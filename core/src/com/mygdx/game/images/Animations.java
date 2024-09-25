@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public enum Animations {
 
-    //for player
+    //player
+    FIRST(new Animator(10,10, 25, 400, 300,"stickman/First.png")),
     WALKING(new Animator(30, 10, 20, 400, 300, "stickman/Stickman_walking.png")),
     IDLE(new Animator( 26, 10, 10, 400, 300, "stickman/Idle.png")),
     PUNCH(new Animator(6, 6, 10, 400, 300, "stickman/Stickman_punching.png")),
@@ -16,7 +17,7 @@ public enum Animations {
     IDLE_FLASH(new Animator(0.1f, 26, 10, 5, 400, 300, "stickman/Idle3.png")),
     SABER(new Animator(6,6,12,400,300, "stickman/SabreHit.png")),
 
-    //for enemies
+    //enemy
     E_WALKING(new Animator(Color.RED,30, 10, 40, 400, 300, "stickman/Stickman_walking.png")),
     E_IDLE(new Animator(Color.RED, 26, 10, 1, 400, 300, "stickman/Idle.png")),
     E_SPLIT(new Animator(Color.RED, 4, 4, 3, 400, 300, "stickman/Split.png")),

@@ -168,6 +168,10 @@ public class Animator {
 
     }
 
+    public float timeToFrame(int frame){
+        return (1f/fps) * frame;
+    }
+
     public float timeOfAnimation(){
         return (1f/fps) * numFrames;
     }
