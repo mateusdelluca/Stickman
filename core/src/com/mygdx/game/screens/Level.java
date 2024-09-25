@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ai.btree.Task;
@@ -29,7 +30,7 @@ import java.util.TimerTask;
 public class Level implements Screen, InputProcessor {
 
     public final Application app;
-
+    private PauseScreen pauseScreen;
     public static final int WIDTH = 1920, HEIGHT = 1080;
     public SpriteBatch spriteBatch;
 //    public Images images;
@@ -40,7 +41,7 @@ public class Level implements Screen, InputProcessor {
     public Background background;
     public ArrayList<Crystal> crystals;
     Box2DDebugRenderer box2DDebugRenderer;
-    private Music music;
+    public static Music music;
     ShapeRenderer shapeRenderer;
     private ArrayList<Enemy> enemies;
     private Tile level1;
@@ -54,7 +55,7 @@ public class Level implements Screen, InputProcessor {
 
     public Level(final Application app){
         this.app = app;
-
+        pauseScreen = new PauseScreen(app);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
@@ -274,6 +275,11 @@ public class Level implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         player.keyDown(keycode);
+
+        if (keycode == Input.Keys.ESCAPE){
+            app.setScreen(pauseScreen);
+        }
+
         return false;
     }
 

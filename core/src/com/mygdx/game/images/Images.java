@@ -44,6 +44,7 @@ public class Images {
     public static Animator portal;
     public static Texture hp, hp2;
     public static Texture sp, sp2;
+    public static Texture pauseBox;
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -86,6 +87,7 @@ public class Images {
         hp2 = new Texture(Gdx.files.internal("HP_Bar2.png"));
         sp = new Texture(Gdx.files.internal("SP_Bar.png"));
         sp2 = new Texture(Gdx.files.internal("SP_Bar2.png"));
+        pauseBox = new Texture(Gdx.files.internal("PauseBox.png"));
     }
 
     public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {
