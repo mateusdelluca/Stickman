@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.images.Images;
 import com.mygdx.game.images.PowerBar;
 import com.mygdx.game.principal.Application;
 
@@ -27,11 +28,11 @@ import java.util.ArrayList;
 
 public class Level implements Screen, InputProcessor {
 
+    public static final int WIDTH = 1920, HEIGHT = 1080;
     public final Application app;
     private PauseScreen pauseScreen;
-    public static final int WIDTH = 1920, HEIGHT = 1080;
     public SpriteBatch spriteBatch;
-//    public Images images;
+    public Images images;
     public Player player;
     public Viewport viewport;
     public OrthographicCamera camera;
@@ -55,6 +56,7 @@ public class Level implements Screen, InputProcessor {
 
     public Level(final Application app){
         this.app = app;
+        images = new Images();
         pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
@@ -66,6 +68,7 @@ public class Level implements Screen, InputProcessor {
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -117,9 +120,6 @@ public class Level implements Screen, InputProcessor {
         for (int i = 0; i < Crystal.X_POSITIONS.length; i++) {
             crystals.add(new Crystal(world));
         }
-//        grass = new Grass(world);
-//        tile480x320 = new Tile480x320(world, camera, new Vector2(0,0), new Vector2(205,0), new Vector2(479,135),
-//                new Vector2(479, 319), new Vector2(325, 329), new Vector2(0,0));
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, true);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses.mp3"));

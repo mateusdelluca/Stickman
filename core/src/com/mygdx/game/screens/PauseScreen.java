@@ -121,12 +121,11 @@ public class PauseScreen implements Screen, InputProcessor {
             font.setColor(Color.WHITE);
             font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             if (this.isTouched[index]) {
-                font.setColor(Color.YELLOW);
+                font.setColor(Color.BLUE);
                 font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             }
         }
         spriteBatch.end();
-
     }
 
     @Override
