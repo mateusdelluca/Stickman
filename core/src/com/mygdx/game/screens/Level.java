@@ -29,7 +29,7 @@ public class Level implements Screen, InputProcessor {
 
     public static final int WIDTH = 1920, HEIGHT = 1080;
     public final Application app;
-    private PauseScreen pauseScreen;
+
     public SpriteBatch spriteBatch;
     public Images images;
     public Player player;
@@ -56,7 +56,7 @@ public class Level implements Screen, InputProcessor {
     public Level(final Application app){
         this.app = app;
         images = new Images();
-        pauseScreen = new PauseScreen(app, this);
+        app.pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
         player = new Player(world);
@@ -278,12 +278,12 @@ public class Level implements Screen, InputProcessor {
         player.keyDown(keycode);
 
         if (keycode == Input.Keys.ESCAPE){
-            Gdx.input.setInputProcessor(pauseScreen);
-            app.setScreen(pauseScreen);
+            Gdx.input.setInputProcessor(app.pauseScreen);
+            app.setScreen(app.pauseScreen);
             level_musicPosition = music.getPosition();
             music.stop();
-            pauseScreen.song.play();
-            pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
+            app.pauseScreen.song.play();
+            app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
         }
 
         return false;

@@ -83,6 +83,8 @@ public class SplashScreen implements Screen, InputProcessor {
     }
 
     public void update() {
+        Application.currentScreen = getClass().toString();
+
         camera.update();
 
         int counter = 0;

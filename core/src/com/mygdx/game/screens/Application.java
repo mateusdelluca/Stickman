@@ -13,6 +13,9 @@ public class Application extends Game implements InputProcessor {
     public Level level;
     public LoadScreen loadScreen;
     public SaveScreen saveScreen;
+    public PauseScreen pauseScreen;
+    public static String currentScreen = "SplashScreen";
+
 
     @Override
     public void create() {
