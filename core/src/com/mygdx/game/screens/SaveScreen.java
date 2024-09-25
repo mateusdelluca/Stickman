@@ -1,41 +1,25 @@
-package com.mygdx.game.principal;
+package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.game.images.Images;
-import com.mygdx.game.screens.Level;
-import com.mygdx.game.screens.PauseScreen;
-import com.mygdx.game.screens.SplashScreen;
+import com.badlogic.gdx.Screen;
 
-public class Application extends Game implements InputProcessor {
 
-    public static boolean pause, pause2;
-    public Images images;
-    public SplashScreen splashScreen;
-    public Level level;
+public class SaveScreen implements Screen, InputProcessor {
 
     @Override
-    public void create() {
-        images = new Images();
-        splashScreen = new SplashScreen(this);
-        this.setScreen(splashScreen);
-        Gdx.input.setInputProcessor(splashScreen);
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+
     }
 
     @Override
     public void resize(int width, int height) {
-    }
 
-    public void update(){
     }
-
-    @Override
-    public void render() {
-        update();
-        super.render();
-    }
-
 
     @Override
     public void pause() {
@@ -48,13 +32,17 @@ public class Application extends Game implements InputProcessor {
     }
 
     @Override
-    public void dispose() { // SpriteBatches and Textures must always be disposed
-        splashScreen.dispose();
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     @Override
     public boolean keyDown(int keycode) {
-//        splashScreen.keyDown(keycode);
         return false;
     }
 
@@ -70,7 +58,6 @@ public class Application extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        splashScreen.touchDown(screenX, screenY, pointer, button);
         return false;
     }
 
@@ -91,7 +78,6 @@ public class Application extends Game implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-//        splashScreen.mouseMoved(screenX, screenY);
         return false;
     }
 
@@ -99,4 +85,5 @@ public class Application extends Game implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
 }

@@ -18,13 +18,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.images.Images;
-import com.mygdx.game.principal.Application;
 
 public class SplashScreen implements Screen, InputProcessor {
 
@@ -57,8 +55,6 @@ public class SplashScreen implements Screen, InputProcessor {
     private Music music;
     private Sound shot;
 
-    private Level level;
-
     public SplashScreen(Application app){
         this.app = app;
         for(int index = EXIT; index <= NEWGAME; ++index) {
@@ -79,8 +75,9 @@ public class SplashScreen implements Screen, InputProcessor {
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 
-        level = new Level(app);
+        Level level = new Level(app);
         app.level = level;
+
         music.setLooping(true);
         music.play();
     }
@@ -175,6 +172,8 @@ public class SplashScreen implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         switch (this.optionChoosed) {
             case NEWGAME: {
+                Level level = new Level(app);
+                app.level = level;
                 app.setScreen(level);
                 music.stop();
                 Gdx.input.setInputProcessor(level);

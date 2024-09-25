@@ -21,7 +21,6 @@ import com.mygdx.game.entities.*;
 import com.mygdx.game.images.Animations;
 import com.mygdx.game.images.Images;
 import com.mygdx.game.images.PowerBar;
-import com.mygdx.game.principal.Application;
 
 
 import java.util.ArrayList;
