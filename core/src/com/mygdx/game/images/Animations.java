@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 public enum Animations {
 
     //player
-    FIRST(new Animator(10,10, 25, 400, 300,"stickman/First.png")),
+    FIRST(new Animator(10,10, 20, 400, 300,"stickman/First.png")),
     WALKING(new Animator(30, 10, 20, 400, 300, "stickman/Stickman_walking.png")),
     IDLE(new Animator( 26, 10, 10, 400, 300, "stickman/Idle.png")),
     PUNCH(new Animator(6, 6, 10, 400, 300, "stickman/Stickman_punching.png")),

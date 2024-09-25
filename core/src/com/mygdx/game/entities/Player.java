@@ -31,9 +31,8 @@ public class Player extends Stickman {
     public Player(World world){
         super(world);
         animations = Animations.FIRST;
-        box.getBody().setTransform(130, 1050, 0);
+        box.getBody().setTransform(130, 1500, 0);
         action = new Rectangle(0, 0, 0, 0);
-
     }
 
     public void render(SpriteBatch spriteBatch){
