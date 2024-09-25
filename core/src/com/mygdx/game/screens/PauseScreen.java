@@ -103,12 +103,13 @@ public class PauseScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
-//        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 
         update();
 
         spriteBatch.setProjectionMatrix(camera.combined);
+        level.background.render();
         level.renderObjects();
         spriteBatch.begin();
         spriteBatch.setColor(1f, 1f, 1f, 0.5f);
