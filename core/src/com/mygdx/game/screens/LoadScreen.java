@@ -186,7 +186,7 @@ public class LoadScreen implements Screen, InputProcessor {
 
         Vector3 worldVect3 = new Vector3(screenX, screenY, 0f);
         camera2.unproject(worldVect3);
-        System.out.println(worldVect3.x + " " + worldVect3.y);
+//        System.out.println(worldVect3.x + " " + worldVect3.y);
         this.mouseRectangle.setPosition(worldVect3.x, worldVect3.y);
         return false;
     }
