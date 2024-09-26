@@ -85,8 +85,8 @@ public class LoadScreen implements Screen, InputProcessor {
 
         for (Rectangle rectangle : rects) {
             if (rectangle.contains(mouseRectangle)) {
-                sprites[6].draw(spriteBatch2);
                 sprites[6].setPosition(rectangle.x, rectangle.y);
+                sprites[6].draw(spriteBatch2);
                 break;
             }
         }
