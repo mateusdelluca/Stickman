@@ -16,7 +16,6 @@ public class Application extends Game implements InputProcessor {
     public PauseScreen pauseScreen;
     public static String currentScreen = "SplashScreen";
 
-
     @Override
     public void create() {
         images = new Images();

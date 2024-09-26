@@ -31,7 +31,6 @@ public class Level implements Screen, InputProcessor {
     public final Application app;
 
     public SpriteBatch spriteBatch;
-    public Images images;
     public Player player;
     public Viewport viewport;
     public OrthographicCamera camera;
@@ -55,7 +54,6 @@ public class Level implements Screen, InputProcessor {
 
     public Level(final Application app){
         this.app = app;
-        images = new Images();
         app.pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();

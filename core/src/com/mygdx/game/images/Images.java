@@ -6,16 +6,17 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class Images {
     public static Texture[] saves = new Texture[6];
+    public static Texture box = new Texture(Gdx.files.internal("saves/Box.png"));
     public static Texture menu;
     public static Texture level1;
     public static Texture equipped;
@@ -45,6 +46,8 @@ public class Images {
     public static Texture hp, hp2;
     public static Texture sp, sp2;
     public static Texture pauseBox;
+
+    public SpriteBatch spriteBatch = new SpriteBatch();
 
     public Images() {
 //        menu = new Texture(Gdx.files.internal("src/main/res/Menu.png"));
@@ -88,27 +91,30 @@ public class Images {
         sp = new Texture(Gdx.files.internal("SP_Bar.png"));
         sp2 = new Texture(Gdx.files.internal("SP_Bar2.png"));
         pauseBox = new Texture(Gdx.files.internal("PauseBox.png"));
+        for (int i = 0; i < saves.length; i++){
+            saves[i] = new Texture(Gdx.files.internal("saves/Save" + i + ".png"));
+        }
     }
 
-    public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {
-        double radians = Math.toRadians(degrees);
-        BufferedImage b = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
-        Graphics2D g2D = b.createGraphics();
-        g2D.rotate(radians, (double) originalImage.getWidth()/2,(double) originalImage.getHeight()/2);
-        g2D.drawImage(originalImage, null, null);
-//            g2D.dispose();
-        return b;
-    }
-
-    public static BufferedImage rotateImage(BufferedImage originalImage, double degrees, int width, int height) {
-        double radians = Math.toRadians(degrees);
-        BufferedImage b = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
-        Graphics2D g2D = b.createGraphics();
-        g2D.rotate(radians, (double) originalImage.getWidth()/2,(double) originalImage.getHeight()/2);
-        g2D.drawImage(originalImage, null, null);
-//            g2D.dispose();
-        return b;
-    }
+//    public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {
+//        double radians = Math.toRadians(degrees);
+//        BufferedImage b = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
+//        Graphics2D g2D = b.createGraphics();
+//        g2D.rotate(radians, (double) originalImage.getWidth()/2,(double) originalImage.getHeight()/2);
+//        g2D.drawImage(originalImage, null, null);
+////            g2D.dispose();
+//        return b;
+//    }
+//
+//    public static BufferedImage rotateImage(BufferedImage originalImage, double degrees, int width, int height) {
+//        double radians = Math.toRadians(degrees);
+//        BufferedImage b = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), originalImage.getType());
+//        Graphics2D g2D = b.createGraphics();
+//        g2D.rotate(radians, (double) originalImage.getWidth()/2,(double) originalImage.getHeight()/2);
+//        g2D.drawImage(originalImage, null, null);
+////            g2D.dispose();
+//        return b;
+//    }
 
     private Texture paint(Pixmap pixmap, Color color){
         try {
@@ -127,6 +133,10 @@ public class Images {
         }
         return null;
     }
+
+
+
+
 
 //    public static void deleteTab(){
 //        for(int i = 0; i < saves.length; i++) {
