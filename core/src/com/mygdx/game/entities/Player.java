@@ -28,6 +28,8 @@ public class Player extends Stickman {
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
+    private boolean stand;
+
     public Player(World world){
         super(world);
         animations = Animations.FIRST;
@@ -67,9 +69,18 @@ public class Player extends Stickman {
         if (name.equals("FIRST")){
             if (getBodyBounds().y > 400)
                 setStateTime(0);
-            else
+            else {
+                Timer timer = new Timer();
+                timer.scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        stand = true;                    }
+                }, 3f);
+                if (!stand)
+                    setFrameCounter(1);
                 if (frameCounter() >= 10)
                     animations = Animations.IDLE;
+            }
         } else {
             if (name.equals("WALKING")) {
                 lastFrame = false;
