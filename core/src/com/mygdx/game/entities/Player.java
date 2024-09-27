@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.screens.Level;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,11 +28,12 @@ public class Player extends Stickman {
     private boolean facingRight;
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
-
+    private Level level;
     private boolean stand;
 
-    public Player(World world){
+    public Player(World world, Level level){
         super(world);
+        this.level = level;
         animations = Animations.FIRST;
         box.getBody().setTransform(130, 1500, 0);
         action = new Rectangle(0, 0, 0, 0);
@@ -74,12 +76,15 @@ public class Player extends Stickman {
                 timer.scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
-                        stand = true;                    }
+                        stand = true;
+                    }
                 }, 3f);
                 if (!stand)
                     setFrameCounter(1);
-                if (frameCounter() >= 10)
+                if (frameCounter() >= 10) {
                     animations = Animations.IDLE;
+                    level.songLevel1.play();
+                }
             }
         } else {
             if (name.equals("WALKING")) {
@@ -352,4 +357,8 @@ public class Player extends Stickman {
         return animations.animator.getAnimation().getKeyFrame(stateTime).getU2() * animations.animator.getNumFrames();
     }
 
+
+    public boolean isStand() {
+        return stand;
+    }
 }

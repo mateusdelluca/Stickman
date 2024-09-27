@@ -52,7 +52,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
     private Camera camera = new OrthographicCamera(WIDTH, HEIGHT);
     private Viewport viewport = new ScreenViewport(camera);
-    private Music music;
+    public static Music music;
     private Sound shot;
 
     public SplashScreen(Application app){

@@ -7,7 +7,6 @@ import com.mygdx.game.images.Images;
 
 public class Application extends Game implements InputProcessor {
 
-    public static boolean pause, pause2;
     public Images images;
     public SplashScreen splashScreen;
     public Level level;

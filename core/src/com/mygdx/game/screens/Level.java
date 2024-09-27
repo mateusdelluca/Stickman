@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.images.Animations;
-import com.mygdx.game.images.Images;
 import com.mygdx.game.images.PowerBar;
 
 
@@ -38,7 +37,7 @@ public class Level implements Screen, InputProcessor {
     public Background background;
     public ArrayList<Crystal> crystals;
     Box2DDebugRenderer box2DDebugRenderer;
-    public Music music;
+    public Music songLevel1;
     ShapeRenderer shapeRenderer;
     private ArrayList<Enemy> enemies;
     private Tile level1;
@@ -57,7 +56,7 @@ public class Level implements Screen, InputProcessor {
         app.pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
-        player = new Player(world);
+        player = new Player(world, this);
         enemies = new ArrayList<Enemy>();
         for (int i = 1; i < 5; i++){
             enemies.add(new Enemy(world, new Vector2(1000 * i, 350)));
@@ -119,15 +118,15 @@ public class Level implements Screen, InputProcessor {
         }
         background = new Background();
         box2DDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, true);
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunrise.mp3"));
-        music.setLooping(true);
+        songLevel1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunrise.mp3"));
+        songLevel1.setLooping(true);
         shapeRenderer = new ShapeRenderer();
         powerBar = new PowerBar();
     }
 
     @Override
     public void show() {
-        music.play();
+
     }
 
     @Override
@@ -273,22 +272,23 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        player.keyDown(keycode);
-
-        if (keycode == Input.Keys.ESCAPE){
-            Gdx.input.setInputProcessor(app.pauseScreen);
-            app.setScreen(app.pauseScreen);
-            level_musicPosition = music.getPosition();
-            music.stop();
-            app.pauseScreen.song.play();
-            app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
+        if (player.isStand()) {
+            player.keyDown(keycode);
+            if (keycode == Input.Keys.ESCAPE) {
+                Gdx.input.setInputProcessor(app.pauseScreen);
+                app.setScreen(app.pauseScreen);
+//            level_musicPosition = songLevel1.getPosition();
+                songLevel1.pause();
+                app.pauseScreen.song.play();
+                app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
+            }
         }
-
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+
         player.keyUp(keycode);
         return false;
     }
