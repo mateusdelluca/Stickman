@@ -27,6 +27,7 @@ public class Animator {
     private boolean runningFirstTime = true;
     public float frameDuration;
     private float alphaComponent = 0f;
+    private Color color = Color.RED;
 
     public Animator(int numFrames, int numColumns, int fps, int width, int height, String path) {
         this.numFrames = numFrames;
@@ -54,6 +55,7 @@ public class Animator {
         this.path = path;
         this.width = width;
         this.height = height;
+        this.color = color;
         //example path = "spriteAnimation.png";
         //int numColumns = 6, numRows = 5;
         int numRows = numFrames / numColumns;
@@ -306,5 +308,9 @@ public class Animator {
 //            sprite[index] = new Sprite(animation.getKeyFrame(stateTime * 1.01F));
 //        }
 
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
