@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -48,6 +49,8 @@ public class Level implements Screen, InputProcessor {
     public ArrayList<Rectangle> horizontalRectsThorns;
     public ArrayList<Rectangle> verticalRectsThorns;
     private PowerBar powerBar;
+
+    public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
 
     public static float level_musicPosition;
 
@@ -153,6 +156,7 @@ public class Level implements Screen, InputProcessor {
         player.render(shapeRenderer);
         for (Crystal c : crystals)
             c.render(shapeRenderer);
+        portal.render(shapeRenderer);
         shapeRenderer.end();
 
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -174,6 +178,11 @@ public class Level implements Screen, InputProcessor {
     }
 
     public void update(float delta){
+        world.step(delta, 7,7);
+        camera.update();
+        world.step(delta, 7,7);
+        camera.update();
+
         for (Rectangle rect : horizontalRectsThorns) {
             if (rect.overlaps(player.getBodyBounds())){
                 if (rect.equals(horizontalRectsThorns.get(1))){
@@ -190,27 +199,23 @@ public class Level implements Screen, InputProcessor {
         }
         for (Rectangle rect : verticalRectsThorns) {
             if (rect.overlaps(player.getBodyBounds())){
-                System.out.println("verticalRectsThorns");
-                player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
-                if (!player.animations.name().equals("IDLE_FLASH")) {
+//                System.out.println("verticalRectsThorns");
+//                player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
+                if (!player.animations.name().equals("IDLE_FLASH") && !player.animations.name().equals("JUMPING") && !player.isHited()) {
+                    player.setHited(true);
                     Timer timer = new Timer();
                     timer.scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
-                            PowerBar.hp -= 20;
+                            PowerBar.hp -= 20; player.setHited(false);
                         }
                     }, 0f, 1000);
                     player.animations = Animations.IDLE_FLASH;
-                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, 40f);
+                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y + 10f);
                 }
             }
         }
 
-
-        world.step(delta, 7,7);
-        camera.update();
-        world.step(delta, 7,7);
-        camera.update();
         for (Enemy enemy : enemies) {
             if (!enemy.isSplit()){
                 if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 300 && enemy.getBody().getAngle() < Math.toRadians(30f)) {
@@ -228,8 +233,10 @@ public class Level implements Screen, InputProcessor {
                     enemy.getBody().setLinearVelocity(0, enemy.getBody().getLinearVelocity().y);
                     enemy.setAnimation(("E_IDLE"));
                 }
-                if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")) {
+                if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH") && !enemy.isHited()) {
                     enemy.setAnimation("E_PUNCHED");
+                    enemy.setHited(true);
+                    enemy.setFrameCounter(0);
                 }
                 if (Intersector.overlaps(enemy.getAction(), player.getBodyBounds())) {
                     if (!player.isHited()) {
@@ -243,10 +250,15 @@ public class Level implements Screen, InputProcessor {
                 enemy.setAnimation("E_SPLIT");
                 enemy.setSplit(true);
                 enemy.getBody().setLinearVelocity(0,0);
+                enemy.getBody().setFixedRotation(true);
             }
         }
         for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
             crystals.get(index).taked(player.getBodyBounds(), player.getAction());
+        }
+        if (portal.getRectangle().contains(player.getBodyBounds())){
+            teletransport.play();
+            player.getBody().setTransform(350, 400, 0);
         }
     }
 

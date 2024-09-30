@@ -77,7 +77,7 @@ public class Enemy extends Stickman{
             }, 3);
 
         } else {
-            if (name.equals("E_PUNCH")) {
+            if (name.equals("E_PUNCH") && !hited) {
                 if (frameCounter() == 1) {
                     WHOOSH.play();
                     setFrameCounter(2);
@@ -92,6 +92,7 @@ public class Enemy extends Stickman{
                     animations = Animations.E_IDLE;
                     getBody().setLinearVelocity(0, 0);
                     PUNCHED.play();
+                    hited = false;
                 } else {
                     if (animations.name().equals("E_IDLE")) {
                         getBody().setLinearVelocity(getBody().getLinearVelocity().x, getBody().getLinearVelocity().y);

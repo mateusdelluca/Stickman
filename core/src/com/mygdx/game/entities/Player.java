@@ -26,8 +26,7 @@ public class Player extends Stickman {
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
     private Level level;
-    private boolean stand;
-    private boolean hited;
+
 
     public Player(World world, Level level){
         super(world);
@@ -157,7 +156,10 @@ public class Player extends Stickman {
 //                                box.getBody().setTransform(150f, 300f, 0f);
                                         if (animations.animator.ani_finished()) {
                                             animations.getAnimation("IDLE_FLASH").animator.resetStateTime();
-                                            animations = Animations.IDLE;
+                                            if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+                                                animations = Animations.JUMPING;
+                                            else
+                                                animations = Animations.IDLE;
                                         }
                                     } else {
                                         if (name.equals("SABER")) {
@@ -173,15 +175,18 @@ public class Player extends Stickman {
                                                         velocity = 0;
                                                     getBody().setLinearVelocity(getBody().getLinearVelocity().x + (!flip ? -velocity : velocity), getBody().getLinearVelocity().y);
                                                 }
-//                                        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-//                                            animations = Animations.WALKING;
-//                                        } else {
-//                                            animations = Animations.IDLE;
-//                                        }
+                                        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+                                            animations = Animations.WALKING;
+                                            lastFrame = false;
+                                        } else {
+                                            animations = Animations.IDLE;
+                                            lastFrame = false;
+                                        }
                                             }
                                         } else {
                                             getBody().setFixedRotation(false);
                                             lastFrame = false;
+                                            hited = false;
                                             animations = Animations.IDLE;
                                             getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
                                         }
@@ -242,6 +247,7 @@ public class Player extends Stickman {
             if (!animations.name().equals("IDLE_FLASH") && Math.abs(getBody().getLinearVelocity().y) > 3f){
                 animations = Animations.HIYAH;
                 HIYAH.play();
+                lastFrame = true;
 //                getBody().getFixtureList().get(0).setFriction(10f);
             } else{
                 animations = Animations.JUMPING;
@@ -374,11 +380,5 @@ public class Player extends Stickman {
         return stand;
     }
 
-    public void setHited(boolean b) {
-        hited = b;
-    }
 
-    public boolean isHited() {
-        return hited;
-    }
 }

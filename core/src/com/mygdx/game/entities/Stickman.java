@@ -19,6 +19,7 @@ public abstract class Stickman extends Objeto{
     public float rotation;
     protected boolean visible = true;
     protected boolean split;
+    protected boolean stand, hited;
 
     public static final Sound SABER = Gdx.audio.newSound(Gdx.files.internal("sounds/Saber.wav"));
     public static final Sound JUMP = Gdx.audio.newSound(Gdx.files.internal("sounds/Jump.wav"));
@@ -85,5 +86,13 @@ public abstract class Stickman extends Objeto{
 
     public void setSplit(boolean split) {
         this.split = split;
+    }
+
+    public void setHited(boolean b) {
+        hited = b;
+    }
+
+    public boolean isHited() {
+        return hited;
     }
 }
