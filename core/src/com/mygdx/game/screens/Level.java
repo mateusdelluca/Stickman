@@ -131,11 +131,14 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        for (int i = 0; i < 5; i++)
-            update(delta);
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
+        for (int i = 0; i < 5; i++)
+            update(delta);
+        player.update(delta);
+        for (Enemy enemy : enemies)
+            enemy.update(delta);
+
         update(delta);
         background.render();
         powerBar.render();
@@ -145,9 +148,8 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.setAutoShapeType(true);
 
         shapeRenderer.begin();
-//        for (Enemy enemy : enemies)
-//            enemy.render(shapeRenderer);
-
+        for (Enemy enemy : enemies)
+            enemy.render(shapeRenderer);
         player.render(shapeRenderer);
         for (Crystal c : crystals)
             c.render(shapeRenderer);
@@ -204,30 +206,43 @@ public class Level implements Screen, InputProcessor {
             }
         }
 
-        player.update(delta);
-        for (Enemy enemy : enemies)
-            enemy.update(delta);
+
         world.step(delta, 7,7);
         camera.update();
         world.step(delta, 7,7);
         camera.update();
         for (Enemy enemy : enemies) {
-            if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")) {
-                enemy.setAnimation("E_PUNCHED");
+            if (!enemy.isSplit()){
+                if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 300 && enemy.getBody().getAngle() < Math.toRadians(30f)) {
+                    enemy.setAnimation("E_WALKING");
+                    enemy.getBody().setLinearVelocity(player.getBodyBounds().x < enemy.getBodyBounds().x ? -5 : 5,
+                            enemy.getBody().getLinearVelocity().y);
+                    if (enemy.getBody().getLinearVelocity().x > 0)
+                        enemy.setFlip(false);
+                    else
+                        enemy.setFlip(true);
+                    if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 100) {
+                        enemy.setAnimation("E_PUNCH");
+                    }
+                } else {
+                    enemy.getBody().setLinearVelocity(0, enemy.getBody().getLinearVelocity().y);
+                    enemy.setAnimation(("E_IDLE"));
+                }
+                if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH")) {
+                    enemy.setAnimation("E_PUNCHED");
+                }
+                if (Intersector.overlaps(enemy.getAction(), player.getBodyBounds())) {
+                    if (!player.isHited()) {
+                        player.animations = Animations.PUNCHED;
+                        player.setHited(true);
+                        player.setFrameCounter(0);
+                    }
+                }
             }
             if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("SABER")) {
-                for (Fixture f : enemy.getBody().getFixtureList()){
-                    f.setSensor(true);
-                }
                 enemy.setAnimation("E_SPLIT");
-                enemy.getBody().setGravityScale(0f);
-                Timer timer = new Timer();
-                timer.scheduleTask(new Timer.Task(){
-                    @Override
-                    public void run() {
-                        enemy.setVisible(false);
-                    }
-                }, 3);
+                enemy.setSplit(true);
+                enemy.getBody().setLinearVelocity(0,0);
             }
         }
         for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
@@ -238,8 +253,9 @@ public class Level implements Screen, InputProcessor {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-//        player.resize(spriteBatch, width, height);
-//        enemy.resize(spriteBatch, width, height);
+        player.resize(spriteBatch, width, height);
+        for (Enemy enemy : enemies)
+            enemy.resize(spriteBatch, width, height);
     }
 
     @Override

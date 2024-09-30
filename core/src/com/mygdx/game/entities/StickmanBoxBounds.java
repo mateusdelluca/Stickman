@@ -37,7 +37,7 @@ public class StickmanBoxBounds {
         CircleShape cs3 = new CircleShape();
         cs3.setRadius(30f);
         cs3.setPosition(dimensions3);
-        polygonShape.setAsBox(dimensions4.x - 75, dimensions4.y, new Vector2(positionStickman.x, positionStickman.y + 20), 0);
+        polygonShape.setAsBox(25,75, new Vector2(WIDTH/2f, 175), 0);
         fixtureDef = new FixtureDef();
         fixtureDef.density = 1.0f;
         fixtureDef.shape = polygonShape;
