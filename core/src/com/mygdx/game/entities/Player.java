@@ -26,7 +26,7 @@ public class Player extends Stickman {
     private Rectangle action;
     private ArrayList<Bullet> bullets = new ArrayList<>();
     private Level level;
-
+    private float velocity;
 
     public Player(World world, Level level){
         super(world);
@@ -163,18 +163,16 @@ public class Player extends Stickman {
                                         }
                                     } else {
                                         if (name.equals("SABER")) {
-                                            if (frameCounter() <= 4f)
-                                                getBody().setLinearVelocity(!flip ? 100f : -100f, getBody().getLinearVelocity().y);
+                                            if (frameCounter() <= 1) {
+                                                velocity = getBody().getLinearVelocity().x;
+                                                getBody().setLinearVelocity(!flip ? 200f : -200f, getBody().getLinearVelocity().y + 2);
+                                            } else {
+                                                velocity += (-0.05f * Math.abs(velocity) / velocity);
+                                                getBody().setLinearVelocity(getBody().getLinearVelocity().x + velocity, getBody().getLinearVelocity().y);
+                                            }
                                             if (animations.animator.ani_finished()) {
                                                 lastFrame = true;
-                                                if (stateTime > 2f && getBody().getLinearVelocity().y == 0)
-                                                    getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
-                                                if (stateTime > 3f && Math.abs(getBody().getLinearVelocity().y) > 0) {
-                                                    float velocity = 0.1f;
-                                                    if (Math.abs(getBody().getLinearVelocity().x) <= velocity)
-                                                        velocity = 0;
-                                                    getBody().setLinearVelocity(getBody().getLinearVelocity().x + (!flip ? -velocity : velocity), getBody().getLinearVelocity().y);
-                                                }
+
                                         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
                                             animations = Animations.WALKING;
                                             lastFrame = false;
