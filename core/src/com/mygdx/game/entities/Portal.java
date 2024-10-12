@@ -9,18 +9,19 @@ public class Portal extends Objeto{
 
     public static final float WIDTH = 857/3f, HEIGHT = 873/3f;
 
+    private float x = 5350, y = 380;
 
     public void render(SpriteBatch s){
-        s.draw(Images.portal.currentSpriteFrame(false, true, false), 5700,380, WIDTH, HEIGHT);
+        s.draw(Images.portal.currentSpriteFrame(false, true, false), x,y, WIDTH, HEIGHT);
     }
 
 
     @Override
     public void render(ShapeRenderer s) {
-        s.rect(5700, 380, WIDTH, HEIGHT);
+        s.rect(x, y, WIDTH, HEIGHT);
     }
 
     public Rectangle getRectangle(){
-        return new Rectangle(5700, 380, WIDTH, HEIGHT);
+        return new Rectangle(x, y, WIDTH, HEIGHT);
     }
 }

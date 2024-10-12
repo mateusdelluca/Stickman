@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.images.PowerBar;
 import com.mygdx.game.screens.Level;
 
 import java.util.ArrayList;
@@ -172,14 +173,13 @@ public class Player extends Stickman {
                                             }
                                             if (animations.animator.ani_finished()) {
                                                 lastFrame = true;
-
-                                        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-                                            animations = Animations.WALKING;
-                                            lastFrame = false;
-                                        } else {
-                                            animations = Animations.IDLE;
-                                            lastFrame = false;
-                                        }
+                                                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+                                                    animations = Animations.WALKING;
+                                                    lastFrame = false;
+                                                } else {
+                                                    animations = Animations.IDLE;
+                                                    lastFrame = false;
+                                                    }
                                             }
                                         } else {
                                             getBody().setFixedRotation(false);
@@ -209,7 +209,7 @@ public class Player extends Stickman {
 
 
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.A){
+        if (keycode == Input.Keys.A && PowerBar.sp >= 30){
             animations = Animations.SABER;
             SABER.play();
             Animations.SABER.animator.stateTime = 0f;
@@ -223,10 +223,10 @@ public class Player extends Stickman {
         if (keycode == Input.Keys.D){
            animations = Animations.PUNCH;
            JUMP.play();
-           PolygonShape ps = new PolygonShape();
-           ps.setAsBox(30,10, new Vector2(facingRight ? WIDTH/2f + 50 : WIDTH/2f - 50, HEIGHT/2f + 50), 0);
-           box.fixtureDef3.shape = ps;
-           getBody().createFixture(box.fixtureDef3);
+//           PolygonShape ps = new PolygonShape();
+//           ps.setAsBox(30,10, new Vector2(facingRight ? WIDTH/2f + 50 : WIDTH/2f - 50, HEIGHT/2f + 50), 0);
+//           box.fixtureDef3.shape = ps;
+//           getBody().createFixture(box.fixtureDef3);d
         }
         if (keycode == Input.Keys.RIGHT){
             animations = Animations.WALKING;
@@ -258,10 +258,14 @@ public class Player extends Stickman {
 
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.D){
-            getBody().destroyFixture(box.getBody().getFixtureList().get(3));
+//            getBody().destroyFixture(box.getBody().getFixtureList().get(3));
         }
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT)
             getBody().setLinearVelocity(new Vector2(0,getBody().getLinearVelocity().y));
+        if (keycode == Input.Keys.A){
+            if (PowerBar.sp >= 30)
+                PowerBar.sp -= 30;
+        }
         return false;
     }
 
@@ -325,7 +329,8 @@ public class Player extends Stickman {
         for (Bullet b : bullets)
             b.render(s);
         if (animations.name().equals("PUNCH")) {
-            action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f : getBody().getPosition().x + WIDTH/2f -80,
+            if (frameCounter() > 2)
+                action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f : getBody().getPosition().x + WIDTH/2f -80,
                     getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
 //          s.rect(getBody().getPosition().x + WIDTH/2f, getBody().getPosition().y + HEIGHT/2f + 40, 80, 20);
 //          s.rect(getBody().getPosition().x + WIDTH / 2f - 80, getBody().getPosition().y + HEIGHT / 2f + 40, 80, 20);
@@ -333,7 +338,7 @@ public class Player extends Stickman {
             if (animations.name().equals("HIYAH")){
                 action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f + 50 : getBody().getPosition().x + WIDTH/2f - 100, getBody().getPosition().y + HEIGHT/2f - 40, 50, 50);
             } else{
-                if (animations.name().equals("SABER")){
+                if (animations.name().equals("SABER") && PowerBar.sp >= 30){
                     Timer timer = new Timer();
                     timer.scheduleTask(new Timer.Task() {
                         @Override

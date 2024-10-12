@@ -24,7 +24,7 @@ public enum Animations {
     E_PUNCH(new Animator(Color.RED,6, 6, 10, 400, 300, "stickman/Stickman_punching.png")),
     E_JUMPING(new Animator(Color.RED,10, 10, 5, 400, 300, "stickman/Stickman_Jumping.png")),
     E_HIYAH(new Animator(Color.RED,14, 10, 30, 400, 300, "stickman/Stickman_Jumping.png")),
-    E_PUNCHED(new Animator(Color.RED, 5, 5, 5, 400, 300, "stickman/Stickman_punched.png")),
+    E_PUNCHED(new Animator(Color.RED, 5, 5, 25, 400, 300, "stickman/Stickman_punched.png")),
     E_HITED(new Animator(Color.RED,1, 1, 1, 400, 300, "stickman/Stickman_baseball_hited.png"));
 
     public Animator animator;

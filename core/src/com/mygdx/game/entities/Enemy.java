@@ -25,6 +25,7 @@ public class Enemy extends Stickman{
         flip = true;
         box.getBody().setTransform(position, 0);
         y = position.y;
+        getBody().setFixedRotation(true);
     }
 
     @Override
@@ -77,6 +78,15 @@ public class Enemy extends Stickman{
             }, 3);
 
         } else {
+            if (name.equals("E_PUNCHED")) {
+                if (animations.animator.ani_finished()) {
+                    animations.animator.resetStateTime();
+                    animations = Animations.E_IDLE;
+                    getBody().setLinearVelocity(0, 0);
+                    PUNCHED.play();
+                    hited = false;
+                }
+            } else {
             if (name.equals("E_PUNCH") && !hited) {
                 if (frameCounter() == 1) {
                     WHOOSH.play();
@@ -87,13 +97,6 @@ public class Enemy extends Stickman{
                     animations = Animations.E_IDLE;
                 }
             } else {
-                if (animations.animator.ani_finished() && animations.name().equals("E_PUNCHED")) {
-                    animations.animator.resetStateTime();
-                    animations = Animations.E_IDLE;
-                    getBody().setLinearVelocity(0, 0);
-                    PUNCHED.play();
-                    hited = false;
-                } else {
                     if (animations.name().equals("E_IDLE")) {
                         getBody().setLinearVelocity(getBody().getLinearVelocity().x, getBody().getLinearVelocity().y);
                         getBody().setFixedRotation(false);

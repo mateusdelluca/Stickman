@@ -107,9 +107,16 @@ public class Level implements Screen, InputProcessor {
                     t.getRectangle().height -= 10f;
                     horizontalRectsThorns.add(t.getRectangle());
                 } else {
-                    verticalRectsThorns.add(t.getRectangle());
-                    t.getRectangle().height += 7f;
-                    t.getRectangle().y -= 7f;
+                    if (t.getName().equals("Thorns6")) {
+                        t.getRectangle().x -= 7f;
+                        t.getRectangle().width += 7f;
+                        t.getRectangle().height -= 10f;
+                        horizontalRectsThorns.add(t.getRectangle());
+                    } else {
+                        verticalRectsThorns.add(t.getRectangle());
+                        t.getRectangle().height += 7f;
+                        t.getRectangle().y -= 7f;
+                    }
                 }
             }
         }
@@ -219,25 +226,36 @@ public class Level implements Screen, InputProcessor {
         for (Enemy enemy : enemies) {
             if (!enemy.isSplit()){
                 if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 300 && enemy.getBody().getAngle() < Math.toRadians(30f)) {
-                    enemy.setAnimation("E_WALKING");
-                    enemy.getBody().setLinearVelocity(player.getBodyBounds().x < enemy.getBodyBounds().x ? -5 : 5,
-                            enemy.getBody().getLinearVelocity().y);
-                    if (enemy.getBody().getLinearVelocity().x > 0)
-                        enemy.setFlip(false);
-                    else
-                        enemy.setFlip(true);
-                    if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 100) {
-                        enemy.setAnimation("E_PUNCH");
-                    }
+                   if (!enemy.isHited()) {
+                       enemy.setAnimation("E_WALKING");
+                       enemy.getBody().setLinearVelocity(player.getBodyBounds().x < enemy.getBodyBounds().x ? -5 : 5,
+                               enemy.getBody().getLinearVelocity().y);
+                       enemy.setFlip(player.getBodyBounds().x < enemy.getBodyBounds().x);
+                   } else {
+                       if (enemy.getBody().getLinearVelocity().x > 0)
+                           enemy.setFlip(false);
+                       else
+                           enemy.setFlip(true);
+                       if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 100) {
+                           if (!enemy.animations.name().equals("E_PUNCHED") &&
+                                   !Intersector.overlaps(player.getAction(), enemy.getBodyBounds())) {
+                               enemy.setAnimation("E_PUNCH");
+                           }
+                       }
+                   }
+                   if (player.getAction().overlaps(enemy.getBodyBounds())) {
+                        enemy.setAnimation("E_PUNCHED");
+                        if (!enemy.isHited()) {
+                            enemy.setHited(true);
+                            Stickman.PUNCHED.play();
+                        }
+                        enemy.setFrameCounter(0);
+                   }
                 } else {
                     enemy.getBody().setLinearVelocity(0, enemy.getBody().getLinearVelocity().y);
                     enemy.setAnimation(("E_IDLE"));
                 }
-                if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("PUNCH") && !enemy.isHited()) {
-                    enemy.setAnimation("E_PUNCHED");
-                    enemy.setHited(true);
-                    enemy.setFrameCounter(0);
-                }
+
                 if (Intersector.overlaps(enemy.getAction(), player.getBodyBounds())) {
                     if (!player.isHited()) {
                         player.animations = Animations.PUNCHED;
