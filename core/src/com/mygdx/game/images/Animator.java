@@ -233,13 +233,13 @@ public class Animator {
            stateTime = 0f;
     }
 
-    public TextureRegion currentSpriteFrame(boolean lastFrame, boolean looping, boolean flip){
+    public TextureRegion currentSpriteFrame(boolean useOnlyLastFrame, boolean looping, boolean flip){
         stateTime += Gdx.graphics.getDeltaTime(); // Accumulate elapsed animation time
         // Get current frame of animation for the current stateTime
         Sprite s = null;
-        if (!lastFrame) {
+        if (!useOnlyLastFrame) {
             s = new Sprite(animation.getKeyFrame(stateTime, looping));
-        } if (lastFrame){
+        } if (useOnlyLastFrame){
             s = new Sprite(lastFrame());
         }
         if (looping && ani_finished())

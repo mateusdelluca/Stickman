@@ -50,6 +50,8 @@ public class Level implements Screen, InputProcessor {
     public ArrayList<Rectangle> verticalRectsThorns;
     private PowerBar powerBar;
 
+    private Boy boy;
+
     public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
 
     public static float level_musicPosition;
@@ -132,6 +134,9 @@ public class Level implements Screen, InputProcessor {
         songLevel1.setLooping(true);
         shapeRenderer = new ShapeRenderer();
         powerBar = new PowerBar();
+
+
+        boy = new Boy(world, new Vector2(800, 700));
     }
 
     @Override
@@ -141,8 +146,8 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear screen
+//        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         for (int i = 0; i < 5; i++)
             update(delta);
         player.update(delta);
@@ -164,6 +169,7 @@ public class Level implements Screen, InputProcessor {
         for (Crystal c : crystals)
             c.render(shapeRenderer);
         portal.render(shapeRenderer);
+        boy.render(shapeRenderer);
         shapeRenderer.end();
 
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -181,6 +187,7 @@ public class Level implements Screen, InputProcessor {
         for (Enemy enemy : enemies)
             enemy.render(spriteBatch);
         player.render(spriteBatch);
+        boy.render(spriteBatch);
         spriteBatch.end();
     }
 
@@ -286,6 +293,7 @@ public class Level implements Screen, InputProcessor {
         player.resize(spriteBatch, width, height);
         for (Enemy enemy : enemies)
             enemy.resize(spriteBatch, width, height);
+        boy.resize(spriteBatch, width, height);
     }
 
     @Override
@@ -318,6 +326,7 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        boy.keyDown(keycode);
         if (player.isStand()) {
             player.keyDown(keycode);
             if (keycode == Input.Keys.ESCAPE) {
@@ -334,7 +343,7 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-
+        boy.keyUp(keycode);
         player.keyUp(keycode);
         return false;
     }

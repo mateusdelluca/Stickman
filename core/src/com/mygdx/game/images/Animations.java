@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 
 public enum Animations {
 
+
+
+    BOY_WALKING(new Animator(6,6, 5, 128, 128, "boy/Walking.png")),
+
     //player
     FIRST(new Animator(10,10, 20, 400, 300,"stickman/First.png")),
     WALKING(new Animator(30, 10, 20, 400, 300, "stickman/Stickman_walking.png")),
