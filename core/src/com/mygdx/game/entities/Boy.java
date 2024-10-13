@@ -8,7 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.sfx.Sounds;
 
+import static com.mygdx.game.sfx.Sounds.HIYAH;
 import static com.mygdx.game.sfx.Sounds.JUMP;
 
 public class Boy extends Objeto{
@@ -16,7 +18,7 @@ public class Boy extends Objeto{
     public static final float WIDTH = 128f, HEIGHT = 128f;
     public static final float VELOCITY_X = 5f;
     public Animations animations = Animations.BOY_IDLE;
-    private boolean flip, usingOnlyLastFrame;
+    private boolean flip, usingOnlyLastFrame, looping = true;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -26,7 +28,7 @@ public class Boy extends Objeto{
 
     public void render(SpriteBatch s){
         update();
-        Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, true, flip));
+        Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
         sprite.draw(s);
     }
@@ -40,21 +42,23 @@ public class Boy extends Objeto{
 //        if (name.equals("BOY_JUMPING")) {
 //            if (body.getLinearVelocity().y < -29f) {
 //                animations = Animations.BOY_IDLE;
-//                body.
 //            }
 //        } else{
+        if (name.equals("BOY_PUNCHING")) {
+
+        } else{
             if (name.equals("BOY_WALKING")) {
 
-            } else {
-                if (body.getLinearVelocity().y == 0) {
-                    animations = Animations.BOY_IDLE;
-//                    usingOnlyLastFrame = true;
-                } else{
-                    animations = Animations.BOY_JUMPING;
-//                    usingOnlyLastFrame = false;
+                } else {
+                    if (Math.abs(body.getLinearVelocity().y) <= 0.05f) {
+                        animations = Animations.BOY_IDLE;
+    //                    usingOnlyLastFrame = true;
+                    } else{
+                        animations = Animations.BOY_JUMPING;
+    //                    usingOnlyLastFrame = false;
+                    }
                 }
             }
-//        }
     }
 
     public void resize(SpriteBatch spriteBatch, int width, int height){
@@ -72,11 +76,20 @@ public class Boy extends Objeto{
             flip = keycode != Input.Keys.RIGHT;
             animations = Animations.BOY_WALKING;
             usingOnlyLastFrame = false;
+            looping = true;
         }
         if (keycode == Input.Keys.SPACE){
             animations = Animations.BOY_JUMPING;
             getBody().setLinearVelocity(getBody().getLinearVelocity().x, 100);
             JUMP.play();
+        }
+        if (keycode == Input.Keys.D){
+            animations = Animations.BOY_PUNCHING;
+            JUMP.play();
+            HIYAH.play();
+            usingOnlyLastFrame = false;
+            looping = false;
+            animations.animator.resetStateTime();
         }
     }
 
