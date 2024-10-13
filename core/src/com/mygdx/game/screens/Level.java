@@ -153,8 +153,8 @@ public class Level implements Screen, InputProcessor {
         player.update(delta);
         for (Enemy enemy : enemies)
             enemy.update(delta);
-
         update(delta);
+
         background.render();
         powerBar.render();
         box2DDebugRenderer.render(world, camera.combined);
@@ -173,7 +173,7 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.end();
 
         spriteBatch.setProjectionMatrix(camera.combined);
-        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f + HEIGHT)/2f, 0);
+        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f) + HEIGHT/2f, 0);
 
         renderObjects();
     }

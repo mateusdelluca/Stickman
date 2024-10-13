@@ -35,7 +35,7 @@ public abstract class Objeto {
         bodyDef.fixedRotation = true;
         polygonShape = new PolygonShape();
 //         Adicione formas (fixtures) ao corpo para representar sua geometria
-        polygonShape.setAsBox(width/2f, height/2f, new Vector2(position.x - width/2f, position.y - height/2f), 0);
+        polygonShape.setAsBox(width/2f, height/2f, new Vector2(width/2f, height/2f), 0);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.density = 100f;
@@ -46,7 +46,7 @@ public abstract class Objeto {
         return body;
     }
 
-    protected Body createBoxBody(Vector2 position, BodyDef.BodyType bodyType, boolean isSensor){
+    protected Body createBoxBody(Vector2 dimensions, BodyDef.BodyType bodyType, boolean isSensor){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         bodyDef.active = true;
@@ -54,7 +54,7 @@ public abstract class Objeto {
         bodyDef.fixedRotation = true;
         polygonShape = new PolygonShape();
 //         Adicione formas (fixtures) ao corpo para representar sua geometria
-        polygonShape.setAsBox(width/2f, height/2f, new Vector2(position.x - width/2f, position.y - height/2f), 0);
+        polygonShape.setAsBox(dimensions.x, dimensions.y, new Vector2(width/2f, height/2f), 0);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.density = 100f;
