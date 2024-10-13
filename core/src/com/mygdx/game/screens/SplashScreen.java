@@ -58,20 +58,20 @@ public class SplashScreen implements Screen, InputProcessor {
     public SplashScreen(Application app){
         this.app = app;
         for(int index = EXIT; index <= NEWGAME; ++index) {
-            this.x[index] = 850;
+            this.x[index] = (1920/2) - 200;
             this.y[index] = 120 + 55 * index;
             this.options_rects[index] = new Rectangle(this.x[index], this.y[index] - 20, 360, 30);
         }
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses2.mp3"));
         shot = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
-        this.options[NEWGAME] = "NEW GAME";
+        this.options[NEWGAME] = "NEW  GAME";
         this.options[LOADGAME] = "LOAD GAME";
         this.options[EXIT] = "     EXIT";
 
-        Texture t = new Texture(Gdx.files.internal("Font.png"));
-        font = new BitmapFont(Gdx.files.internal("Font.fnt"), new TextureRegion(t));
+        Texture t = new Texture(Gdx.files.internal("Font2.png"));
+        font = new BitmapFont(Gdx.files.internal("Font2.fnt"), new TextureRegion(t));
         t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        font.getData().scale(1f);
+        font.getData().scale(0.5f);
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
 
@@ -117,13 +117,17 @@ public class SplashScreen implements Screen, InputProcessor {
         sprite.setSize(WIDTH, HEIGHT);
         sprite.draw(spriteBatch);
 
+//        font.setColor(Color.BLACK);
+//        font.draw(spriteBatch, "BLUE DOME", (1920/2f - 200) + 2, (1080/2f) + 2);
+//        font.setColor(Color.WHITE);
+//        font.draw(spriteBatch, "blue dome", 1920/2f - 200, 1080/2f);
         for(int index = EXIT; index <= NEWGAME; ++index) {
-            font.setColor(Color.BLACK);
-            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
+//            font.setColor(Color.BLACK);
+//            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
             font.setColor(Color.WHITE);
             font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             if (this.isTouched[index]) {
-                font.setColor(Color.RED);
+                font.setColor(Color.YELLOW);
                 font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             }
         }

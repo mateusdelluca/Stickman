@@ -8,20 +8,18 @@ import com.mygdx.game.images.Images;
 public class Portal extends Objeto{
 
     public static final float WIDTH = 857/3f, HEIGHT = 873/3f;
-
-    private float x = 5350, y = 380;
+    public static final float X = 5650f, Y = 180f;
 
     public void render(SpriteBatch s){
-        s.draw(Images.portal.currentSpriteFrame(false, true, false), x,y, WIDTH, HEIGHT);
+        s.draw(Images.portal.currentSpriteFrame(false, true, false), X, Y, WIDTH, HEIGHT);
     }
-
 
     @Override
     public void render(ShapeRenderer s) {
-        s.rect(x, y, WIDTH, HEIGHT);
+        s.rect(X, Y, WIDTH, HEIGHT);
     }
 
     public Rectangle getRectangle(){
-        return new Rectangle(x, y, WIDTH, HEIGHT);
+        return new Rectangle(X, Y, WIDTH, HEIGHT);
     }
 }

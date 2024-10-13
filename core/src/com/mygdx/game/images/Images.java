@@ -84,7 +84,7 @@ public class Images {
         crystal = new Texture(Gdx.files.internal("objects/Crystal.png"));
         crystal3 = new Texture("objects/Crystal3_red.png");
         bullet = new Texture("objects/Bullet.png");
-        splashScreen = new Texture(Gdx.files.internal("background/SplashScreen.png"));
+        splashScreen = new Texture(Gdx.files.internal("background/SplashScreen 4.png"));
         portal = new Animator(23, 10, 25, 857, 873, "objects/Portal_Spritesheet.png");
         hp = new Texture(Gdx.files.internal("HP_Bar.png"));
         hp2 = new Texture(Gdx.files.internal("HP_Bar2.png"));

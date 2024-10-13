@@ -145,7 +145,7 @@ public class Level implements Screen, InputProcessor {
         powerBar = new PowerBar();
 
 
-        boy = new Boy(world, new Vector2(800, 700));
+        boy = new Boy(world, new Vector2(100, 800));
         sounds = new Sounds();
     }
 
@@ -182,8 +182,15 @@ public class Level implements Screen, InputProcessor {
         boy.render(shapeRenderer);
         shapeRenderer.end();
 
+        System.out.println(boy.getBody().getPosition().x);
+
         spriteBatch.setProjectionMatrix(camera.combined);
-        camera.position.set((boy.getBody().getPosition().x) + WIDTH/4f, (boy.getBody().getPosition().y - Boy.HEIGHT/2f) + HEIGHT/4f, 0);
+        if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
+            camera.position.set((boy.getBody().getPosition().x) + WIDTH/4f, (boy.getBody().getPosition().y - Boy.HEIGHT/2f) + HEIGHT/4f, 0);
+        if (boy.getBody().getPosition().x >= (6000 - WIDTH))
+            camera.position.set(6000 - WIDTH/2f, HEIGHT / 2f, 0);
+        if (boy.getBody().getPosition().x < WIDTH/2f)
+            camera.position.set(0f + WIDTH / 2f, (boy.getBody().getPosition().y - Boy.HEIGHT / 2f) + HEIGHT / 4f, 0);
 
         renderObjects();
     }
