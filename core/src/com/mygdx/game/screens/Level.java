@@ -182,7 +182,7 @@ public class Level implements Screen, InputProcessor {
         boy.render(shapeRenderer);
         shapeRenderer.end();
 
-        System.out.println(boy.getBody().getPosition().x);
+//        System.out.println(boy.getBody().getPosition().y);
 
         spriteBatch.setProjectionMatrix(camera.combined);
         if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
