@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.images.Animations;
 
+import static com.mygdx.game.sfx.Sounds.*;
+
 public class Enemy extends Stickman{
 
     public Animations animations = Animations.E_IDLE;

@@ -5,6 +5,9 @@
 
 package com.mygdx.game.sfx;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 import java.io.Serializable;
 
 public class Sounds implements Serializable{
@@ -19,8 +22,14 @@ public class Sounds implements Serializable{
 //    public static Audio HIYAH = new Audio("src\\main\\res\\sounds\\HoYah.wav");
 //    public static Audio SABER = new Audio("src\\main\\res\\sounds\\Saber.wav");
 //    public static Audio GUN_SHOT = new Audio("src\\main\\res\\sounds\\gun-shot.wav");
-    public static Audio JUMP = new Audio("sounds/Jump.wav");
-    public static Audio CAMINHOSDEVIDRO = new Audio("sounds/Caminhos de Vidro.wav");
+//    public static Audio JUMP = new Audio("sounds/Jump.wav");
+//    public static Audio CAMINHOSDEVIDRO = new Audio("sounds/Caminhos de Vidro.wav");
+    public static final Sound SABER = Gdx.audio.newSound(Gdx.files.internal("sounds/Saber.wav"));
+    public static final Sound JUMP = Gdx.audio.newSound(Gdx.files.internal("sounds/Jump.wav"));
+    public static final Sound HIYAH = Gdx.audio.newSound(Gdx.files.internal("sounds/HoYah.wav"));
+    public static final Sound GUNSHOT = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
+    public static final Sound WHOOSH = Gdx.audio.newSound(Gdx.files.internal("sounds/Whoosh.wav"));
+    public static final Sound PUNCHED = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
 
     public Sounds() {
     }

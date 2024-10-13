@@ -21,9 +21,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entities.*;
 import com.mygdx.game.images.Animations;
 import com.mygdx.game.images.PowerBar;
+import com.mygdx.game.sfx.Sounds;
 
 
 import java.util.ArrayList;
+
+import static com.mygdx.game.sfx.Sounds.PUNCHED;
 
 public class Level implements Screen, InputProcessor {
 
@@ -52,6 +55,7 @@ public class Level implements Screen, InputProcessor {
 
     private Boy boy;
 
+    private Sounds sounds;
     public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
 
     public static float level_musicPosition;
@@ -137,6 +141,7 @@ public class Level implements Screen, InputProcessor {
 
 
         boy = new Boy(world, new Vector2(800, 700));
+        sounds = new Sounds();
     }
 
     @Override
@@ -254,7 +259,7 @@ public class Level implements Screen, InputProcessor {
                         enemy.setAnimation("E_PUNCHED");
                         if (!enemy.isHited()) {
                             enemy.setHited(true);
-                            Stickman.PUNCHED.play();
+                            PUNCHED.play();
                         }
                         enemy.setFrameCounter(0);
                    }

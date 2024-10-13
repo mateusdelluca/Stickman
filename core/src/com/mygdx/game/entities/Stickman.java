@@ -21,12 +21,7 @@ public abstract class Stickman extends Objeto{
     protected boolean split;
     protected boolean stand, hited;
 
-    public static final Sound SABER = Gdx.audio.newSound(Gdx.files.internal("sounds/Saber.wav"));
-    public static final Sound JUMP = Gdx.audio.newSound(Gdx.files.internal("sounds/Jump.wav"));
-    public static final Sound HIYAH = Gdx.audio.newSound(Gdx.files.internal("sounds/HoYah.wav"));
-    public static final Sound GUNSHOT = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
-    public static final Sound WHOOSH = Gdx.audio.newSound(Gdx.files.internal("sounds/Whoosh.wav"));
-    public static final Sound PUNCHED = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
+
 
     public Stickman(World world){
         this.world = world;

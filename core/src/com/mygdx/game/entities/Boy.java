@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
+
+import static com.mygdx.game.sfx.Sounds.JUMP;
 
 public class Boy extends Objeto{
 
@@ -34,14 +35,26 @@ public class Boy extends Objeto{
         animations();
     }
 
-    private void animations(){
+    private void animations() {
         String name = animations.name();
-        if (name.equals("BOY_WALKING")){
+//        if (name.equals("BOY_JUMPING")) {
+//            if (body.getLinearVelocity().y < -29f) {
+//                animations = Animations.BOY_IDLE;
+//                body.
+//            }
+//        } else{
+            if (name.equals("BOY_WALKING")) {
 
-        } else{
-            animations = Animations.BOY_IDLE;
-            usingOnlyLastFrame = true;
-        }
+            } else {
+                if (body.getLinearVelocity().y == 0) {
+                    animations = Animations.BOY_IDLE;
+//                    usingOnlyLastFrame = true;
+                } else{
+                    animations = Animations.BOY_JUMPING;
+//                    usingOnlyLastFrame = false;
+                }
+            }
+//        }
     }
 
     public void resize(SpriteBatch spriteBatch, int width, int height){
@@ -59,6 +72,11 @@ public class Boy extends Objeto{
             flip = keycode != Input.Keys.RIGHT;
             animations = Animations.BOY_WALKING;
             usingOnlyLastFrame = false;
+        }
+        if (keycode == Input.Keys.SPACE){
+            animations = Animations.BOY_JUMPING;
+            getBody().setLinearVelocity(getBody().getLinearVelocity().x, 100);
+            JUMP.play();
         }
     }
 

@@ -2,7 +2,6 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,11 +15,13 @@ import com.mygdx.game.screens.Level;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.mygdx.game.sfx.Sounds.*;
+
 public class Player extends Stickman {
 
     private float stateTime; // A variable for tracking elapsed time for the animation
     public Animations animations;
-    private boolean lastFrame;
+    private boolean usingOnlyLastFrame;
 //    private Image image = new Image(new Texture(Gdx.files.internal("Saber.png")));
 
     private boolean facingRight;
@@ -38,7 +39,7 @@ public class Player extends Stickman {
     }
 
     public void render(SpriteBatch spriteBatch){
-        Sprite s = new Sprite(animations.getAnimator().currentSpriteFrame(lastFrame, loopTrueOrFalse(animations.name()), flip));
+        Sprite s = new Sprite(animations.getAnimator().currentSpriteFrame(usingOnlyLastFrame, loopTrueOrFalse(animations.name()), flip));
         s.setOrigin(0,0);
         s.setCenter(WIDTH/2f, HEIGHT/2f);
         float rotation = (float) Math.toDegrees(getBody().getTransform().getRotation());
@@ -87,7 +88,7 @@ public class Player extends Stickman {
         } else{
             if (name.equals("PUNCHED")){
                 if (frameCounter() == 1) {
-                    Stickman.PUNCHED.play();
+                    PUNCHED.play();
                     setFrameCounter(2);
                 }
                 if (animations.animator.ani_finished()){
@@ -97,7 +98,7 @@ public class Player extends Stickman {
                 }
             } else {
                 if (name.equals("WALKING")) {
-                    lastFrame = false;
+                    usingOnlyLastFrame = false;
                     getBody().setFixedRotation(true);
                     getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, 0);
                     if (Math.abs(getBody().getLinearVelocity().x) <= 0.2f)
@@ -122,7 +123,7 @@ public class Player extends Stickman {
                         } else {
                             if (name.equals("HIYAH")) {
                                 getBody().setFixedRotation(true);
-                                lastFrame = true;
+                                usingOnlyLastFrame = true;
                                 if (getBody().getLinearVelocity().x == 0) {
                                     getBody().setLinearVelocity(new Vector2((!flip ? 5 : -5), getBody().getLinearVelocity().y));
                                 }
@@ -152,7 +153,7 @@ public class Player extends Stickman {
                                     }
                                 } else {
                                     if (name.equals("IDLE_FLASH")) {
-                                        lastFrame = false;
+                                        usingOnlyLastFrame = false;
                                         getBody().setFixedRotation(true);
 //                                box.getBody().setTransform(150f, 300f, 0f);
                                         if (animations.animator.ani_finished()) {
@@ -172,18 +173,18 @@ public class Player extends Stickman {
                                                 getBody().setLinearVelocity(getBody().getLinearVelocity().x + velocity, getBody().getLinearVelocity().y);
                                             }
                                             if (animations.animator.ani_finished()) {
-                                                lastFrame = true;
+                                                usingOnlyLastFrame = true;
                                                 if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT)){
                                                     animations = Animations.WALKING;
-                                                    lastFrame = false;
+                                                    usingOnlyLastFrame = false;
                                                 } else {
                                                     animations = Animations.IDLE;
-                                                    lastFrame = false;
+                                                    usingOnlyLastFrame = false;
                                                     }
                                             }
                                         } else {
                                             getBody().setFixedRotation(false);
-                                            lastFrame = false;
+                                            usingOnlyLastFrame = false;
                                             hited = false;
                                             animations = Animations.IDLE;
                                             getBody().setLinearVelocity(0, getBody().getLinearVelocity().y);
@@ -214,7 +215,7 @@ public class Player extends Stickman {
             SABER.play();
             Animations.SABER.animator.stateTime = 0f;
             getBody().setFixedRotation(true);
-            lastFrame = false;
+            usingOnlyLastFrame = false;
         }
         if (keycode == Input.Keys.S){
             animations = Animations.SHOT;
@@ -241,11 +242,11 @@ public class Player extends Stickman {
                 getBody().setLinearVelocity(-20, getBody().getLinearVelocity().y);
         }
         if (keycode == Input.Keys.SPACE){
-            lastFrame = false;
+            usingOnlyLastFrame = false;
             if (!animations.name().equals("IDLE_FLASH") && Math.abs(getBody().getLinearVelocity().y) > 3f){
                 animations = Animations.HIYAH;
                 HIYAH.play();
-                lastFrame = true;
+                usingOnlyLastFrame = true;
 //                getBody().getFixtureList().get(0).setFriction(10f);
             } else{
                 animations = Animations.JUMPING;
@@ -345,7 +346,7 @@ public class Player extends Stickman {
                         public void run() {
                             action = new Rectangle(0, 0, 0, 0);
                             animations = Animations.IDLE;
-                            lastFrame = false;
+                            usingOnlyLastFrame = false;
                         }
                     }, 2.2f);
                     action = new Rectangle(facingRight ? getBody().getPosition().x + WIDTH/2f + 30 : getBody().getPosition().x + WIDTH/2f - 110,

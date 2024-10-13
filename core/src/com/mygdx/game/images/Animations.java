@@ -8,6 +8,7 @@ public enum Animations {
 
     BOY_WALKING(new Animator(6,6, 5, 128, 128, "boy/Walking.png")),
     BOY_IDLE(new Animator(1,1, 1, 128, 128, "boy/Idle.png")),
+    BOY_JUMPING(new Animator(1,1, 1, 128, 128, "boy/Jumping.png")),
 
     //player
     FIRST(new Animator(10,10, 20, 400, 300,"stickman/First.png")),
