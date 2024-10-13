@@ -14,8 +14,8 @@ public class Boy extends Objeto{
 
     public static final float WIDTH = 128f, HEIGHT = 128f;
     public static final float VELOCITY_X = 5f;
-    public Animations animations = Animations.BOY_WALKING;
-    private boolean flip;
+    public Animations animations = Animations.BOY_IDLE;
+    private boolean flip, usingOnlyLastFrame;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -24,9 +24,24 @@ public class Boy extends Objeto{
     }
 
     public void render(SpriteBatch s){
-        Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(false, true, flip));
+        update();
+        Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, true, flip));
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
         sprite.draw(s);
+    }
+
+    public void update(){
+        animations();
+    }
+
+    private void animations(){
+        String name = animations.name();
+        if (name.equals("BOY_WALKING")){
+
+        } else{
+            animations = Animations.BOY_IDLE;
+            usingOnlyLastFrame = true;
+        }
     }
 
     public void resize(SpriteBatch spriteBatch, int width, int height){
@@ -42,12 +57,15 @@ public class Boy extends Objeto{
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
             body.setLinearVelocity(keycode == Input.Keys.RIGHT ? VELOCITY_X : -VELOCITY_X, body.getLinearVelocity().y);
             flip = keycode != Input.Keys.RIGHT;
+            animations = Animations.BOY_WALKING;
+            usingOnlyLastFrame = false;
         }
     }
 
     public void keyUp(int keycode){
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
+            animations = Animations.BOY_IDLE;
         }
     }
 }
