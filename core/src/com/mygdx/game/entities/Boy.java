@@ -1,5 +1,6 @@
 package com.mygdx.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,9 +17,10 @@ import static com.mygdx.game.sfx.Sounds.JUMP;
 public class Boy extends Objeto{
 
     public static final float WIDTH = 128f, HEIGHT = 128f;
-    public static final float VELOCITY_X = 5f;
+    public static final float VELOCITY_X = 20f, JUMP_VELOCITY = 100f;
     public Animations animations = Animations.BOY_IDLE;
     private boolean flip, usingOnlyLastFrame, looping = true;
+    private float punchingAnimationTimer;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -45,20 +47,35 @@ public class Boy extends Objeto{
 //            }
 //        } else{
         if (name.equals("BOY_PUNCHING")) {
-
+            punchingAnimationTimer += Gdx.graphics.getDeltaTime();
+            if (punchingAnimationTimer > 2f) {
+                animations = Animations.BOY_IDLE;
+                punchingAnimationTimer = 0f;
+            }
         } else{
             if (name.equals("BOY_WALKING")) {
 
-                } else {
-                    if (Math.abs(body.getLinearVelocity().y) <= 0.05f) {
+            } else {
+                if (onGround()) {
+                    if (walking())
+                        animations = Animations.BOY_WALKING;
+                    else
                         animations = Animations.BOY_IDLE;
-    //                    usingOnlyLastFrame = true;
-                    } else{
-                        animations = Animations.BOY_JUMPING;
+    //                   usingOnlyLastFrame = true;
+                } else{
+                    animations = Animations.BOY_JUMPING;
     //                    usingOnlyLastFrame = false;
-                    }
                 }
             }
+        }
+    }
+
+    private boolean onGround(){
+        return Math.abs(body.getLinearVelocity().y) <= 0.01f;
+    }
+
+    private boolean walking(){
+        return Math.abs(body.getLinearVelocity().x) > 0;
     }
 
     public void resize(SpriteBatch spriteBatch, int width, int height){
@@ -80,10 +97,11 @@ public class Boy extends Objeto{
         }
         if (keycode == Input.Keys.SPACE){
             animations = Animations.BOY_JUMPING;
-            getBody().setLinearVelocity(getBody().getLinearVelocity().x, 100);
+            getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
             JUMP.play();
         }
         if (keycode == Input.Keys.D){
+            punchingAnimationTimer = 0f;
             animations = Animations.BOY_PUNCHING;
             JUMP.play();
             HIYAH.play();

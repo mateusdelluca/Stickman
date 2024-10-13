@@ -34,7 +34,7 @@ public class Level implements Screen, InputProcessor {
     public final Application app;
 
     public SpriteBatch spriteBatch;
-    public Player player;
+//    public Player player;
     public Viewport viewport;
     public OrthographicCamera camera;
     public World world;
@@ -43,33 +43,33 @@ public class Level implements Screen, InputProcessor {
     Box2DDebugRenderer box2DDebugRenderer;
     public Music songLevel1;
     ShapeRenderer shapeRenderer;
-    private ArrayList<Enemy> enemies;
-    private Tile level1;
+//    private ArrayList<Enemy> enemies;
+//    private Tile level1;
+    private Tile level2;
     private Portal portal;
     private ArrayList<Rectangle> thorns_rects;
     public MapObjects thorns, staticObjects;
     public ArrayList<RectangleMapObject> thornsRectangleMapObjects;
-    public ArrayList<Rectangle> horizontalRectsThorns;
+//    public ArrayList<Rectangle> horizontalRectsThorns;
     public ArrayList<Rectangle> verticalRectsThorns;
     private PowerBar powerBar;
 
     private Boy boy;
 
     private Sounds sounds;
-    public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
 
-    public static float level_musicPosition;
+    public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
 
     public Level(final Application app){
         this.app = app;
         app.pauseScreen = new PauseScreen(app, this);
         world = new World(new Vector2(0,-10f), false);
         spriteBatch = new SpriteBatch();
-        player = new Player(world, this);
-        enemies = new ArrayList<Enemy>();
-        for (int i = 1; i < 5; i++){
-            enemies.add(new Enemy(world, new Vector2(1000 * i, 350)));
-        }
+//        player = new Player(world, this);
+//        enemies = new ArrayList<Enemy>();
+//        for (int i = 1; i < 5; i++){
+//            enemies.add(new Enemy(world, new Vector2(1000 * i, 350)));
+//        }
 //        camera.setToOrtho(false);
 //        camera.viewportHeight = Gdx.graphics.getHeight() * (float) 1/32;
 //        camera.viewportWidth = Gdx.graphics.getWidth() * (float) 1/32;
@@ -86,46 +86,51 @@ public class Level implements Screen, InputProcessor {
         camera.update();
         thorns_rects = new ArrayList<>();
 
-        level1 = new Tile("TiledMap.tmx");
-        staticObjects = level1.loadMapObjects("StaticObjects");
-        level1.createBodies(staticObjects, world, false);
+//        level1 = new Tile("TiledMap.tmx");
+        level2 = new Tile("Level2/Level2.tmx");
+        staticObjects = level2.loadMapObjects("Rects");
+        level2.createBodies(staticObjects, world, false);
+//        staticObjects = level1.loadMapObjects("StaticObjects");
+//        level1.createBodies(staticObjects, world, false);
 
-        thorns = level1.loadMapObjects("Thorns");
-        level1.createBodies(thorns, world, false);
+//        thorns = level1.loadMapObjects("Thorns");
+//        level1.createBodies(thorns, world, false);
 
+        thorns = level2.loadMapObjects("Thorns");
+        level2.createBodies(thorns, world, false);
 
         thornsRectangleMapObjects = new ArrayList<>();
-        horizontalRectsThorns = new ArrayList<>();
+//        horizontalRectsThorns = new ArrayList<>();
         verticalRectsThorns = new ArrayList<>();
 
         for (MapObject m : thorns){
             RectangleMapObject t = (RectangleMapObject) m;
             thornsRectangleMapObjects.add(t);
-            if (t.getName().equals("Thorns1")){
-                t.getRectangle().width += 7f;
-                t.getRectangle().height -= 10f;
-                horizontalRectsThorns.add(t.getRectangle());
-
-            } else {
-                if (t.getName().equals("Thorns5")) {
-                    t.getRectangle().x -= 7f;
-                    t.getRectangle().width += 7f;
-                    t.getRectangle().height -= 10f;
-                    horizontalRectsThorns.add(t.getRectangle());
-                } else {
-                    if (t.getName().equals("Thorns6")) {
-                        t.getRectangle().x -= 7f;
-                        t.getRectangle().width += 7f;
-                        t.getRectangle().height -= 10f;
-                        horizontalRectsThorns.add(t.getRectangle());
-                    } else {
+//            if (t.getName().equals("Thorns1")){
+//                t.getRectangle().width += 7f;
+//                t.getRectangle().height -= 10f;
+//                horizontalRectsThorns.add(t.getRectangle());
+//
+//            } else {
+//                if (t.getName().equals("Thorns5")) {
+//                    t.getRectangle().x -= 7f;
+//                    t.getRectangle().width += 7f;
+//                    t.getRectangle().height -= 10f;
+//                    horizontalRectsThorns.add(t.getRectangle());
+//                } else {
+//                    if (t.getName().equals("Thorns6")) {
+//                        t.getRectangle().x -= 7f;
+//                        t.getRectangle().width += 7f;
+//                        t.getRectangle().height -= 10f;
+//                        horizontalRectsThorns.add(t.getRectangle());
+//                    } else {
                         verticalRectsThorns.add(t.getRectangle());
                         t.getRectangle().height += 7f;
                         t.getRectangle().y -= 7f;
                     }
-                }
-            }
-        }
+//                }
+//            }
+//        }
 
         crystals = new ArrayList<>();
         portal = new Portal();
@@ -155,9 +160,9 @@ public class Level implements Screen, InputProcessor {
 //        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         for (int i = 0; i < 5; i++)
             update(delta);
-        player.update(delta);
-        for (Enemy enemy : enemies)
-            enemy.update(delta);
+//        player.update(delta);
+//        for (Enemy enemy : enemies)
+//            enemy.update(delta);
         update(delta);
 
         background.render();
@@ -168,9 +173,9 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.setAutoShapeType(true);
 
         shapeRenderer.begin();
-        for (Enemy enemy : enemies)
-            enemy.render(shapeRenderer);
-        player.render(shapeRenderer);
+//        for (Enemy enemy : enemies)
+//            enemy.render(shapeRenderer);
+//        player.render(shapeRenderer);
         for (Crystal c : crystals)
             c.render(shapeRenderer);
         portal.render(shapeRenderer);
@@ -178,20 +183,21 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.end();
 
         spriteBatch.setProjectionMatrix(camera.combined);
-        camera.position.set((player.getBody().getPosition().x) + WIDTH/2f, (player.getBody().getPosition().y - Stickman.HEIGHT/2f) + HEIGHT/2f, 0);
+        camera.position.set((boy.getBody().getPosition().x) + WIDTH/4f, (boy.getBody().getPosition().y - Boy.HEIGHT/2f) + HEIGHT/4f, 0);
 
         renderObjects();
     }
 
     public void renderObjects(){
         spriteBatch.begin();
-        level1.render(camera);
+//        level1.render(camera);
+        level2.render(camera);
         portal.render(spriteBatch);
         for (Crystal crystal : crystals)
             crystal.render(spriteBatch);
-        for (Enemy enemy : enemies)
-            enemy.render(spriteBatch);
-        player.render(spriteBatch);
+//        for (Enemy enemy : enemies)
+//            enemy.render(spriteBatch);
+//        player.render(spriteBatch);
         boy.render(spriteBatch);
         spriteBatch.end();
     }
@@ -202,102 +208,102 @@ public class Level implements Screen, InputProcessor {
         world.step(delta, 7,7);
         camera.update();
 
-        for (Rectangle rect : horizontalRectsThorns) {
-            if (rect.overlaps(player.getBodyBounds())){
-                if (rect.equals(horizontalRectsThorns.get(1))){
-                    player.getBody().setTransform(player.getBody().getPosition().x - 7f, player.getBody().getPosition().y, 0);
-                } if(rect.equals(horizontalRectsThorns.get(0))){
-                    player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
-                }
-                System.out.println("horizontalRectsThorns");
-                if (!player.animations.name().equals("IDLE_FLASH")) {
-                    PowerBar.hp -= 20;
-                    player.animations = Animations.IDLE_FLASH;
-                }
-            }
-        }
+//        for (Rectangle rect : horizontalRectsThorns) {
+//            if (rect.overlaps(player.getBodyBounds())){
+//                if (rect.equals(horizontalRectsThorns.get(1))){
+//                    player.getBody().setTransform(player.getBody().getPosition().x - 7f, player.getBody().getPosition().y, 0);
+//                } if(rect.equals(horizontalRectsThorns.get(0))){
+//                    player.getBody().setTransform(player.getBody().getPosition().x + 7f, player.getBody().getPosition().y, 0);
+//                }
+//                System.out.println("horizontalRectsThorns");
+//                if (!player.animations.name().equals("IDLE_FLASH")) {
+//                    PowerBar.hp -= 20;
+//                    player.animations = Animations.IDLE_FLASH;
+//                }
+//            }
+//        }
         for (Rectangle rect : verticalRectsThorns) {
-            if (rect.overlaps(player.getBodyBounds())){
+//            if (rect.overlaps(player.getBodyBounds())){
 //                System.out.println("verticalRectsThorns");
 //                player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
-                if (!player.animations.name().equals("IDLE_FLASH") && !player.animations.name().equals("JUMPING") && !player.isHited()) {
-                    player.setHited(true);
-                    Timer timer = new Timer();
-                    timer.scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            PowerBar.hp -= 20; player.setHited(false);
-                        }
-                    }, 0f, 1000);
-                    player.animations = Animations.IDLE_FLASH;
-                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y + 10f);
-                }
-            }
+//                if (!player.animations.name().equals("IDLE_FLASH") && !player.animations.name().equals("JUMPING") && !player.isHited()) {
+//                    player.setHited(true);
+//                    Timer timer = new Timer();
+//                    timer.scheduleTask(new Timer.Task() {
+//                        @Override
+//                        public void run() {
+//                            PowerBar.hp -= 20; player.setHited(false);
+//                        }
+//                    }, 0f, 1000);
+//                    player.animations = Animations.IDLE_FLASH;
+//                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y + 10f);
+//                }
+//            }
         }
 
-        for (Enemy enemy : enemies) {
-            if (!enemy.isSplit()){
-                if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 300 && enemy.getBody().getAngle() < Math.toRadians(30f)) {
-                   if (!enemy.isHited()) {
-                       enemy.setAnimation("E_WALKING");
-                       enemy.getBody().setLinearVelocity(player.getBodyBounds().x < enemy.getBodyBounds().x ? -5 : 5,
-                               enemy.getBody().getLinearVelocity().y);
-                       enemy.setFlip(player.getBodyBounds().x < enemy.getBodyBounds().x);
-                   } else {
-                       if (enemy.getBody().getLinearVelocity().x > 0)
-                           enemy.setFlip(false);
-                       else
-                           enemy.setFlip(true);
-                       if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 100) {
-                           if (!enemy.animations.name().equals("E_PUNCHED") &&
-                                   !Intersector.overlaps(player.getAction(), enemy.getBodyBounds())) {
-                               enemy.setAnimation("E_PUNCH");
-                           }
-                       }
-                   }
-                   if (player.getAction().overlaps(enemy.getBodyBounds())) {
-                        enemy.setAnimation("E_PUNCHED");
-                        if (!enemy.isHited()) {
-                            enemy.setHited(true);
-                            PUNCHED.play();
-                        }
-                        enemy.setFrameCounter(0);
-                   }
-                } else {
-                    enemy.getBody().setLinearVelocity(0, enemy.getBody().getLinearVelocity().y);
-                    enemy.setAnimation(("E_IDLE"));
-                }
-
-                if (Intersector.overlaps(enemy.getAction(), player.getBodyBounds())) {
-                    if (!player.isHited()) {
-                        player.animations = Animations.PUNCHED;
-                        player.setHited(true);
-                        player.setFrameCounter(0);
-                    }
-                }
-            }
-            if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("SABER")) {
-                enemy.setAnimation("E_SPLIT");
-                enemy.setSplit(true);
-                enemy.getBody().setLinearVelocity(0,0);
-                enemy.getBody().setFixedRotation(true);
-            }
-        }
-        for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
-            crystals.get(index).taked(player.getBodyBounds(), player.getAction());
-        }
-        if (portal.getRectangle().contains(player.getBodyBounds())){
-            teletransport.play();
-            player.getBody().setTransform(350, 400, 0);
-        }
+//        for (Enemy enemy : enemies) {
+//            if (!enemy.isSplit()){
+//                if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 300 && enemy.getBody().getAngle() < Math.toRadians(30f)) {
+//                   if (!enemy.isHited()) {
+//                       enemy.setAnimation("E_WALKING");
+//                       enemy.getBody().setLinearVelocity(player.getBodyBounds().x < enemy.getBodyBounds().x ? -5 : 5,
+//                               enemy.getBody().getLinearVelocity().y);
+//                       enemy.setFlip(player.getBodyBounds().x < enemy.getBodyBounds().x);
+//                   } else {
+//                       if (enemy.getBody().getLinearVelocity().x > 0)
+//                           enemy.setFlip(false);
+//                       else
+//                           enemy.setFlip(true);
+//                       if (Math.abs(enemy.getBodyBounds().x - player.getBodyBounds().x) < 100) {
+//                           if (!enemy.animations.name().equals("E_PUNCHED") &&
+//                                   !Intersector.overlaps(player.getAction(), enemy.getBodyBounds())) {
+//                               enemy.setAnimation("E_PUNCH");
+//                           }
+//                       }
+//                   }
+//                   if (player.getAction().overlaps(enemy.getBodyBounds())) {
+//                        enemy.setAnimation("E_PUNCHED");
+//                        if (!enemy.isHited()) {
+//                            enemy.setHited(true);
+//                            PUNCHED.play();
+//                        }
+//                        enemy.setFrameCounter(0);
+//                   }
+//                } else {
+//                    enemy.getBody().setLinearVelocity(0, enemy.getBody().getLinearVelocity().y);
+//                    enemy.setAnimation(("E_IDLE"));
+//                }
+//
+//                if (Intersector.overlaps(enemy.getAction(), player.getBodyBounds())) {
+//                    if (!player.isHited()) {
+//                        player.animations = Animations.PUNCHED;
+//                        player.setHited(true);
+//                        player.setFrameCounter(0);
+//                    }
+//                }
+//            }
+//            if (Intersector.overlaps(player.getAction(), enemy.getBodyBounds()) && player.animations.name().equals("SABER")) {
+//                enemy.setAnimation("E_SPLIT");
+//                enemy.setSplit(true);
+//                enemy.getBody().setLinearVelocity(0,0);
+//                enemy.getBody().setFixedRotation(true);
+//            }
+//        }
+//        for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
+//            crystals.get(index).taked(player.getBodyBounds(), player.getAction());
+//        }
+//        if (portal.getRectangle().contains(player.getBodyBounds())){
+//            teletransport.play();
+//            player.getBody().setTransform(350, 400, 0);
+//        }
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        player.resize(spriteBatch, width, height);
-        for (Enemy enemy : enemies)
-            enemy.resize(spriteBatch, width, height);
+//        player.resize(spriteBatch, width, height);
+//        for (Enemy enemy : enemies)
+//            enemy.resize(spriteBatch, width, height);
         boy.resize(spriteBatch, width, height);
     }
 
@@ -318,12 +324,12 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        player.dispose();
-        for (Enemy enemy : enemies)
-            enemy.dispose();
-        spriteBatch.dispose();
+//        player.dispose();
+//        for (Enemy enemy : enemies)
+//            enemy.dispose();
         for (Crystal c : crystals)
             c.dispose();
+        spriteBatch.dispose();
         world.dispose();
         background.dispose();
         powerBar.dispose();
@@ -332,8 +338,8 @@ public class Level implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         boy.keyDown(keycode);
-        if (player.isStand()) {
-            player.keyDown(keycode);
+//        if (player.isStand()) {
+//            player.keyDown(keycode);
             if (keycode == Input.Keys.ESCAPE) {
                 Gdx.input.setInputProcessor(app.pauseScreen);
                 app.setScreen(app.pauseScreen);
@@ -342,14 +348,14 @@ public class Level implements Screen, InputProcessor {
                 app.pauseScreen.song.play();
                 app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
             }
-        }
+//        }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         boy.keyUp(keycode);
-        player.keyUp(keycode);
+//        player.keyUp(keycode);
         return false;
     }
 
@@ -360,7 +366,7 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        player.touchDown(screenX, screenY,pointer,button);
+//        player.touchDown(screenX, screenY,pointer,button);
         return false;
     }
 
@@ -381,7 +387,7 @@ public class Level implements Screen, InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        player.mouseMoved(screenX, screenY);
+//        player.mouseMoved(screenX, screenY);
         return false;
     }
 

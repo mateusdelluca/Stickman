@@ -185,7 +185,7 @@ public class PauseScreen implements Screen, InputProcessor {
                 app.setScreen(level);
                 pause_musicPosition = song.getPosition();
                 song.stop();
-                level.songLevel1.setPosition(Level.level_musicPosition);
+//                level.songLevel1.setPosition(Level.level_musicPosition);
                 level.songLevel1.play();
                 Gdx.input.setInputProcessor(level);
                 break;
