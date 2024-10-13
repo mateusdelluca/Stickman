@@ -16,14 +16,14 @@ import java.util.Random;
 
 public class Crystal extends Objeto{
 
-    public static final float WIDTH = 282/4f, HEIGHT = 421/4f;
+    public static final float WIDTH = 282/6f, HEIGHT = 421/6f;
     private Random r = new Random();
     private boolean visible2;
     private Rectangle box1, box2;
     private Vector2 position;
     private Sound clink, clink2;
-    public static final float[] X_POSITIONS = {300, 600, 1000, 1600, 2000, 2300, 2800, 3100, 3700, 3950, 4200, 4500, 4750, 5100, 5250, 5400};
-    public static final float[] Y_POSITIONS = {450, 450,  450,  650,  450,  450,  550,  250,  250,  250,  450,  450,  450,  450,  450,  450};
+    public static final float[] X_POSITIONS = {300, 600, 1000, 1600, 2000, 2200, 2800, 3100, 3700, 3950, 4200, 4500, 4750, 5100, 5250, 5400};
+    public static final float[] Y_POSITIONS = {450, 450,  450,  650,  750,  850,  550,  450,  450,  450,  550,  650,  650,  450,  350,  350};
     public static int index;
 
     public Crystal(World world) {
@@ -87,12 +87,12 @@ public class Crystal extends Objeto{
     }
 
     public void taked(Rectangle... playerRect){
-        if ((Intersector.overlaps(box1, playerRect[0]) || Intersector.overlaps(box1, playerRect[1])) && visible){
+        if ((Intersector.overlaps(box1, playerRect[0])) && visible){
             visible = false;
             clink.play();
             PowerBar.sp += 20;
         }
-        if ((Intersector.overlaps(box2, playerRect[0]) || Intersector.overlaps(box2, playerRect[1])) && visible2){
+        if ((Intersector.overlaps(box2, playerRect[0])) && visible2){
             visible2 = false;
             clink2.play();
             PowerBar.hp += 20;

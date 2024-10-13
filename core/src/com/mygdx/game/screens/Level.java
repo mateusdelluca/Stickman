@@ -182,7 +182,7 @@ public class Level implements Screen, InputProcessor {
         boy.render(shapeRenderer);
         shapeRenderer.end();
 
-//        System.out.println(boy.getBody().getPosition().y);
+        System.out.println(boy.getBody().getPosition().toString());
 
         spriteBatch.setProjectionMatrix(camera.combined);
         if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
@@ -296,13 +296,17 @@ public class Level implements Screen, InputProcessor {
 //                enemy.getBody().setFixedRotation(true);
 //            }
 //        }
-//        for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
-//            crystals.get(index).taked(player.getBodyBounds(), player.getAction());
-//        }
+        for (int index = 0; index < Crystal.X_POSITIONS.length; index++){
+            crystals.get(index).taked(boy.getBodyBounds());
+        }
 //        if (portal.getRectangle().contains(player.getBodyBounds())){
 //            teletransport.play();
 //            player.getBody().setTransform(350, 400, 0);
 //        }
+        if (portal.getRectangle().contains(boy.getBodyBounds())){
+            teletransport.play();
+            boy.getBody().setTransform(100, 800, 0);
+        }
     }
 
     @Override

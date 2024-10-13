@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -14,6 +15,8 @@ import com.mygdx.game.sfx.Sounds;
 import static com.mygdx.game.sfx.Sounds.HIYAH;
 import static com.mygdx.game.sfx.Sounds.JUMP;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public class Boy extends Objeto{
 
     public static final float WIDTH = 128f, HEIGHT = 128f;
@@ -21,6 +24,7 @@ public class Boy extends Objeto{
     public Animations animations = Animations.BOY_IDLE;
     private boolean flip, usingOnlyLastFrame, looping = true;
     private float punchingAnimationTimer;
+    private Vector2 dimensions = new Vector2(65f, 95f);
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -37,6 +41,9 @@ public class Boy extends Objeto{
 
     public void update(){
         animations();
+        if (body.getPosition().x < 32){
+            body.setTransform(32, body.getPosition().y, 0);
+        }
     }
 
     private void animations() {
@@ -116,5 +123,9 @@ public class Boy extends Objeto{
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
             animations = Animations.BOY_IDLE;
         }
+    }
+
+    public Rectangle getBodyBounds() {
+        return new Rectangle(body.getPosition().x, body.getPosition().y, dimensions.x, dimensions.y);
     }
 }
