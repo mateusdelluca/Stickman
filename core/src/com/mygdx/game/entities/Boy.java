@@ -28,7 +28,7 @@ public class Boy extends Objeto{
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
-        body = createBoxBody(new Vector2(65f/2f, 95f/2f), BodyDef.BodyType.DynamicBody, false);
+        body = createBoxBody(new Vector2(dimensions.x/2f, dimensions.y/2f), BodyDef.BodyType.DynamicBody, false);
         body.setTransform(position, 0);
     }
 

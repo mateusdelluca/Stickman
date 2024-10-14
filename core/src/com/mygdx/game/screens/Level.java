@@ -55,6 +55,7 @@ public class Level implements Screen, InputProcessor {
     private PowerBar powerBar;
 
     private Boy boy;
+    private Monster1 monster1;
 
     private Sounds sounds;
 
@@ -146,6 +147,7 @@ public class Level implements Screen, InputProcessor {
 
 
         boy = new Boy(world, new Vector2(100, 800));
+        monster1 = new Monster1(world, new Vector2(300, 450));
         sounds = new Sounds();
     }
 
@@ -206,6 +208,7 @@ public class Level implements Screen, InputProcessor {
 //            enemy.render(spriteBatch);
 //        player.render(spriteBatch);
         boy.render(spriteBatch);
+        monster1.render(spriteBatch);
         spriteBatch.end();
     }
 
