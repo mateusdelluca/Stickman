@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
 import com.mygdx.game.sfx.Sounds;
 
+import static com.mygdx.game.screens.Level.songLevel1;
 import static com.mygdx.game.sfx.Sounds.HIYAH;
 import static com.mygdx.game.sfx.Sounds.JUMP;
 
@@ -22,7 +23,7 @@ public class Boy extends Objeto{
     public static final float WIDTH = 128f, HEIGHT = 128f;
     public static final float VELOCITY_X = 20f, JUMP_VELOCITY = 100f;
     public Animations animations = Animations.BOY_IDLE;
-    private boolean flip, usingOnlyLastFrame, looping = true;
+    private boolean flip, usingOnlyLastFrame, looping = true, init;
     private float punchingAnimationTimer;
     private Vector2 dimensions = new Vector2(65f, 95f);
 
@@ -43,6 +44,10 @@ public class Boy extends Objeto{
         animations();
         if (body.getPosition().x < 32){
             body.setTransform(32, body.getPosition().y, 0);
+        }
+        if (body.getPosition().y <= 400 && !init) {
+            songLevel1.play();
+            init = true;
         }
     }
 

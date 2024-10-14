@@ -41,7 +41,7 @@ public class Level implements Screen, InputProcessor {
     public Background background;
     public ArrayList<Crystal> crystals;
     Box2DDebugRenderer box2DDebugRenderer;
-    public Music songLevel1;
+    public static Music songLevel1;
     ShapeRenderer shapeRenderer;
 //    private ArrayList<Enemy> enemies;
 //    private Tile level1;
