@@ -45,7 +45,7 @@ public class Monster1 extends Objeto{
 
     @Override
     public void render(ShapeRenderer s) {
-
+        s.rect(getBodyBounds().x, getBodyBounds().y, getBodyBounds().width, getBodyBounds().height);
     }
 
     public Rectangle getBodyBounds() {

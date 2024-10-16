@@ -74,10 +74,11 @@ public class Boy extends Objeto{
         if (name.equals("BOY_STRICKEN")){
             flickering_time += Gdx.graphics.getDeltaTime();
             System.out.println(flickering_time);
-            if (flickering_time >= 10f) {
+            if (flickering_time >= 3.2f) {
                 animations = Animations.BOY_IDLE;
                 flickering_time = 0f;
                 stricken = false;
+                Sounds.HURT.stop();
             }
         } else {
             if (!stricken) {
@@ -122,6 +123,7 @@ public class Boy extends Objeto{
     @Override
     public void render(ShapeRenderer s) {
 //        s.rect(body.getPosition().x, body.getPosition().y, width, height);
+        s.rect(getBodyBounds().x, getBodyBounds().y, getBodyBounds().width, getBodyBounds().height);
         s.rect(actionRect.x, actionRect.y, actionRect.width, actionRect.height);
     }
 
@@ -133,26 +135,29 @@ public class Boy extends Objeto{
             usingOnlyLastFrame = false;
             looping = true;
         }
-        if (keycode == Input.Keys.SPACE){
-            animations = Animations.BOY_JUMPING;
-            getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
-            JUMP.play();
-        }
-        if (keycode == Input.Keys.D){
-            punchingAnimationTimer = 0f;
-            animations = Animations.BOY_PUNCHING;
-            JUMP.play();
-            HIYAH.play();
-            usingOnlyLastFrame = false;
-            looping = false;
-            animations.animator.resetStateTime();
+        if (!stricken) {
+            if (keycode == Input.Keys.SPACE) {
+                animations = Animations.BOY_JUMPING;
+                getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
+                JUMP.play();
+            }
+            if (keycode == Input.Keys.D) {
+                punchingAnimationTimer = 0f;
+                animations = Animations.BOY_PUNCHING;
+                JUMP.play();
+                HIYAH.play();
+                usingOnlyLastFrame = false;
+                looping = false;
+                animations.animator.resetStateTime();
+            }
         }
     }
 
     public void keyUp(int keycode){
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
-            animations = Animations.BOY_IDLE;
+            if (!stricken)
+                animations = Animations.BOY_IDLE;
         }
     }
 
@@ -169,7 +174,7 @@ public class Boy extends Objeto{
     }
 
     public Rectangle getBodyBounds() {
-        return new Rectangle(body.getPosition().x, body.getPosition().y, dimensions.x, dimensions.y);
+        return new Rectangle(body.getPosition().x + width/2f - 30f, body.getPosition().y + height/2f - 50f, dimensions.x, dimensions.y);
     }
 
     public boolean isStricken() {

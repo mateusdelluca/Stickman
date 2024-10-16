@@ -30,6 +30,7 @@ public class Sounds implements Serializable{
     public static final Sound GUNSHOT = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
     public static final Sound WHOOSH = Gdx.audio.newSound(Gdx.files.internal("sounds/Whoosh.wav"));
     public static final Sound PUNCHED = Gdx.audio.newSound(Gdx.files.internal("sounds/punch.wav"));
+    public static final Sound HURT = Gdx.audio.newSound(Gdx.files.internal(("sounds/Hurt.mp3")));
 
     public Sounds() {
     }

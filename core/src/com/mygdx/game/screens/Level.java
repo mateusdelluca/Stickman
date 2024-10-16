@@ -195,6 +195,7 @@ public class Level implements Screen, InputProcessor {
             c.render(shapeRenderer);
         portal.render(shapeRenderer);
         boy.render(shapeRenderer);
+        monster1.render(shapeRenderer);
         shapeRenderer.end();
     }
 
@@ -318,6 +319,9 @@ public class Level implements Screen, InputProcessor {
         if (monster1.getBodyBounds().overlaps(boy.getBodyBounds()) && !boy.actionRect().overlaps(monster1.getBodyBounds())){
             boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? -10 : 10, boy.getBody().getLinearVelocity().y + 10f);
             boy.animations = Animations.BOY_STRICKEN;
+            boy.setStricken(true);
+            PowerBar.hp -= 20;
+            Sounds.HURT.play();
         }
         if (boy.actionRect().overlaps(monster1.getBodyBounds())){
             monster1.getBody().setLinearVelocity(monster1.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? 10 : -10, monster1.getBody().getLinearVelocity().y + 2f);
@@ -330,6 +334,7 @@ public class Level implements Screen, InputProcessor {
                 boy.animations = Animations.BOY_STRICKEN;
                 PowerBar.hp -= 20;
                 boy.setStricken(true);
+                Sounds.HURT.play();
             }
         }
     }
