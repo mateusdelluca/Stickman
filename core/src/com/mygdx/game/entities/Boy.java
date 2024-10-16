@@ -27,6 +27,7 @@ public class Boy extends Objeto{
     private float punchingAnimationTimer;
     private Vector2 dimensions = new Vector2(65f, 95f);
     private Rectangle actionRect = new Rectangle();
+    private float flickering_time;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -53,7 +54,7 @@ public class Boy extends Objeto{
         actionRect = actionRect();
     }
 
-    private Rectangle actionRect(){
+    public Rectangle actionRect(){
         if (animations.name().equals("BOY_PUNCHING")) {
             if (frameCounter() >= 2)
                 return new Rectangle(!flip ? getBody().getPosition().x + (WIDTH/2f) + 10 : getBody().getPosition().x + (WIDTH / 2f) - 55,
@@ -69,25 +70,33 @@ public class Boy extends Objeto{
 //                animations = Animations.BOY_IDLE;
 //            }
 //        } else{
-        if (name.equals("BOY_PUNCHING")) {
-            punchingAnimationTimer += Gdx.graphics.getDeltaTime();
-            if (punchingAnimationTimer > 2f) {
+        if (name.equals("BOY_STRICKEN")){
+            flickering_time += Gdx.graphics.getDeltaTime();
+            if (flickering_time >= 3f) {
                 animations = Animations.BOY_IDLE;
-                punchingAnimationTimer = 0f;
+                flickering_time = 0f;
             }
-        } else{
-            if (name.equals("BOY_WALKING")) {
-
+        } else {
+            if (name.equals("BOY_PUNCHING")) {
+                punchingAnimationTimer += Gdx.graphics.getDeltaTime();
+                if (punchingAnimationTimer > 2f) {
+                    animations = Animations.BOY_IDLE;
+                    punchingAnimationTimer = 0f;
+                }
             } else {
-                if (onGround()) {
-                    if (walking())
-                        animations = Animations.BOY_WALKING;
-                    else
-                        animations = Animations.BOY_IDLE;
-    //                   usingOnlyLastFrame = true;
-                } else{
-                    animations = Animations.BOY_JUMPING;
-    //                    usingOnlyLastFrame = false;
+                if (name.equals("BOY_WALKING")) {
+
+                } else {
+                    if (onGround()) {
+                        if (walking())
+                            animations = Animations.BOY_WALKING;
+                        else
+                            animations = Animations.BOY_IDLE;
+                        //                   usingOnlyLastFrame = true;
+                    } else {
+                        animations = Animations.BOY_JUMPING;
+                        //                    usingOnlyLastFrame = false;
+                    }
                 }
             }
         }

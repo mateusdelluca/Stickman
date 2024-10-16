@@ -125,9 +125,9 @@ public class Level implements Screen, InputProcessor {
 //                        t.getRectangle().height -= 10f;
 //                        horizontalRectsThorns.add(t.getRectangle());
 //                    } else {
-                        verticalRectsThorns.add(t.getRectangle());
                         t.getRectangle().height += 7f;
                         t.getRectangle().y -= 7f;
+                        verticalRectsThorns.add(t.getRectangle());
                     }
 //                }
 //            }
@@ -184,8 +184,7 @@ public class Level implements Screen, InputProcessor {
         if (boy.getBody().getPosition().x >= (6000 - WIDTH))
             camera.position.set(6000 - WIDTH/2f, HEIGHT / 2f, 0);
         if (boy.getBody().getPosition().x < WIDTH/2f)
-            camera.position.set(0f + WIDTH / 2f, 400+ HEIGHT / 4f, 0);
-
+            camera.position.set(0f + WIDTH / 2f, 400 + HEIGHT / 4f, 0);
         renderObjects();
 
         shapeRenderer.begin();
@@ -234,7 +233,7 @@ public class Level implements Screen, InputProcessor {
 //                }
 //            }
 //        }
-        for (Rectangle rect : verticalRectsThorns) {
+//        for (Rectangle rect : verticalRectsThorns) {
 //            if (rect.overlaps(player.getBodyBounds())){
 //                System.out.println("verticalRectsThorns");
 //                player.getBody().setTransform(player.getBody().getPosition().x, player.getBodyBounds().y - 90f, 0);
@@ -251,7 +250,7 @@ public class Level implements Screen, InputProcessor {
 //                    player.getBody().setLinearVelocity(player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y + 10f);
 //                }
 //            }
-        }
+//        }
 
 //        for (Enemy enemy : enemies) {
 //            if (!enemy.isSplit()){
@@ -315,6 +314,22 @@ public class Level implements Screen, InputProcessor {
         if (boy.getBodyBounds().overlaps(monster1.getBodyBounds())){
             boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x, boy.getBody().getLinearVelocity().y + 20f);
             monster1.animations = Animations.MONSTER1_FLICKERING;
+        }
+        if (monster1.getBodyBounds().overlaps(boy.getBodyBounds()) && !boy.actionRect().overlaps(monster1.getBodyBounds())){
+            boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? -10 : 10, boy.getBody().getLinearVelocity().y + 10f);
+            boy.animations = Animations.BOY_STRICKEN;
+        }
+        if (boy.actionRect().overlaps(monster1.getBodyBounds())){
+            monster1.getBody().setLinearVelocity(monster1.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? 10 : -10, monster1.getBody().getLinearVelocity().y + 2f);
+            monster1.animations = Animations.MONSTER1_FLICKERING;
+        }
+
+        for (Rectangle rect : verticalRectsThorns) {
+            if (boy.getBodyBounds().overlaps(rect)){
+                boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x, 100f);
+                boy.animations = Animations.BOY_STRICKEN;
+                PowerBar.hp -= 20;
+            }
         }
     }
 

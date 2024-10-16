@@ -65,12 +65,12 @@ public class SplashScreen implements Screen, InputProcessor {
         }
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/Sunglasses2.mp3"));
         shot = Gdx.audio.newSound(Gdx.files.internal("sounds/gun shot.wav"));
-        this.options[NEWGAME] = "NEW  GAME";
-        this.options[LOADGAME] = "LOAD GAME";
-        this.options[EXIT] = "     EXIT";
+        this.options[NEWGAME] = "     NEW  GAME";
+        this.options[LOADGAME] = "     LOAD GAME";
+        this.options[EXIT] = "          EXIT";
 
-        Texture t = new Texture(Gdx.files.internal("Font2.png"));
-        font = new BitmapFont(Gdx.files.internal("Font2.fnt"), new TextureRegion(t));
+        Texture t = new Texture(Gdx.files.internal("Font.png"));
+        font = new BitmapFont(Gdx.files.internal("Font.fnt"), new TextureRegion(t));
         t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         font.getData().scale(0.5f);
 
@@ -127,12 +127,12 @@ public class SplashScreen implements Screen, InputProcessor {
 //        font.setColor(Color.WHITE);
 //        font.draw(spriteBatch, "blue dome", 1920/2f - 200, 1080/2f);
         for(int index = EXIT; index <= NEWGAME; ++index) {
-//            font.setColor(Color.BLACK);
-//            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
+            font.setColor(Color.BLACK);
+            font.draw(spriteBatch, this.options[index], this.x[index] + 2, this.y[index] + 2);
             font.setColor(Color.WHITE);
             font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             if (this.isTouched[index]) {
-                font.setColor(Color.YELLOW);
+                font.setColor(Color.RED);
                 font.draw(spriteBatch, this.options[index], this.x[index], this.y[index]);
             }
         }
