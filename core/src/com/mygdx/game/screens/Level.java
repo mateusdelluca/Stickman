@@ -174,6 +174,20 @@ public class Level implements Screen, InputProcessor {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.setAutoShapeType(true);
 
+
+
+        System.out.println(boy.getBody().getPosition().toString());
+
+        spriteBatch.setProjectionMatrix(camera.combined);
+        if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
+            camera.position.set((boy.getBody().getPosition().x) + WIDTH/4f, 400 + HEIGHT/4f, 0);
+        if (boy.getBody().getPosition().x >= (6000 - WIDTH))
+            camera.position.set(6000 - WIDTH/2f, HEIGHT / 2f, 0);
+        if (boy.getBody().getPosition().x < WIDTH/2f)
+            camera.position.set(0f + WIDTH / 2f, 400+ HEIGHT / 4f, 0);
+
+        renderObjects();
+
         shapeRenderer.begin();
 //        for (Enemy enemy : enemies)
 //            enemy.render(shapeRenderer);
@@ -183,18 +197,6 @@ public class Level implements Screen, InputProcessor {
         portal.render(shapeRenderer);
         boy.render(shapeRenderer);
         shapeRenderer.end();
-
-        System.out.println(boy.getBody().getPosition().toString());
-
-        spriteBatch.setProjectionMatrix(camera.combined);
-        if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
-            camera.position.set((boy.getBody().getPosition().x) + WIDTH/4f, (boy.getBody().getPosition().y - Boy.HEIGHT/2f) + HEIGHT/4f, 0);
-        if (boy.getBody().getPosition().x >= (6000 - WIDTH))
-            camera.position.set(6000 - WIDTH/2f, HEIGHT / 2f, 0);
-        if (boy.getBody().getPosition().x < WIDTH/2f)
-            camera.position.set(0f + WIDTH / 2f, (boy.getBody().getPosition().y - Boy.HEIGHT / 2f) + HEIGHT / 4f, 0);
-
-        renderObjects();
     }
 
     public void renderObjects(){
@@ -311,6 +313,7 @@ public class Level implements Screen, InputProcessor {
             boy.getBody().setTransform(100, 800, 0);
         }
         if (boy.getBodyBounds().overlaps(monster1.getBodyBounds())){
+            boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x, boy.getBody().getLinearVelocity().y + 20f);
             monster1.animations = Animations.MONSTER1_FLICKERING;
         }
     }

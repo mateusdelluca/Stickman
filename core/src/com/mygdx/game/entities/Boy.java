@@ -26,6 +26,7 @@ public class Boy extends Objeto{
     private boolean flip, usingOnlyLastFrame, looping = true, init;
     private float punchingAnimationTimer;
     private Vector2 dimensions = new Vector2(65f, 95f);
+    private Rectangle actionRect = new Rectangle();
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -49,6 +50,16 @@ public class Boy extends Objeto{
             songLevel1.play();
             init = true;
         }
+        actionRect = actionRect();
+    }
+
+    private Rectangle actionRect(){
+        if (animations.name().equals("BOY_PUNCHING")) {
+            if (frameCounter() >= 2)
+                return new Rectangle(!flip ? getBody().getPosition().x + (WIDTH/2f) + 10 : getBody().getPosition().x + (WIDTH / 2f) - 55,
+                        getBody().getPosition().y + HEIGHT / 2f - 25, 45, 45);
+        }
+        return new Rectangle();
     }
 
     private void animations() {
@@ -97,6 +108,7 @@ public class Boy extends Objeto{
     @Override
     public void render(ShapeRenderer s) {
 //        s.rect(body.getPosition().x, body.getPosition().y, width, height);
+        s.rect(actionRect.x, actionRect.y, actionRect.width, actionRect.height);
     }
 
     public void keyDown(int keycode){
@@ -130,7 +142,21 @@ public class Boy extends Objeto{
         }
     }
 
+    public void setFrameCounter(int frame){
+        setStateTime(animations.animator.timeToFrame(frame));
+    }
+
+    public void setStateTime(float time){
+        animations.animator.stateTime = time;
+    }
+
+    public float frameCounter(){
+        return animations.animator.getAnimation().getKeyFrame(animations.animator.stateTime).getU2() * animations.animator.getNumFrames();
+    }
+
     public Rectangle getBodyBounds() {
         return new Rectangle(body.getPosition().x, body.getPosition().y, dimensions.x, dimensions.y);
     }
+
+
 }
