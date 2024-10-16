@@ -158,7 +158,7 @@ public class PauseScreen implements Screen, InputProcessor {
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE){
             app.setScreen(level);
-            pause_musicPosition = song.getPosition();
+//            pause_musicPosition = song.getPosition();
             SplashScreen.music.pause();
             song.stop();
 //            level.songLevel1.setPosition(level.level_musicPosition);
@@ -186,7 +186,7 @@ public class PauseScreen implements Screen, InputProcessor {
                 pause_musicPosition = song.getPosition();
                 song.stop();
 //                level.songLevel1.setPosition(Level.level_musicPosition);
-                level.songLevel1.play();
+                Level.songLevel1.play();
                 Gdx.input.setInputProcessor(level);
                 break;
             }
@@ -203,6 +203,8 @@ public class PauseScreen implements Screen, InputProcessor {
             case EXIT: {
                 app.setScreen(app.splashScreen);
                 Gdx.input.setInputProcessor(app.splashScreen);
+                song.stop();
+                Level.songLevel1.stop();
                 break;
             }
         }

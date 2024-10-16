@@ -310,6 +310,9 @@ public class Level implements Screen, InputProcessor {
             teletransport.play();
             boy.getBody().setTransform(100, 800, 0);
         }
+        if (boy.getBodyBounds().overlaps(monster1.getBodyBounds())){
+            monster1.animations = Animations.MONSTER1_FLICKERING;
+        }
     }
 
     @Override
@@ -360,7 +363,7 @@ public class Level implements Screen, InputProcessor {
 //            level_musicPosition = songLevel1.getPosition();
                 songLevel1.pause();
                 app.pauseScreen.song.play();
-                app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
+//                app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
             }
 //        }
         return false;

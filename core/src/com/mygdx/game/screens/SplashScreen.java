@@ -53,6 +53,7 @@ public class SplashScreen implements Screen, InputProcessor {
     private Camera camera = new OrthographicCamera(WIDTH, HEIGHT);
     private Viewport viewport = new ScreenViewport(camera);
     public static Music music;
+    public static boolean runningMusic = true;
     private Sound shot;
 
     public SplashScreen(Application app){
@@ -77,9 +78,9 @@ public class SplashScreen implements Screen, InputProcessor {
 
         Level level = new Level(app);
         app.level = level;
-
-        music.setLooping(true);
         music.play();
+        music.setLooping(true);
+
     }
 
     public void update() {
@@ -87,6 +88,10 @@ public class SplashScreen implements Screen, InputProcessor {
 
         camera.update();
 
+        if (!runningMusic) {
+            music.play();
+            runningMusic = true;
+        }
         int counter = 0;
         for(int index = EXIT; index <= NEWGAME; ++index) {
             if (this.mouseRectangle.overlaps(this.options_rects[index])) {
@@ -181,8 +186,9 @@ public class SplashScreen implements Screen, InputProcessor {
                 Level level = new Level(app);
                 app.level = level;
                 app.setScreen(level);
-                music.stop();
+                music.pause();
                 Gdx.input.setInputProcessor(level);
+                runningMusic = false;
                 break;
             }
             case LOADGAME:{
