@@ -329,6 +329,7 @@ public class Level implements Screen, InputProcessor {
                 boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x, 100f);
                 boy.animations = Animations.BOY_STRICKEN;
                 PowerBar.hp -= 20;
+                boy.setStricken(true);
             }
         }
     }
