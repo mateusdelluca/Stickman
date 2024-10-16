@@ -49,6 +49,6 @@ public class Monster1 extends Objeto{
     }
 
     public Rectangle getBodyBounds() {
-        return new Rectangle(body.getPosition().x, body.getPosition().y, dimensions.x, dimensions.y);
+        return new Rectangle(body.getPosition().x + 2.5f, body.getPosition().y, dimensions.x + 10f, dimensions.y);
     }
 }

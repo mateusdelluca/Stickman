@@ -53,6 +53,13 @@ public class Boy extends Objeto{
             init = true;
         }
         actionRect = actionRect();
+
+        if (flickering_time >= 3.2f) {
+//            animations = Animations.BOY_IDLE;
+            flickering_time = 0f;
+            stricken = false;
+            Sounds.HURT.stop();
+        }
     }
 
     public Rectangle actionRect(){
@@ -131,7 +138,9 @@ public class Boy extends Objeto{
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
             body.setLinearVelocity(keycode == Input.Keys.RIGHT ? VELOCITY_X : -VELOCITY_X, body.getLinearVelocity().y);
             flip = keycode != Input.Keys.RIGHT;
-            animations = Animations.BOY_WALKING;
+            if (!stricken) {
+                animations = Animations.BOY_WALKING;
+            }
             usingOnlyLastFrame = false;
             looping = true;
         }

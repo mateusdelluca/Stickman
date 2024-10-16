@@ -317,14 +317,14 @@ public class Level implements Screen, InputProcessor {
             monster1.animations = Animations.MONSTER1_FLICKERING;
         }
         if (monster1.getBodyBounds().overlaps(boy.getBodyBounds()) && !boy.actionRect().overlaps(monster1.getBodyBounds())){
-            boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? -10 : 10, boy.getBody().getLinearVelocity().y + 10f);
+            boy.getBody().setLinearVelocity(boy.getBody().getLinearVelocity().x + (monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? -15 : 15), boy.getBody().getLinearVelocity().y + 15f);
             boy.animations = Animations.BOY_STRICKEN;
             boy.setStricken(true);
             PowerBar.hp -= 20;
             Sounds.HURT.play();
         }
         if (boy.actionRect().overlaps(monster1.getBodyBounds())){
-            monster1.getBody().setLinearVelocity(monster1.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? 10 : -10, monster1.getBody().getLinearVelocity().y + 2f);
+            monster1.getBody().setLinearVelocity(monster1.getBody().getLinearVelocity().x + monster1.getBody().getPosition().x > boy.getBody().getPosition().x ? 15 : -15, monster1.getBody().getLinearVelocity().y + 2f);
             monster1.animations = Animations.MONSTER1_FLICKERING;
         }
 
