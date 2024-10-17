@@ -16,10 +16,11 @@ import com.mygdx.game.images.Images;
 import com.mygdx.game.sfx.Sounds;
 
 import static com.mygdx.game.screens.Level.songLevel1;
-import static com.mygdx.game.sfx.Sounds.HIYAH;
-import static com.mygdx.game.sfx.Sounds.JUMP;
+import static com.mygdx.game.sfx.Sounds.*;
 
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.ArrayList;
 
 public class Boy extends Objeto{
 
@@ -33,7 +34,8 @@ public class Boy extends Objeto{
     private float flickering_time;
     private boolean stricken;
     private boolean shooting;
-    private float imgX, imgY, angle;
+    private float imgX, imgY, angle, angle2, dx, dy;
+    private ArrayList<Bullet> bullets = new ArrayList<>();
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -43,6 +45,8 @@ public class Boy extends Objeto{
 
     public void render(SpriteBatch s){
         update();
+        for (Bullet b : bullets)
+            b.render(s);
         Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
         if (!shooting) {
             sprite.setPosition(body.getPosition().x, body.getPosition().y);
@@ -51,10 +55,14 @@ public class Boy extends Objeto{
         if (shooting) {
             Sprite sprite2 = new Sprite(Images.shooting2);
             sprite2.setPosition(body.getPosition().x, body.getPosition().y);
+            sprite2.draw(s);
             sprite = new Sprite(Images.shooting1);
-            sprite.setPosition(body.getPosition().x + imgX - sprite.getWidth() / 2, body.getPosition().y + imgY - sprite.getHeight() / 2);
+            sprite.setPosition(body.getPosition().x , body.getPosition().y);
             sprite.setRotation(angle);
             sprite.draw(s);
+            Sprite sprite3 = new Sprite(Images.shoot);
+            sprite3.setPosition(dx, dy + 150);
+            sprite3.draw(s);
         }
     }
 
@@ -175,7 +183,7 @@ public class Boy extends Objeto{
                 animations.animator.resetStateTime();
             }
             if (keycode == Input.Keys.A) {
-                shooting = true;
+                shooting = !shooting;
             }
         }
     }
@@ -190,9 +198,20 @@ public class Boy extends Objeto{
 
     public void mouseMoved(int screenX, int screenY){
         if (shooting) {
-            float dx = screenX - imgX;
-            float dy = (Gdx.graphics.getHeight() - screenY) - imgY; // Invert Y-axis
+            dx = screenX - imgX;
+            dy = (Gdx.graphics.getHeight() - screenY) - imgY; // Invert Y-axis
             angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
+            angle2 = (float) Math.atan2(dy, dx);
+        }
+    }
+
+    public void touchDown(int screenX, int screenY, int pointer, int button){
+        if (shooting){
+            System.out.println(true);
+            bullets.add(new Bullet(world, new Vector2(!flip ? getBody().getPosition().x +
+                    WIDTH / 2f : getBody().getPosition().x + WIDTH / 2f - 40,
+                    getBody().getPosition().y + HEIGHT / 2f + 40), flip, angle2));
+            GUNSHOT.play();
         }
     }
 

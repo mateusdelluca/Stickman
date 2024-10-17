@@ -47,7 +47,7 @@ public class Images {
     public static Texture sp, sp2;
     public static Texture pauseBox;
 
-    public static Texture shooting1, shooting2;
+    public static Texture shooting1, shooting2, shoot;
     public SpriteBatch spriteBatch = new SpriteBatch();
 
     public Images() {
@@ -95,6 +95,7 @@ public class Images {
         for (int i = 0; i < saves.length; i++){
             saves[i] = new Texture(Gdx.files.internal("saves/Save" + i + ".png"));
         }
+        shoot = new Texture(Gdx.files.internal("boy/Shoot.png"));
         shooting1 = new Texture(Gdx.files.internal("boy/Shooting1.png"));
         shooting2 = new Texture(Gdx.files.internal("boy/Shooting2.png"));
     }

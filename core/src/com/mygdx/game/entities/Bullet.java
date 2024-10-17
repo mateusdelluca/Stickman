@@ -33,12 +33,13 @@ public class Bullet extends Objeto{
         body = createBoxBody(new Vector2(WIDTH, HEIGHT));
         body.setGravityScale(0.1f);
         this.flip = flip;
-        body.setTransform(position, (float) Math.toRadians(angle));
-        body.setLinearVelocity(flip ? -VELOCITY : VELOCITY, 0f);
+        body.setTransform(position, angle);
+        body.setLinearVelocity(!flip ? VELOCITY : -VELOCITY, VELOCITY); //TODO calcular velocidade x e y de acordo com o ângulo
         getBody().setAwake(true);
 //        getBody().setBullet(true);
         visible = true;
         fixtureDef.density = 1f;
+        body.setFixedRotation(false);
     }
 
     public void update(){

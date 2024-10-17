@@ -413,6 +413,7 @@ public class Level implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 //        player.touchDown(screenX, screenY,pointer,button);
+        boy.touchDown(screenX, screenY,pointer, button);
         return false;
     }
 
