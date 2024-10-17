@@ -39,7 +39,7 @@ public class Bullet extends Objeto{
         this.radians = angle;
         body.setLinearVelocity((!flip ? VELOCITY : -VELOCITY) * (float) Math.cos(radians), VELOCITY * (float) Math.sin(radians)); //TODO calcular velocidade x e y de acordo com o ângulo
         getBody().setAwake(true);
-//        getBody().setBullet(true);
+        getBody().setBullet(true);
         visible = true;
         fixtureDef.density = 1f;
         body.setFixedRotation(false);
@@ -58,7 +58,7 @@ public class Bullet extends Objeto{
         sprite.flip(flip, false);
         sprite.setOrigin(0,0);
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
-        sprite.setRotation(degrees);
+        sprite.setRotation((float) Math.toDegrees(body.getTransform().getRotation()));
         sprite.setSize(WIDTH, HEIGHT);
         if (visible)
             sprite.draw(spriteBatch);

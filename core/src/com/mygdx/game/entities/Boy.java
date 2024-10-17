@@ -45,8 +45,7 @@ public class Boy extends Objeto{
 
     public void render(SpriteBatch s){
         update();
-        for (Bullet b : bullets)
-            b.render(s);
+
         Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
         if (!shooting) {
             sprite.setPosition(body.getPosition().x, body.getPosition().y);
@@ -55,14 +54,26 @@ public class Boy extends Objeto{
         if (shooting) {
             Sprite sprite2 = new Sprite(Images.shooting2);
             sprite2.setPosition(body.getPosition().x, body.getPosition().y);
-            sprite2.draw(s);
+
             sprite = new Sprite(Images.shooting1);
             sprite.setPosition(body.getPosition().x , body.getPosition().y);
             sprite.setRotation(angle);
+            if (Math.abs(angle) > 90f) {
+                sprite.setRotation(-Math.abs(180f - angle));
+                sprite.flip(true, false);
+                sprite2.flip(true, false);
+            }
+            else{
+                sprite.flip(false, false);
+                sprite2.flip(false, false);
+            }
             sprite.draw(s);
-            Sprite sprite3 = new Sprite(Images.shoot);
-            sprite3.setPosition(dx, dy + 150);
-            sprite3.draw(s);
+            sprite2.draw(s);
+//            Sprite sprite3 = new Sprite(Images.shoot);
+//            sprite3.setPosition(dx, dy);
+//            sprite3.draw(s);
+            for (Bullet b : bullets)
+                b.render(s);
         }
     }
 
@@ -82,6 +93,18 @@ public class Boy extends Objeto{
             flickering_time = 0f;
             stricken = false;
             Sounds.HURT.stop();
+        }
+
+        aim();
+    }
+
+    private void aim(){
+        if (shooting) {
+            dx = Gdx.input.getX() - body.getPosition().x;
+            dy = (Gdx.graphics.getHeight() - Gdx.input.getY()) - body.getPosition().y; // Invert Y-axis
+            angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
+            System.out.println(angle);
+            angle2 = (float) Math.atan2(dy, dx);
         }
     }
 
@@ -197,20 +220,21 @@ public class Boy extends Objeto{
     }
 
     public void mouseMoved(int screenX, int screenY){
-        if (shooting) {
-            dx = screenX - imgX;
-            dy = (Gdx.graphics.getHeight() - screenY) - imgY; // Invert Y-axis
-            angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
-            angle2 = (float) Math.atan2(dy, dx);
-        }
+//        if (shooting) {
+//            dx = screenX - body.getPosition().x;
+//            dy = (Gdx.graphics.getHeight() - screenY) - body.getPosition().y; // Invert Y-axis
+//            angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
+//            System.out.println(angle);
+//            angle2 = (float) Math.atan2(dy, dx);
+//        }
     }
 
     public void touchDown(int screenX, int screenY, int pointer, int button){
         if (shooting){
             System.out.println(true);
             bullets.add(new Bullet(world, new Vector2(!flip ? getBody().getPosition().x +
-                    WIDTH / 2f : getBody().getPosition().x + WIDTH / 2f - 40,
-                    getBody().getPosition().y + HEIGHT / 2f + 40), flip, angle2));
+                    WIDTH / 2f: getBody().getPosition().x - WIDTH / 2f,
+                    getBody().getPosition().y + HEIGHT / 2f), flip, angle2));
             GUNSHOT.play();
         }
     }
