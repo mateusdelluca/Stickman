@@ -28,6 +28,19 @@ public class Bullet extends Objeto{
         fixtureDef.density = 1f;
     }
 
+    public Bullet(World world, Vector2 position, boolean flip, float angle){
+        super(world, WIDTH, HEIGHT);
+        body = createBoxBody(new Vector2(WIDTH, HEIGHT));
+        body.setGravityScale(0.1f);
+        this.flip = flip;
+        body.setTransform(position, (float) Math.toRadians(angle));
+        body.setLinearVelocity(flip ? -VELOCITY : VELOCITY, 0f);
+        getBody().setAwake(true);
+//        getBody().setBullet(true);
+        visible = true;
+        fixtureDef.density = 1f;
+    }
+
     public void update(){
         if (Math.abs(getBody().getLinearVelocity().x) <= 30) {
             visible = false;

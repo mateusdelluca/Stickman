@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
+import com.mygdx.game.images.Images;
 import com.mygdx.game.sfx.Sounds;
 
 import static com.mygdx.game.screens.Level.songLevel1;
@@ -29,6 +32,8 @@ public class Boy extends Objeto{
     private Rectangle actionRect = new Rectangle();
     private float flickering_time;
     private boolean stricken;
+    private boolean shooting;
+    private float imgX, imgY, angle;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
@@ -39,8 +44,18 @@ public class Boy extends Objeto{
     public void render(SpriteBatch s){
         update();
         Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-        sprite.draw(s);
+        if (!shooting) {
+            sprite.setPosition(body.getPosition().x, body.getPosition().y);
+            sprite.draw(s);
+        }
+        if (shooting) {
+            Sprite sprite2 = new Sprite(Images.shooting2);
+            sprite2.setPosition(body.getPosition().x, body.getPosition().y);
+            sprite = new Sprite(Images.shooting1);
+            sprite.setPosition(body.getPosition().x + imgX - sprite.getWidth() / 2, body.getPosition().y + imgY - sprite.getHeight() / 2);
+            sprite.setRotation(angle);
+            sprite.draw(s);
+        }
     }
 
     public void update(){
@@ -80,7 +95,7 @@ public class Boy extends Objeto{
 //        } else{
         if (name.equals("BOY_STRICKEN")){
             flickering_time += Gdx.graphics.getDeltaTime();
-            System.out.println(flickering_time);
+//            System.out.println(flickering_time);
             if (flickering_time >= 3.2f) {
                 animations = Animations.BOY_IDLE;
                 flickering_time = 0f;
@@ -159,6 +174,9 @@ public class Boy extends Objeto{
                 looping = false;
                 animations.animator.resetStateTime();
             }
+            if (keycode == Input.Keys.A) {
+                shooting = true;
+            }
         }
     }
 
@@ -167,6 +185,14 @@ public class Boy extends Objeto{
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
             if (!stricken)
                 animations = Animations.BOY_IDLE;
+        }
+    }
+
+    public void mouseMoved(int screenX, int screenY){
+        if (shooting) {
+            float dx = screenX - imgX;
+            float dy = (Gdx.graphics.getHeight() - screenY) - imgY; // Invert Y-axis
+            angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
         }
     }
 

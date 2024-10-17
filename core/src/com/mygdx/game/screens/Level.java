@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -176,7 +177,7 @@ public class Level implements Screen, InputProcessor {
 
 
 
-        System.out.println(boy.getBody().getPosition().toString());
+//        System.out.println(boy.getBody().getPosition().toString());
 
         spriteBatch.setProjectionMatrix(camera.combined);
         if (boy.getBody().getPosition().x > WIDTH/2f && boy.getBody().getPosition().x < (6000 - WIDTH))
@@ -337,6 +338,7 @@ public class Level implements Screen, InputProcessor {
                 Sounds.HURT.play();
             }
         }
+
     }
 
     @Override
@@ -389,6 +391,9 @@ public class Level implements Screen, InputProcessor {
                 app.pauseScreen.song.play();
 //                app.pauseScreen.song.setPosition(PauseScreen.pause_musicPosition);
             }
+
+
+
 //        }
         return false;
     }
@@ -429,6 +434,7 @@ public class Level implements Screen, InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
 //        player.mouseMoved(screenX, screenY);
+        boy.mouseMoved(screenX, screenY);
         return false;
     }
 
