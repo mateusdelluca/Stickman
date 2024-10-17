@@ -14,6 +14,7 @@ public class Bullet extends Objeto{
     public static final int WIDTH = 27, HEIGHT = 9;
     private boolean flip;
     public static final float VELOCITY = 300f;
+    private float degrees, radians;
 
     public Bullet(World world, Vector2 position, boolean flip){
         super(world, WIDTH, HEIGHT);
@@ -34,7 +35,9 @@ public class Bullet extends Objeto{
         body.setGravityScale(0.1f);
         this.flip = flip;
         body.setTransform(position, angle);
-        body.setLinearVelocity(!flip ? VELOCITY : -VELOCITY, VELOCITY); //TODO calcular velocidade x e y de acordo com o ângulo
+        this.degrees = (float) Math.toDegrees(angle);
+        this.radians = angle;
+        body.setLinearVelocity((!flip ? VELOCITY : -VELOCITY) * (float) Math.cos(radians), VELOCITY * (float) Math.sin(radians)); //TODO calcular velocidade x e y de acordo com o ângulo
         getBody().setAwake(true);
 //        getBody().setBullet(true);
         visible = true;
@@ -43,11 +46,11 @@ public class Bullet extends Objeto{
     }
 
     public void update(){
-        if (Math.abs(getBody().getLinearVelocity().x) <= 30) {
-            visible = false;
-            for (Fixture f : getBody().getFixtureList())
-                getBody().destroyFixture(f);
-        }
+//        if (Math.abs(getBody().getLinearVelocity().x) <= 30) {
+//            visible = false;
+//            for (Fixture f : getBody().getFixtureList())
+//                getBody().destroyFixture(f);
+//        }
     }
 
     public void render(SpriteBatch spriteBatch){
@@ -55,6 +58,7 @@ public class Bullet extends Objeto{
         sprite.flip(flip, false);
         sprite.setOrigin(0,0);
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        sprite.setRotation(degrees);
         sprite.setSize(WIDTH, HEIGHT);
         if (visible)
             sprite.draw(spriteBatch);
