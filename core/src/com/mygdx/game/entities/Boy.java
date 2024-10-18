@@ -5,11 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.images.Animations;
 import com.mygdx.game.images.Images;
@@ -34,7 +31,7 @@ public class Boy extends Objeto{
     private float flickering_time;
     private boolean stricken;
     private boolean shooting;
-    private float imgX, imgY, angle, angle2, dx, dy;
+    private float imgX, imgY, degrees, radians, dx, dy;
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
     public Boy(World world, Vector2 position){
@@ -57,9 +54,9 @@ public class Boy extends Objeto{
 
             sprite = new Sprite(Images.shooting1);
             sprite.setPosition(body.getPosition().x , body.getPosition().y);
-            sprite.setRotation(angle);
-            if (Math.abs(angle) > 90f) {
-                sprite.setRotation(-Math.abs(180f - angle));
+            sprite.setRotation(degrees);
+            if (Math.abs(degrees) > 90f) {
+                sprite.setRotation(-Math.abs(180f - degrees));
                 sprite.flip(true, false);
                 sprite2.flip(true, false);
             }
@@ -102,9 +99,9 @@ public class Boy extends Objeto{
         if (shooting) {
             dx = Gdx.input.getX() - body.getPosition().x;
             dy = (Gdx.graphics.getHeight() - Gdx.input.getY()) - body.getPosition().y; // Invert Y-axis
-            angle = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
-            System.out.println(angle);
-            angle2 = (float) Math.atan2(dy, dx);
+            degrees = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
+            System.out.println(degrees);
+            radians = (float) Math.atan2(dy, dx);
         }
     }
 
@@ -183,7 +180,8 @@ public class Boy extends Objeto{
     public void keyDown(int keycode){
         if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
             body.setLinearVelocity(keycode == Input.Keys.RIGHT ? VELOCITY_X : -VELOCITY_X, body.getLinearVelocity().y);
-            flip = keycode != Input.Keys.RIGHT;
+            if (!shooting)
+                flip = keycode == Input.Keys.LEFT;
             if (!stricken) {
                 animations = Animations.BOY_WALKING;
             }
@@ -234,7 +232,7 @@ public class Boy extends Objeto{
             System.out.println(true);
             bullets.add(new Bullet(world, new Vector2(!flip ? getBody().getPosition().x +
                     WIDTH / 2f: getBody().getPosition().x - WIDTH / 2f,
-                    getBody().getPosition().y + HEIGHT / 2f), flip, angle2));
+                    getBody().getPosition().y + HEIGHT / 2f), flip, radians));
             GUNSHOT.play();
         }
     }
