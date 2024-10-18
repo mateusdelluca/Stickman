@@ -15,7 +15,7 @@ public class Monster1 extends Objeto{
     public static final float WIDTH = 94, HEIGHT = 128;
     public Animations animations = Animations.MONSTER1_WALKING;
     private boolean usingOnlyLastFrame, looping = true, facingRight;
-    private Vector2 dimensions = new Vector2(82f, 118f);
+    private Vector2 dimensions = new Vector2(78f, 118f);
     private float flickering_time;
 
     public Monster1(World world, Vector2 position){

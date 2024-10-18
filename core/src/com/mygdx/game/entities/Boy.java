@@ -49,7 +49,9 @@ public class Boy extends Objeto{
             sprite.draw(s);
         }
         if (shooting) {
-            Sprite sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
+            Sprite sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.getFrame(0));
+            if (isMoving())
+                sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
             sprite2.setPosition(body.getPosition().x, body.getPosition().y);
 
             sprite = new Sprite(Images.shooting1);
@@ -69,9 +71,9 @@ public class Boy extends Objeto{
 //            Sprite sprite3 = new Sprite(Images.shoot);
 //            sprite3.setPosition(dx, dy);
 //            sprite3.draw(s);
-            for (Bullet b : bullets)
-                b.render(s);
-        }
+
+        }for (Bullet b : bullets)
+            b.render(s);
     }
 
     public void update(){
@@ -143,7 +145,7 @@ public class Boy extends Objeto{
 
                     } else {
                         if (onGround()) {
-                            if (walking())
+                            if (isMoving())
                                 animations = Animations.BOY_WALKING;
                             else
                                 animations = Animations.BOY_IDLE;
@@ -162,7 +164,7 @@ public class Boy extends Objeto{
         return Math.abs(body.getLinearVelocity().y) <= 0.01f;
     }
 
-    private boolean walking(){
+    private boolean isMoving(){
         return Math.abs(body.getLinearVelocity().x) > 0;
     }
 
