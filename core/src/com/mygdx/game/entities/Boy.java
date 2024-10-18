@@ -49,7 +49,7 @@ public class Boy extends Objeto{
             sprite.draw(s);
         }
         if (shooting) {
-            Sprite sprite2 = new Sprite(Images.shooting2);
+            Sprite sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
             sprite2.setPosition(body.getPosition().x, body.getPosition().y);
 
             sprite = new Sprite(Images.shooting1);
