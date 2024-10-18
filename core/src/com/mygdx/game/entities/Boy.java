@@ -24,7 +24,7 @@ public class Boy extends Objeto{
     public static final float WIDTH = 128f, HEIGHT = 128f;
     public static final float VELOCITY_X = 20f, JUMP_VELOCITY = 100f;
     public Animations animations = Animations.BOY_IDLE;
-    private boolean flip, usingOnlyLastFrame, looping = true, init;
+    private boolean flip0, flip, usingOnlyLastFrame, looping = true, init;
     private float punchingAnimationTimer;
     private Vector2 dimensions = new Vector2(65f, 95f);
     private Rectangle actionRect = new Rectangle();
@@ -43,8 +43,9 @@ public class Boy extends Objeto{
     public void render(SpriteBatch s){
         update();
 
-        Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
+
         if (!shooting) {
+            Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip0));
             sprite.setPosition(body.getPosition().x, body.getPosition().y);
             sprite.draw(s);
         }
@@ -54,7 +55,7 @@ public class Boy extends Objeto{
                 sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
             sprite2.setPosition(body.getPosition().x, body.getPosition().y);
 
-            sprite = new Sprite(Images.shooting1);
+           Sprite sprite = new Sprite(Images.shooting1);
             sprite.setPosition(body.getPosition().x , body.getPosition().y);
             sprite.setRotation(degrees);
             if (Math.abs(degrees) > 90f) {
@@ -110,7 +111,7 @@ public class Boy extends Objeto{
     public Rectangle actionRect(){
         if (animations.name().equals("BOY_PUNCHING")) {
             if (frameCounter() >= 2)
-                return new Rectangle(!flip ? getBody().getPosition().x + (WIDTH/2f) + 10 : getBody().getPosition().x + (WIDTH / 2f) - 55,
+                return new Rectangle(!flip0 ? getBody().getPosition().x + (WIDTH/2f) + 10 : getBody().getPosition().x + (WIDTH / 2f) - 55,
                         getBody().getPosition().y + HEIGHT / 2f - 25, 45, 45);
         }
         return new Rectangle();
@@ -141,7 +142,7 @@ public class Boy extends Objeto{
                         punchingAnimationTimer = 0f;
                     }
                 } else {
-                    if (name.equals("BOY_WALKING")) {
+                    if (name.equals("BOY_WALKING") || name.equals("BOY_SHOOTING_AND_WALKING")) {
 
                     } else {
                         if (onGround()) {
@@ -180,11 +181,14 @@ public class Boy extends Objeto{
     }
 
     public void keyDown(int keycode){
-        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
-            body.setLinearVelocity(keycode == Input.Keys.RIGHT ? VELOCITY_X : -VELOCITY_X, body.getLinearVelocity().y);
-            if (!shooting)
-                flip = keycode == Input.Keys.LEFT;
-            if (!stricken) {
+        if (keycode == Input.Keys.D || keycode == Input.Keys.A){
+            body.setLinearVelocity(keycode == Input.Keys.D ? VELOCITY_X : -VELOCITY_X, body.getLinearVelocity().y);
+            if (!shooting) {
+//                degrees = 0f;
+//                radians = 0f;
+                flip0 = keycode == Input.Keys.A;
+            }
+            if (!stricken && !shooting) {
                 animations = Animations.BOY_WALKING;
             }
             usingOnlyLastFrame = false;
@@ -196,25 +200,14 @@ public class Boy extends Objeto{
                 getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
                 JUMP.play();
             }
-            if (keycode == Input.Keys.D) {
-                punchingAnimationTimer = 0f;
-                animations = Animations.BOY_PUNCHING;
-                JUMP.play();
-                HIYAH.play();
-                usingOnlyLastFrame = false;
-                looping = false;
-                animations.animator.resetStateTime();
-            }
-            if (keycode == Input.Keys.A) {
-                shooting = !shooting;
-            }
+
         }
     }
 
     public void keyUp(int keycode){
-        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT){
+        if (keycode == Input.Keys.D || keycode == Input.Keys.A){
             body.setLinearVelocity(0f, body.getLinearVelocity().y);
-            if (!stricken)
+            if (!stricken && !shooting)
                 animations = Animations.BOY_IDLE;
         }
     }
@@ -236,6 +229,21 @@ public class Boy extends Objeto{
                     WIDTH / 2f: getBody().getPosition().x - WIDTH / 2f,
                     getBody().getPosition().y + HEIGHT / 2f), flip, radians));
             GUNSHOT.play();
+        }
+        if (!shooting){
+            if (button == Input.Buttons.LEFT) {
+                punchingAnimationTimer = 0f;
+                animations = Animations.BOY_PUNCHING;
+                JUMP.play();
+                HIYAH.play();
+                usingOnlyLastFrame = false;
+                looping = false;
+                animations.animator.resetStateTime();
+            }
+        }
+        if (button == Input.Buttons.RIGHT) {
+            shooting = !shooting;
+
         }
     }
 
