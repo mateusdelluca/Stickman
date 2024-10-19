@@ -33,11 +33,13 @@ public class Boy extends Objeto{
     private boolean shooting;
     private float imgX, imgY, degrees, radians, dx, dy;
     private ArrayList<Bullet> bullets = new ArrayList<>();
+    private Vector2 test;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
         body = createBoxBody(new Vector2(dimensions.x/2f, dimensions.y/2f), BodyDef.BodyType.DynamicBody, false);
         body.setTransform(position, 0);
+
     }
 
     public void render(SpriteBatch s){
@@ -85,6 +87,7 @@ public class Boy extends Objeto{
         if (body.getPosition().y <= 400 && !init) {
             songLevel1.play();
             init = true;
+            test = new Vector2(body.getPosition().x, body.getPosition().y);
         }
         actionRect = actionRect();
 
@@ -100,9 +103,11 @@ public class Boy extends Objeto{
 
     private void aim(){
         if (shooting) {
-            dx = Gdx.input.getX() - body.getPosition().x;
-            dy = (Gdx.graphics.getHeight() - Gdx.input.getY()) - body.getPosition().y; // Invert Y-axis
-            degrees = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
+            imgX = Gdx.graphics.getWidth() / 2f;
+            imgY = Gdx.graphics.getHeight() / 2f;
+            float dx = Gdx.input.getX() - imgX;
+            float dy = (Gdx.graphics.getHeight() - Gdx.input.getY()) - imgY;
+                    degrees = (float) Math.atan2(dy, dx) * (180f / (float) Math.PI);
             System.out.println(degrees);
             radians = (float) Math.atan2(dy, dx);
         }
@@ -224,11 +229,13 @@ public class Boy extends Objeto{
 
     public void touchDown(int screenX, int screenY, int pointer, int button){
         if (shooting){
-            System.out.println(true);
-            bullets.add(new Bullet(world, new Vector2(!flip ? getBody().getPosition().x +
-                    WIDTH / 2f: getBody().getPosition().x - WIDTH / 2f,
-                    getBody().getPosition().y + HEIGHT / 2f), flip, radians));
-            GUNSHOT.play();
+            if (button == Input.Buttons.LEFT) {
+                System.out.println(true);
+                bullets.add(new Bullet(world, new Vector2(!flip ? getBody().getPosition().x +
+                        WIDTH / 2f : getBody().getPosition().x - WIDTH / 2f,
+                        getBody().getPosition().y + HEIGHT / 2f), flip, radians));
+                GUNSHOT.play();
+            }
         }
         if (!shooting){
             if (button == Input.Buttons.LEFT) {
@@ -243,7 +250,8 @@ public class Boy extends Objeto{
         }
         if (button == Input.Buttons.RIGHT) {
             shooting = !shooting;
-
+//            degrees = 0f;
+//            radians = 0f;
         }
     }
 
