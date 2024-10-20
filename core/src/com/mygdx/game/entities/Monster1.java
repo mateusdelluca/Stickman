@@ -17,6 +17,7 @@ public class Monster1 extends Objeto{
     private boolean usingOnlyLastFrame, looping = true, facingRight;
     private Vector2 dimensions = new Vector2(78f, 118f);
     private float flickering_time;
+    private float HP = 10;
 
     public Monster1(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);

@@ -46,7 +46,7 @@ public class Images {
     public static Texture hp, hp2;
     public static Texture sp, sp2;
     public static Texture pauseBox;
-
+    public static Texture leaf;
     public static Texture shooting1, shooting2, shoot;
     public SpriteBatch spriteBatch = new SpriteBatch();
 
@@ -98,6 +98,7 @@ public class Images {
         shoot = new Texture(Gdx.files.internal("boy/Shoot.png"));
         shooting1 = new Texture(Gdx.files.internal("boy/Shooting1.png"));
         shooting2 = new Texture(Gdx.files.internal("boy/Shooting2.png"));
+        leaf = new Texture(Gdx.files.internal("boy/Leaf.png"));
     }
 
 //    public static BufferedImage rotateImage(BufferedImage originalImage, double degrees) {

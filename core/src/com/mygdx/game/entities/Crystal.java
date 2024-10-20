@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class Crystal extends Objeto{
 
-    public static final float WIDTH = 282/6f, HEIGHT = 421/6f;
+    public static final float WIDTH = 282/8f, HEIGHT = 421/8f;
     private Random r = new Random();
     private boolean visible2;
     private Rectangle box1, box2;

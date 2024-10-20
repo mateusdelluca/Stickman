@@ -139,10 +139,17 @@ public class Boy extends Objeto{
                 Sounds.HURT.stop();
             }
         } else {
+            if (name.equals("BOY_PUNCHING")) {
+                punchingAnimationTimer += Gdx.graphics.getDeltaTime();
+                if (punchingAnimationTimer >= 2f) {
+                    animations = Animations.BOY_IDLE;
+                    punchingAnimationTimer = 0f;
+                }
+            }
             if (!stricken) {
                 if (name.equals("BOY_PUNCHING")) {
                     punchingAnimationTimer += Gdx.graphics.getDeltaTime();
-                    if (punchingAnimationTimer > 2f) {
+                    if (punchingAnimationTimer >= 2f) {
                         animations = Animations.BOY_IDLE;
                         punchingAnimationTimer = 0f;
                     }
@@ -171,7 +178,7 @@ public class Boy extends Objeto{
     }
 
     private boolean isMoving(){
-        return Math.abs(body.getLinearVelocity().x) > 0;
+        return Math.abs(body.getLinearVelocity().x) > 0.2f;
     }
 
     public void resize(SpriteBatch spriteBatch, int width, int height){
@@ -237,7 +244,7 @@ public class Boy extends Objeto{
                 GUNSHOT.play();
             }
         }
-        if (!shooting){
+        if (!shooting && !stricken){
             if (button == Input.Buttons.LEFT) {
                 punchingAnimationTimer = 0f;
                 animations = Animations.BOY_PUNCHING;

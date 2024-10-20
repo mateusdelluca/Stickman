@@ -26,6 +26,7 @@ import com.mygdx.game.sfx.Sounds;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.mygdx.game.sfx.Sounds.PUNCHED;
 
@@ -61,6 +62,8 @@ public class Level implements Screen, InputProcessor {
     private Sounds sounds;
 
     public static final Sound teletransport = Gdx.audio.newSound(Gdx.files.internal("sounds/Eletric Whoosh.wav"));
+
+    private Leaf[] leafs = new Leaf[50];
 
     public Level(final Application app){
         this.app = app;
@@ -150,6 +153,9 @@ public class Level implements Screen, InputProcessor {
         boy = new Boy(world, new Vector2(100, 800));
         monster1 = new Monster1(world, new Vector2(300, 450));
         sounds = new Sounds();
+
+        for (int i = 0; i < leafs.length; i++)
+            leafs[i] = new Leaf(world, new Vector2(new Random().nextFloat(10_000), new Random().nextFloat(10_000)));
     }
 
     @Override
@@ -212,6 +218,8 @@ public class Level implements Screen, InputProcessor {
 //        player.render(spriteBatch);
         boy.render(spriteBatch);
         monster1.render(spriteBatch);
+        for (Leaf l : leafs)
+            l.render(spriteBatch);
         spriteBatch.end();
     }
 
