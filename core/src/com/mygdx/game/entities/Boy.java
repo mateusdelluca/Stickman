@@ -34,24 +34,29 @@ public class Boy extends Objeto{
     private float imgX, imgY, degrees, radians, dx, dy;
     private ArrayList<Bullet> bullets = new ArrayList<>();
     private Vector2 test;
+    private Vector2 position;
+    private int secondJump;
 
     public Boy(World world, Vector2 position){
         super(world, WIDTH, HEIGHT);
         body = createBoxBody(new Vector2(dimensions.x/2f, dimensions.y/2f), BodyDef.BodyType.DynamicBody, false);
         body.setTransform(position, 0);
-
+        this.position = position;
     }
 
     public void render(SpriteBatch s){
         update();
-
-
-        if (!shooting) {
+        if (stricken) {
             Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip0));
             sprite.setPosition(body.getPosition().x, body.getPosition().y);
             sprite.draw(s);
         }
-        if (shooting) {
+        if (!shooting && !stricken) {
+            Sprite sprite = new Sprite(animations.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip0));
+            sprite.setPosition(body.getPosition().x, body.getPosition().y);
+            sprite.draw(s);
+        }
+        if (shooting && !stricken) {
             Sprite sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.getFrame(0));
             if (isMoving())
                 sprite2 = new Sprite(Animations.BOY_SHOOTING_AND_WALKING.animator.currentSpriteFrame(usingOnlyLastFrame, looping, flip));
@@ -99,6 +104,16 @@ public class Boy extends Objeto{
         }
 
         aim();
+
+        if (body.getPosition().y < -200){
+            body.setTransform(position,0f);
+
+            animations = Animations.BOY_STRICKEN;
+            setStricken(true);
+        }
+        if (Math.abs(getBody().getLinearVelocity().y) < 0.05f && !animations.name().equals("BOY_JUMPING")){
+            secondJump = 0;
+        }
     }
 
     private void aim(){
@@ -140,6 +155,7 @@ public class Boy extends Objeto{
             }
         } else {
             if (name.equals("BOY_PUNCHING")) {
+
                 punchingAnimationTimer += Gdx.graphics.getDeltaTime();
                 if (punchingAnimationTimer >= 2f) {
                     animations = Animations.BOY_IDLE;
@@ -164,7 +180,10 @@ public class Boy extends Objeto{
                                 animations = Animations.BOY_IDLE;
                             //                   usingOnlyLastFrame = true;
                         } else {
-                            animations = Animations.BOY_JUMPING;
+                            if (isMoving())
+                                animations = Animations.BOY_JUMPING;
+                            else
+                                animations = Animations.BOY_JUMPING_FRONT;
                             //                    usingOnlyLastFrame = false;
                         }
                     }
@@ -208,8 +227,14 @@ public class Boy extends Objeto{
         }
         if (!stricken) {
             if (keycode == Input.Keys.SPACE) {
-                animations = Animations.BOY_JUMPING;
-                getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
+                if (Math.abs(getBody().getLinearVelocity().x) < 15f)
+                    animations = Animations.BOY_JUMPING_FRONT;
+                else
+                    animations = Animations.BOY_JUMPING;
+                if (secondJump < 2) {
+                    getBody().setLinearVelocity(getBody().getLinearVelocity().x, JUMP_VELOCITY);
+                    secondJump++;
+                }
                 JUMP.play();
             }
 

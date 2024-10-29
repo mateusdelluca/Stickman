@@ -9,11 +9,12 @@ public enum Animations {
     BOY_WALKING(new Animator(6,6, 5, 128, 128, "boy/Walking.png")),
     BOY_IDLE(new Animator(1,1, 1, 128, 128, "boy/Idle.png")),
     BOY_STRICKEN(new Animator(2,2, 3, 128, 128, "boy/Stricken.png")),
-    BOY_JUMPING(new Animator(1,1, 1, 128, 128, "boy/Jumping.png")),
+    BOY_JUMPING(new Animator(1,1, 1, 128, 128, "boy/Jumping3.png")),
+    BOY_JUMPING_FRONT(new Animator(1,1, 1, 128, 128, "boy/Jumping.png")),
     BOY_PUNCHING(new Animator(3,3, 30, 128, 128, "boy/Punching2.png")),
     BOY_SHOOTING_AND_WALKING(new Animator(6,6, 5, 128, 128, "boy/Shooting3.png")),
     //monster
-    MONSTER1_WALKING(new Animator(4,4,3,94,128, "monster/Walking.png")),
+    MONSTER1_WALKING(new Animator(4,4,2,94,128, "monster/Walking.png")),
     MONSTER1_FLICKERING(new Animator(4,4,6,94,128, "monster/Flickering.png")),
     //player
     FIRST(new Animator(10,10, 20, 400, 300,"stickman/First.png")),
